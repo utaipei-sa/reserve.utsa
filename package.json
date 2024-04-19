@@ -1,23 +1,36 @@
 {
-  "name": "nuxt-app",
+  "name": "appfront",
+  "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@mdi/font": "^7.4.47",
-    "axios": "^1.6.8",
-    "nuxt": "^3.11.2",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "@date-io/date-fns": "^3.0.0",
+    "@date-io/dayjs": "^3.0.0",
+    "@date-io/luxon": "^3.0.0",
+    "@mdi/font": "^7.0.96",
+    "@vueuse/core": "^10.7.2",
+    "axios": "^1.6.5",
+    "core-js": "^3.29.0",
+    "date-fns": "^3.2.0",
+    "dayjs": "^1.11.10",
+    "luxon": "^3.4.4",
+    "roboto-fontface": "*",
+    "vue": "^3.2.0",
+    "vue-router": "^4.0.0"
   },
   "devDependencies": {
-    "vite-plugin-vuetify": "^2.0.3",
-    "vuetify": "^3.5.16"
+    "@vitejs/plugin-vue": "^4.0.0",
+    "eslint": "^8.37.0",
+    "eslint-plugin-vue": "^9.3.0",
+    "sass": "^1.60.0",
+    "unplugin-fonts": "^1.0.3",
+    "vite": "^4.5.3",
+    "vite-plugin-vuetify": "^1.0.2",
+    "vuetify": "^3.4.11"
   }
 }

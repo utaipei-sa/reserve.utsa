@@ -1,7 +1,5 @@
 <template>
-  <v-main>
-    <slot></slot>
-  </v-main>
+  <router-view />
 </template>
 
 <script setup>
