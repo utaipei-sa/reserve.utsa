@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
+    "allowJs": true,
     "target": "es5",
     "module": "esnext",
     "baseUrl": "./",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "paths": {
       "@/*": [
         "src/*"
