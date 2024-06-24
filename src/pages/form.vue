@@ -3,18 +3,15 @@
     <v-container>
       <v-row>
         <v-col>
-          <BasicInfo  v-model:name="name"
-                      v-model:org="org"
-                      v-model:department="department"
-                      v-model:email="email"
-                      v-model:reason="reason"/>
+          <BasicInfo v-model:name="name" v-model:org="org" v-model:department="department" v-model:email="email"
+            v-model:reason="reason" />
         </v-col>
       </v-row>
       <v-row>
         <v-col>
           <v-card color="grey-lighten-2">
             <v-container>
-              <BasicSpaceSelector v-model:space_data="space_data" :space_list="space_list"/>
+              <BasicSpaceSelector v-model:space_data="space_data" :space_list="space_list" />
               <v-row v-if="wh.width >= 600 && space_data.length != 0">
                 <v-col class="v-col-12 pa-0 pl-1">
                   <v-container>
@@ -77,7 +74,7 @@
         <v-col>
           <v-card color="grey-lighten-2">
             <v-container>
-              <BasicItemSelector  v-model:item_data="item_data" :item_list="item_list"/>
+              <BasicItemSelector v-model:item_data="item_data" :item_list="item_list" />
               <v-row v-if="wh.width >= 600 && item_data.length != 0">
                 <v-col class="v-col-12 pa-0 pl-1">
                   <v-container>

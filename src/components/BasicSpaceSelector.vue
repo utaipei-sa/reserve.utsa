@@ -19,8 +19,7 @@
   </v-row>
   <v-row>
     <v-col>
-      <v-alert v-if="alert" color="error" icon="$error" :title="alert_title" :text="alert_text"
-        elevation="4">
+      <v-alert v-if="alert" color="error" icon="$error" :title="alert_title" :text="alert_text" elevation="4">
       </v-alert>
     </v-col>
   </v-row>
@@ -37,9 +36,9 @@ const space_data = defineModel('space_data')
 const date_temp = ref()
 const time_temp = ref('')
 const space_temp = ref('')
-const alert_title =  "時段無法借用"
+const alert_title = "時段無法借用"
 const alert_text = "可以查詢時間表，確認此時段的借用情況"
-const time_list =  ['08:00-12:00', '13:00-17:00', '18:00-22:00']
+const time_list = ['08:00-12:00', '13:00-17:00', '18:00-22:00']
 
 const alert = ref(false)
 
@@ -61,7 +60,7 @@ const addobj = async () => {
       check_flag = temp['availability']
       console.log(response);
     })
-  console.log(check_flag); 
+  console.log(check_flag);
   if (check_flag == 0) {
     alert.value = true
     setTimeout(() => {
@@ -71,7 +70,7 @@ const addobj = async () => {
   }
   useDateFormat(date_temp.value.toString(), "YYYY-MM-DD").value
   if (space_temp.value != "" && date_temp.value != "" && time_temp.value != "") {
-    space_data.value.push([space_temp.value, useDateFormat(date_temp.value.toString(), "YYYY-MM-DD").value, time_temp.value ])
+    space_data.value.push([space_temp.value, useDateFormat(date_temp.value.toString(), "YYYY-MM-DD").value, time_temp.value])
   }
 }
 

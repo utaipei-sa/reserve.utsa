@@ -35,7 +35,7 @@ const org = defineModel('org')
 const department = defineModel('department')
 const email = defineModel('email')
 const reason = defineModel('reason')
-  
+
 const rules = {
   required: value => !!value || 'Field is required',
 }
