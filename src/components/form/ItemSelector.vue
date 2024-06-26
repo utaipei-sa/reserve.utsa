@@ -9,8 +9,8 @@
       <v-select label="物品" :items="item_list[1]" v-model="item_temp"></v-select>
     </v-col>
     <!--  -->
-    <BasicDatePicker class_style="v-col-sm-3 v-col-12" v-model:date_temp="date_temp1"></BasicDatePicker>
-    <BasicDatePicker class_style="v-col-sm-3 v-col-12" v-model:date_temp="date_temp2"></BasicDatePicker>
+    <DatePicker class_style="v-col-sm-3 v-col-12" v-model:date_temp="date_temp1"></DatePicker>
+    <DatePicker class_style="v-col-sm-3 v-col-12" v-model:date_temp="date_temp2"></DatePicker>
     <v-col class="v-col-sm-3 v-col-12">
       <v-text-field label="數量" type="number" v-model="quantity_temp"></v-text-field><!-- multiple -->
     </v-col>
@@ -30,7 +30,7 @@
 import axios from 'axios';
 import { useDateFormat } from '@vueuse/core'
 import { ref } from 'vue';
-import BasicDatePicker from './BasicDatePicker.vue';
+import DatePicker from './DatePicker.vue';
 
 const props = defineProps(['item_list'])
 const item_data = defineModel('item_data')

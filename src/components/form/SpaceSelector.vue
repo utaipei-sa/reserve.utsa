@@ -9,7 +9,7 @@
       <v-select label="場地" :items="space_list[1]" v-model="space_temp"></v-select>
     </v-col>
     <!--  -->
-    <BasicDatePicker class_style="v-col-sm-4 v-col-12" v-model:date_temp="date_temp"></BasicDatePicker>
+    <DatePicker class_style="v-col-sm-4 v-col-12" v-model:date_temp="date_temp"></DatePicker>
     <v-col class="v-col-sm-4 v-col-12">
       <v-select label="時間" :items="time_list" v-model="time_temp"></v-select>
     </v-col>
@@ -29,7 +29,7 @@
 import axios from 'axios';
 import { useDateFormat } from '@vueuse/core'
 import { ref } from 'vue';
-import BasicDatePicker from './BasicDatePicker.vue';
+import DatePicker from './DatePicker.vue';
 
 const props = defineProps(['space_list', 'time_list'])
 const space_data = defineModel('space_data')
