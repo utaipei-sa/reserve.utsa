@@ -29,7 +29,6 @@
 import axios from 'axios';
 import { useDateFormat } from '@vueuse/core'
 import { ref } from 'vue';
-import DatePicker from './DatePicker.vue';
 
 const props = defineProps(['space_list', 'time_list'])
 const space_data = defineModel('space_data')
