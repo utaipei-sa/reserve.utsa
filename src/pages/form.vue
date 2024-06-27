@@ -11,7 +11,7 @@
           <v-card color="grey-lighten-2">
             <v-container>
               <SpaceSelector v-model:space_data="space_data" :space_list="space_list" />
-              <SpaceShower v-model:space_data="space_data" />
+              <SpaceDisplay v-model:space_data="space_data" />
             </v-container>
           </v-card>
         </v-col>
@@ -21,7 +21,7 @@
           <v-card color="grey-lighten-2">
             <v-container>
               <ItemSelector v-model:item_data="item_data" :item_list="item_list" />
-              <ItemShower v-model:item_data="item_data" />
+              <ItemDisplay v-model:item_data="item_data" />
             </v-container>
           </v-card>
         </v-col>
