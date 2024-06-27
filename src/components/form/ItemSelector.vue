@@ -8,9 +8,12 @@
     <v-col class="v-col-sm-3 v-col-12 ">
       <v-select label="物品" :items="item_list[1]" v-model="item_temp"></v-select>
     </v-col>
-    <!--  -->
-    <DatePicker class_style="v-col-sm-3 v-col-12" v-model:date_temp="date_temp1"></DatePicker>
-    <DatePicker class_style="v-col-sm-3 v-col-12" v-model:date_temp="date_temp2"></DatePicker>
+    <v-col class="v-col-sm-3 v-col-12">
+      <DatePicker  v-model:date_temp="date_temp1"></DatePicker>
+    </v-col>
+    <v-col class="v-col-sm-3 v-col-12">
+      <DatePicker  v-model:date_temp="date_temp2"></DatePicker>
+    </v-col>
     <v-col class="v-col-sm-3 v-col-12">
       <v-text-field label="數量" type="number" v-model="quantity_temp"></v-text-field><!-- multiple -->
     </v-col>
