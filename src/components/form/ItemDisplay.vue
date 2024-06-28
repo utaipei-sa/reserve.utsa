@@ -1,40 +1,4 @@
 <template>
-  <!-- <v-row v-if="wh.width.value >= width_rwd && item_data.length != 0">
-    <v-col class="v-col-12 pa-0 pl-1">
-      <v-container>
-        <v-row>
-          <v-col class="v-col-2 pa-1">
-            <v-card class="bg-grey-lighten-1 ">
-              <v-card-title class="justify-center text-subtitle-1 text-center px-1">
-                物品名稱
-              </v-card-title>
-            </v-card>
-          </v-col>
-          <v-col class="v-col-3 pa-1">
-            <v-card class="bg-grey-lighten-1 ">
-              <v-card-title class="justify-center text-subtitle-1 text-center">
-                歸還日期
-              </v-card-title>
-            </v-card>
-          </v-col>
-          <v-col class="v-col-3 pa-1">
-            <v-card class="bg-grey-lighten-1  ">
-              <v-card-title class="justify-center text-subtitle-1 text-center">
-                借用時間
-              </v-card-title>
-            </v-card>
-          </v-col>
-          <v-col class="v-col-2 pa-1 " >
-            <v-card class="bg-grey-lighten-1 ">
-              <v-card-title class="justify-center text-subtitle-1 text-center">
-                數量
-              </v-card-title>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-col>
-  </v-row> -->
   <v-row v-if="wh.width.value < width_rwd && item_data.length != 0" v-for="(i, index) in item_data">
     <v-col>
       <v-card color="grey-lighten-3">
