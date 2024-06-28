@@ -5,18 +5,18 @@
         <v-container>
           <v-row>
             <v-col>
-              <v-select label="種類" :items="type_list" v-model="type_temp" />
+              <v-select label="種類" :items="type_list" v-model="type_input" />
             </v-col>
           </v-row>
-          <v-row v-if="type_temp == '物品' || type_temp == '場地'">
+          <v-row v-if="type_input == '物品' || type_input == '場地'">
             <v-col>
-              <v-select label="清單" v-if="type_temp == '物品'" :items="item_list[1]" v-model="item"></v-select>
-              <v-select label="清單" v-if="type_temp == '場地'" :items="space_list[1]" v-model="space"></v-select>
+              <v-select label="清單" v-if="type_input == '物品'" :items="item_list[1]" v-model="item"></v-select>
+              <v-select label="清單" v-if="type_input == '場地'" :items="space_list[1]" v-model="space"></v-select>
             </v-col>
           </v-row>
           <v-row>
             <v-col>
-              <DatePicker v-model:date_temp="date"></DatePicker>
+              <DatePicker v-model:date_input="date"></DatePicker>
             </v-col>
           </v-row>
           <v-row>
@@ -34,14 +34,13 @@ import { ref, onMounted } from 'vue'
 import { useDateFormat } from '@vueuse/core';
 import axios from 'axios';
 
-
 const item_list = ref([{},[]])
 const space_list = ref([{},[]])
 const available = defineModel('available')
 const has_data = defineModel('has_data')
 const type_list = ["場地", "物品"]
 const type = defineModel('type')
-const type_temp = ref('')
+const type_input = ref('')
 const date = ref()
 const item = ref('')
 const space = ref('')
@@ -50,15 +49,14 @@ const end_datetime = ref()
 
 const serach = async () => {
   available.value = []
-  type.value = type_temp.value
-  //handle date
+  type.value = type_input.value
   start_datetime.value = new Date(date.value)
   end_datetime.value = new Date(date.value)
   end_datetime.value.setDate(end_datetime.value.getDate() + 7)
   end_datetime.value = useDateFormat(end_datetime, "YYYY-MM-DDTHH:mm").value
   start_datetime.value = useDateFormat(start_datetime, "YYYY-MM-DDTHH:mm").value
 
-  if (type_temp.value == "場地") {
+  if (type_input.value == "場地") {
     await axios
       .get('http://localhost:3000/api/v1/reserve/interval_space_availability'
         , {
@@ -70,11 +68,6 @@ const serach = async () => {
         },
       ).then((response) => {
         for (let i = 0; i < response['data'].length; i += 3) {
-          /* this.available[i % 3].push(response['data'][i])
-          this.available[i % 3][this.available[i % 3].length - 1]['start_datetime'] = useDateFormat(this.available[i % 3][this.available[i % 3].length - 1]['start_datetime'].substring(0, this.available[i % 3][this.available[i % 3].length - 1]['start_datetime'].length - 6), "MM-DD").value
-          this.available[i % 3][this.available[i % 3].length - 1]['end_datetime'] = useDateFormat(this.available[i % 3][this.available[i % 3].length - 1]['end_datetime'].substring(0, this.available[i % 3][this.available[i % 3].length - 1]['end_datetime'].length - 6), "MM-DD").value
-          this.available[i % 3][this.available[i % 3].length - 1]['date'] = useDateFormat(this.available[i % 3][this.available[i % 3].length - 1]['start_datetime'], "DD").value
-          this.available[i % 3][this.available[i % 3].length - 1]['mouth'] = useDateFormat(this.available[i % 3][this.available[i % 3].length - 1]['start_datetime'], "MM").value */
           let row_date = new Date(response['data'][i]['start_datetime'])
           available.value[i / 3] = {
             "date": (row_date.getMonth() + 1) + '/' + row_date.getDate(),
