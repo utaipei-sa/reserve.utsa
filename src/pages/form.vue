@@ -11,7 +11,7 @@
           <v-card color="grey-lighten-2">
             <v-container>
               <SpaceSelector v-model:space_data="space_data" :space_list="space_list" />
-              <SpaceDisplay v-model:space_data="space_data" />
+              <SpaceDisplay v-model:space_data="space_data" width_rwd="600" :btn_flag="true" :submit_flag="false"/>
             </v-container>
           </v-card>
         </v-col>
@@ -21,7 +21,7 @@
           <v-card color="grey-lighten-2">
             <v-container>
               <ItemSelector v-model:item_data="item_data" :item_list="item_list" />
-              <ItemDisplay v-model:item_data="item_data" />
+              <ItemDisplay v-model:item_data="item_data" width_rwd="600" :btn_flag="true" :submit_flag="false"/>
             </v-container>
           </v-card>
         </v-col>
@@ -77,7 +77,6 @@ export default {
           this.space_list[0][response['data']['data'][i]['name']['zh-tw']] = response['data']['data'][i]['_id']
           this.space_list[1].push(response['data']['data'][i]['name']['zh-tw'])
         }
-
       })
     axios
       .get('http://localhost:3000/api/v1/reserve/items',
@@ -87,7 +86,6 @@ export default {
           this.item_list[0][response['data']['data'][i]['name']['zh-tw']] = response['data']['data'][i]['_id']
           this.item_list[1].push(response['data']['data'][i]['name']['zh-tw'])
         }
-
       })
   },
   data() {

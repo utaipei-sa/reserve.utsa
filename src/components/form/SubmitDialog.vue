@@ -22,12 +22,12 @@
             <v-row>
               <v-col>備註:{{ props.submit_data.note }}</v-col>
             </v-row>
-            <v-row v-if="wh.width.value >= 960 && submit_data.item_data.length != 0">
+            <v-row v-if="wh.width.value >= 700 && submit_data.item_data.length != 0">
               <v-col>
                 <v-divider />
               </v-col>
             </v-row>
-            <v-row v-if="wh.width.value >= 960 && submit_data.item_data.length != 0">
+            <!-- <v-row v-if="wh.width.value >= 960 && submit_data.item_data.length != 0">
               <v-col class="v-col-12 pa-0 pl-1">
                 <v-container>
                   <v-row>
@@ -90,13 +90,18 @@
                   </v-container>
                 </v-card>
               </v-col>
-            </v-row>
-            <v-row v-if="wh.width.value >= 960 && submit_data.space_data.length != 0">
+            </v-row> -->
+            <ItemDisplay 
+              v-model:item_data="submit_data.item_data" 
+              width_rwd="700" 
+              :btn_flag="false" 
+              :submit_flag="true"/>
+            <v-row v-if="wh.width.value >= 700 && submit_data.space_data.length != 0">
               <v-col>
                 <v-divider />
               </v-col>
             </v-row>
-            <v-row v-if="wh.width.value >= 960 && submit_data.space_data.length != 0">
+            <!-- <v-row v-if="wh.width.value >= 960 && submit_data.space_data.length != 0">
               <v-col class="v-col-12 pa-0 pl-1">
                 <v-container>
                   <v-row>
@@ -148,7 +153,12 @@
                   </v-container>
                 </v-card>
               </v-col>
-            </v-row>
+            </v-row> -->
+            <SpaceDisplay 
+              v-model:space_data="submit_data.space_data" 
+              width_rwd="700" 
+              :btn_flag="false" 
+              :submit_flag="true"/>
           </v-container>
         </v-card-text>
         <v-divider></v-divider>
