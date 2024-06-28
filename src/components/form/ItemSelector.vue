@@ -9,10 +9,10 @@
       <v-select label="物品" :items="item_list[1]" v-model="item_temp"></v-select>
     </v-col>
     <v-col class="v-col-sm-3 v-col-12">
-      <DatePicker  v-model:date_temp="date_temp1"></DatePicker>
+      <DatePicker  v-model:date_input="date_input1"></DatePicker>
     </v-col>
     <v-col class="v-col-sm-3 v-col-12">
-      <DatePicker  v-model:date_temp="date_temp2"></DatePicker>
+      <DatePicker  v-model:date_input="date_input2"></DatePicker>
     </v-col>
     <v-col class="v-col-sm-3 v-col-12">
       <v-text-field label="數量" type="number" v-model="quantity_temp"></v-text-field><!-- multiple -->
@@ -40,17 +40,17 @@ const item_data = defineModel('item_data')
 
 const alert_title = ref("時段無法借用")
 const alert_text = ref("可以查詢時間表，確認此時段的借用情況")
-const date_temp1 = ref()
-const date_temp2 = ref()
+const date_input1 = ref()
+const date_input2 = ref()
 const quantity_temp = ref()
 const item_temp = ref('')
 const alert = ref(false)
 
 const addobj = async () => {
-  let format_temp1 = useDateFormat(date_temp1.value, "YYYY-MM-DDTHH:mm").value
-  let format_temp2 = useDateFormat(date_temp2.value, "YYYY-MM-DDTHH:mm").value
+  let format_temp1 = useDateFormat(date_input1.value, "YYYY-MM-DDTHH:mm").value
+  let format_temp2 = useDateFormat(date_input2.value, "YYYY-MM-DDTHH:mm").value
   /* console.log(date_format_temp1)
-  console.log(this.space_temp,this.space_date_temp.toString(),this.space_time_temp) */
+  console.log(this.space_temp,this.space_date_input.toString(),this.space_time_temp) */
   let check = -1
   await axios.get("http://localhost:3000/api/v1/reserve/integral_item_availability",
     {
@@ -87,8 +87,8 @@ const addobj = async () => {
 
     return
   }
-  let date1 = new Date(date_temp1.value)
-  let date2 = new Date(date_temp2.value)
+  let date1 = new Date(date_input1.value)
+  let date2 = new Date(date_input2.value)
   if (date1.getTime() > date2.getTime()) {
     clearTimeout(alert_timer)
     alert.value = true
@@ -99,7 +99,7 @@ const addobj = async () => {
     }, 5000)
     return
   }
-  else if (item_temp.value != "" && date_temp1.value != "" && date_temp2.value != "" && quantity_temp.value != 0) {
+  else if (item_temp.value != "" && date_input1.value != "" && date_input2.value != "" && quantity_temp.value != 0) {
     item_data.value.push([item_temp.value, useDateFormat(format_temp1, "YYYY-MM-DD").value, useDateFormat(format_temp2, "YYYY-MM-DD").value, quantity_temp.value])
     console.log(item_data)
   }

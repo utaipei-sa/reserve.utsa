@@ -27,70 +27,6 @@
                 <v-divider />
               </v-col>
             </v-row>
-            <!-- <v-row v-if="wh.width.value >= 960 && submit_data.item_data.length != 0">
-              <v-col class="v-col-12 pa-0 pl-1">
-                <v-container>
-                  <v-row>
-                    <v-col class="v-col-3 pa-1">
-                      <v-card class="bg-grey-lighten-1 ">
-                        <v-card-title class="justify-center text-subtitle-1 text-center px-1">
-                          物品名稱
-                        </v-card-title>
-                      </v-card>
-                    </v-col>
-                    <v-col class="v-col-3 pa-1">
-                      <v-card class="bg-grey-lighten-1 ">
-                        <v-card-title class="justify-center text-subtitle-1 text-center">
-                          歸還日期
-                        </v-card-title>
-                      </v-card>
-
-                    </v-col>
-                    <v-col class="v-col-3 pa-1">
-                      <v-card class="bg-grey-lighten-1  ">
-                        <v-card-title class="justify-center text-subtitle-1 text-center">
-                          借用時間
-                        </v-card-title>
-                      </v-card>
-                    </v-col>
-                    <v-col class="v-col-2 pa-1 ">
-                      <v-card class="bg-grey-lighten-1 ">
-                        <v-card-title class="justify-center text-subtitle-1 text-center">
-                          數量
-                        </v-card-title>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-col>
-            </v-row>
-
-            <v-row v-for="(i, index) in submit_data.item_data">
-              <v-col>
-                <v-card color="grey-lighten-3">
-                  <v-container>
-                    <v-row class="align-center">
-                      <v-col class="v-col-md-3 v-col-12">
-                        <span v-if="wh.width.value < 960">物品名稱：</span>
-                        {{ i[0] }}
-                      </v-col>
-                      <v-col class="v-col-md-3 v-col-12">
-                        <span v-if="wh.width.value < 960">借用日期：</span>
-                        {{ i[1] }}
-                      </v-col>
-                      <v-col class="v-col-md-3 v-col-12">
-                        <span v-if="wh.width.value < 960">歸還日期：</span>
-                        {{ i[2] }}
-                      </v-col>
-                      <v-col class="v-col-md-2 v-col-12">
-                        <span v-if="wh.width.value < 960">數　　量：</span>
-                        {{ i[3] }}
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card>
-              </v-col>
-            </v-row> -->
             <ItemDisplay 
               v-model:item_data="submit_data.item_data" 
               width_rwd="700" 
@@ -101,59 +37,6 @@
                 <v-divider />
               </v-col>
             </v-row>
-            <!-- <v-row v-if="wh.width.value >= 960 && submit_data.space_data.length != 0">
-              <v-col class="v-col-12 pa-0 pl-1">
-                <v-container>
-                  <v-row>
-                    <v-col class="v-col-3 pa-1">
-                      <v-card class="bg-grey-lighten-1 ">
-                        <v-card-title class="justify-center text-subtitle-1 text-center">
-                          場地名稱
-                        </v-card-title>
-                      </v-card>
-                    </v-col>
-                    <v-col class="v-col-4 pa-1">
-                      <v-card class="bg-grey-lighten-1 ">
-                        <v-card-title class="justify-center text-subtitle-1 text-center">
-                          借用日期
-                        </v-card-title>
-                      </v-card>
-
-                    </v-col>
-                    <v-col class="v-col-4 pa-1">
-                      <v-card class="bg-grey-lighten-1 ">
-                        <v-card-title class="justify-center text-subtitle-1 text-center">
-                          借用時間
-                        </v-card-title>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-container>
-              </v-col>
-            </v-row>
-            <v-row v-for="i in submit_data.space_data">
-              <v-col>
-                <v-card color="grey-lighten-3">
-                  <v-container>
-                    <v-row class="align-center">
-
-                      <v-col class="v-col-md-3 v-col-12">
-                        <span v-if="wh.width.value < 960">場地名稱：</span>
-                        {{ i[0] }}
-                      </v-col>
-                      <v-col class="v-col-md-4 v-col-12">
-                        <span v-if="wh.width.value < 960">借用日期：</span>
-                        {{ i[1] }}
-                      </v-col>
-                      <v-col class="v-col-md-4 v-col-12">
-                        <span v-if="wh.width.value < 960">借用時間：</span>
-                        {{ i[2] }}
-                      </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card>
-              </v-col>
-            </v-row> -->
             <SpaceDisplay 
               v-model:space_data="submit_data.space_data" 
               width_rwd="700" 
