@@ -1,7 +1,7 @@
 <template>
   <v-dialog width="75%" scrollable>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" @click="addReserve()" text="繼續"> </v-btn>
+      <v-btn v-bind="props" @click="add_reserve()" text="繼續"> </v-btn>
     </template>
     <template v-slot:default="{ isActive }">
       <v-card title="Dialog">
@@ -65,10 +65,9 @@ const props = defineProps(['submit_data', 'silist'])
 const submit_data = props.submit_data
 const silist = props.silist
 const submit = ref()
-const addReserve = () => {
-  console.log(props.submit_data.note)
-  let date = new Date()
-  let temp = useDateFormat(date, "YYYY-MM-DDTHH:mm:ss.SSS+08:00")
+const add_reserve = () => {
+  const date = new Date()
+  const temp = useDateFormat(date, "YYYY-MM-DDTHH:mm:ss.SSS+08:00")
   submit.value =
   {
     "submit_datetime": temp.value,
@@ -82,11 +81,8 @@ const addReserve = () => {
     "note": submit_data.note
   }
   for (var i = 0; i < submit_data.space_data.length; i++) {
-    let date_format_temp1 = useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value
-    console.log(date_format_temp1)
-    date_format_temp1 += submit_data.space_data[i][2].toString().split('-')[0]
-    let date_format_temp2 = useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value
-    date_format_temp2 += submit_data.space_data[i][2].toString().split('-')[1]
+    const date_format_temp1 = useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value + submit_data.space_data[i][2].toString().split('-')[0]
+    const date_format_temp2 = useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value + submit_data.space_data[i][2].toString().split('-')[1]
     submit.value.space_reservations.push(
       {
         "space_id": silist.space_list[0][submit_data.space_data[i][0]],
@@ -96,9 +92,8 @@ const addReserve = () => {
     )
   }
   for (var i = 0; i < submit_data.item_data.length; i++) {
-    console.log("item")
-    let date_format_temp1 = useDateFormat(submit_data.item_data[i][1], "YYYY-MM-DDTHH:mm").value
-    let date_format_temp2 = useDateFormat(submit_data.item_data[i][2], "YYYY-MM-DDTHH:mm").value
+    const date_format_temp1 = useDateFormat(submit_data.item_data[i][1], "YYYY-MM-DDTHH:mm").value
+    const date_format_temp2 = useDateFormat(submit_data.item_data[i][2], "YYYY-MM-DDTHH:mm").value
     submit.value.item_reservations.push(
       {
         "item_id": silist.item_list[0][submit_data.item_data[i][0]],
@@ -110,7 +105,6 @@ const addReserve = () => {
   }
 }
 const post_api = async () => {
-  console.log(submit.value);
   await axios.post("http://localhost:3000/api/v1/reserve/reservation"
     , submit.value
   ).then(function (response) {

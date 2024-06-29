@@ -43,10 +43,8 @@ const time_list = ['08:00-12:00', '13:00-17:00', '18:00-22:00']
 const alert = ref(false)
 
 const addobj = async () => {
-  let format_temp1 = useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value
-  format_temp1 += time_input.value.toString().split('-')[0]
-  let format_temp2 = useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value
-  format_temp2 += time_input.value.toString().split('-')[1]
+  const format_temp1 = useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value + time_input.value.toString().split('-')[0]
+  const format_temp2 = useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value + time_input.value.toString().split('-')[1]
   let check_flag
   await axios.get("http://localhost:3000/api/v1/reserve/integral_space_availability",
     {

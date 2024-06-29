@@ -9,10 +9,10 @@
       <v-select label="物品" :items="item_list[1]" v-model="item_temp"></v-select>
     </v-col>
     <v-col class="v-col-sm-3 v-col-12">
-      <DatePicker  v-model:date_input="date_input1"></DatePicker>
+      <DatePicker v-model:date_input="date_input1"></DatePicker>
     </v-col>
     <v-col class="v-col-sm-3 v-col-12">
-      <DatePicker  v-model:date_input="date_input2"></DatePicker>
+      <DatePicker v-model:date_input="date_input2"></DatePicker>
     </v-col>
     <v-col class="v-col-sm-3 v-col-12">
       <v-text-field label="數量" type="number" v-model="quantity_temp"></v-text-field><!-- multiple -->
@@ -34,10 +34,8 @@ import axios from 'axios';
 import { useDateFormat } from '@vueuse/core'
 import { ref } from 'vue';
 
-
 const props = defineProps(['item_list'])
 const item_data = defineModel('item_data')
-
 const alert_title = ref("時段無法借用")
 const alert_text = ref("可以查詢時間表，確認此時段的借用情況")
 const date_input1 = ref()
@@ -45,12 +43,13 @@ const date_input2 = ref()
 const quantity_temp = ref()
 const item_temp = ref('')
 const alert = ref(false)
+const alert_title_list = ["物品數量不可為負數或零","時段無法借用","起始時間晚於結束時間"]
+const alert_text_list = ["請確認需要的物品數量是否正確","可以查詢時間表，確認次時段的借用情況","請將起始時間與結束時間對調"]
+//  [小於0, 被借光了, 時間順序錯誤]
 
 const addobj = async () => {
-  let format_temp1 = useDateFormat(date_input1.value, "YYYY-MM-DDTHH:mm").value
-  let format_temp2 = useDateFormat(date_input2.value, "YYYY-MM-DDTHH:mm").value
-  /* console.log(date_format_temp1)
-  console.log(this.space_temp,this.space_date_input.toString(),this.space_time_temp) */
+  const format_temp1 = useDateFormat(date_input1.value, "YYYY-MM-DDTHH:mm").value
+  const format_temp2 = useDateFormat(date_input2.value, "YYYY-MM-DDTHH:mm").value
   let check = -1
   await axios.get("http://localhost:3000/api/v1/reserve/integral_item_availability",
     {
@@ -60,43 +59,21 @@ const addobj = async () => {
         end_datetime: format_temp2
       }
     },).then((response) => {
-      let temp = response['data']['data']
-      check = temp['available_quantity']
-      console.log(response);
+      check = response['data']['data']['available_quantity']
     })
-  console.log(check);
   let alert_timer
   if (quantity_temp.value <= 0) {
-    clearTimeout(alert_timer)
-    alert.value = true
-    alert_title.value = "物品數量不可為負數或零"
-    alert_text.value = "請確認需要的物品數量是否正確"
-    alert_timer = setTimeout(() => {
-      alert.value = false
-    }, 5000)
+    set_alert(alert_timer, alert_title_list[0], alert_text_list[0])
     return
   }
   if (check < quantity_temp.value) {
-    clearTimeout(alert_timer)
-    alert.value = true
-    alert_title.value = "時段無法借用"
-    alert_text.value = "可以查詢時間表，確認次時段的借用情況"
-    alert_timer = setTimeout(() => {
-      alert.value = false
-    }, 5000)
-
+    set_alert(alert_timer, alert_title_list[1], alert_text_list[1])
     return
   }
-  let date1 = new Date(date_input1.value)
-  let date2 = new Date(date_input2.value)
+  const date1 = new Date(date_input1.value)
+  const date2 = new Date(date_input2.value)
   if (date1.getTime() > date2.getTime()) {
-    clearTimeout(alert_timer)
-    alert.value = true
-    alert_title.value = "起始時間晚於結束時間"
-    alert_text.value = "請將起始時間與結束時間對調"
-    alert_timer = setTimeout(() => {
-      alert.value = false
-    }, 5000)
+    set_alert(alert_timer, alert_title_list[2], alert_text_list[2])
     return
   }
   else if (item_temp.value != "" && date_input1.value != "" && date_input2.value != "" && quantity_temp.value != 0) {
@@ -105,4 +82,13 @@ const addobj = async () => {
   }
 }
 
+const set_alert = (timer, title, text) => {
+  clearTimeout(timer)
+  alert.value = true
+  alert_title.value = title
+  alert_text.value = text
+  timer = setTimeout(() => {
+    alert.value = false
+  }, 5000)
+}
 </script>
