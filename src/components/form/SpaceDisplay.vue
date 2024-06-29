@@ -61,7 +61,7 @@
               {{ i[2] }}
             </td>
             <td v-if="btn_flag">
-              <v-btn @click="delitem(index)" >刪除</v-btn>
+              <v-btn @click="delspace(index)" >刪除</v-btn>
             </td>
           </tr>
         </tbody>
