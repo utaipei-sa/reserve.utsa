@@ -10,8 +10,16 @@
         <v-col>
           <v-card color="grey-lighten-2">
             <v-container>
-              <SpaceSelector v-model:space_data="space_data" :space_list="space_list" />
-              <SpaceDisplay v-model:space_data="space_data" width_rwd="600" :btn_flag="true" :submit_flag="false"/>
+              <SpaceSelector
+                v-model:space_data="space_data"
+                :space_list="space_list"
+              />
+              <SpaceDisplay
+                v-model:space_data="space_data"
+                width_rwd="600"
+                :btn_flag="true"
+                :submit_flag="false"
+              />
             </v-container>
           </v-card>
         </v-col>
@@ -20,8 +28,16 @@
         <v-col>
           <v-card color="grey-lighten-2">
             <v-container>
-              <ItemSelector v-model:item_data="item_data" :item_list="item_list" />
-              <ItemDisplay v-model:item_data="item_data" width_rwd="600" :btn_flag="true" :submit_flag="false"/>
+              <ItemSelector
+                v-model:item_data="item_data"
+                :item_list="item_list"
+              />
+              <ItemDisplay
+                v-model:item_data="item_data"
+                width_rwd="600"
+                :btn_flag="true"
+                :submit_flag="false"
+              />
             </v-container>
           </v-card>
         </v-col>
@@ -48,63 +64,56 @@
       </v-row>
       <v-row>
         <v-col>
-          <SubmitDialog :submit_data="{
+          <SubmitDialog
+            :submit_data="{
               space_data: space_data,
               item_data: item_data,
               note: note,
-              basic_info: basic_info
-            }" 
+              basic_info: basic_info,
+            }"
             :silist="{
               item_list: item_list,
-              space_list: space_list
-            }" />
+              space_list: space_list,
+            }"
+          />
         </v-col>
       </v-row>
     </v-container>
   </v-sheet>
 </template>
 
-<script>
-import axios from 'axios';
+<script setup>
+import { apiGetReserveItems, apiGetReserveSpaces } from "@/api";
+import { ref, onMounted } from "vue";
+const item_list = ref([{}, []]);
+const space_list = ref([{}, []]);
+const space_data = ref([]);
+const item_data = ref([]);
+const note = ref("");
+const basic_info = ref({
+  email: "",
+  org: "",
+  department: "",
+  name: "",
+  reason: "",
+});
 
-export default {
-  mounted() {
-    axios
-      .get('http://localhost:3000/api/v1/reserve/spaces',
-      ).then((response) => {
-        let temp = response['data']
-        for (let i = 0; i < temp['data'].length; i++) {
-          this.space_list[0][response['data']['data'][i]['name']['zh-tw']] = response['data']['data'][i]['_id']
-          this.space_list[1].push(response['data']['data'][i]['name']['zh-tw'])
-        }
-      })
-    axios
-      .get('http://localhost:3000/api/v1/reserve/items',
-      ).then((response) => {
-        let temp = response['data']
-        for (let i = 0; i < temp['data'].length; i++) {
-          this.item_list[0][response['data']['data'][i]['name']['zh-tw']] = response['data']['data'][i]['_id']
-          this.item_list[1].push(response['data']['data'][i]['name']['zh-tw'])
-        }
-      })
-  },
-  data() {
-    return {
-      item_list: [{}, []],
-      space_list: [{}, []],
-      space_data: [],
-      item_data: [],
-      submit: null,
-      note: "",
-      basic_info: {
-        email: "",
-        org: "",
-        department: "",
-        name: "",
-        reason: "",
-      }
+onMounted(async () => {
+  try {
+    const items = await apiGetReserveItems();
+    const spaces = await apiGetReserveSpaces();
+    for (let i = 0; i < spaces["data"]["data"].length; i++) {
+      space_list.value[0][spaces["data"]["data"][i]["name"]["zh-tw"]] =
+        spaces["data"]["data"][i]["_id"];
+      space_list.value[1].push(spaces["data"]["data"][i]["name"]["zh-tw"]);
     }
-  },
-}
+    for (let i = 0; i < items["data"]["data"].length; i++) {
+      item_list.value[0][items["data"]["data"][i]["name"]["zh-tw"]] =
+        items["data"]["data"][i]["_id"];
+      item_list.value[1].push(items["data"]["data"][i]["name"]["zh-tw"]);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
 </script>
-<style></style>

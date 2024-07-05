@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const BASE_URL = import.meta.env.API_URL;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const reserveRequest = axios.create({
-  baseURL: `${BASE_URL}/v1/reserve`,
+  baseURL: `${API_URL}/v1/reserve`,
 });
 
 export const getReserve = (params) =>
