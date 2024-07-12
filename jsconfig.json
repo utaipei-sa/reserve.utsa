@@ -4,6 +4,7 @@
     "target": "es5",
     "module": "esnext",
     "baseUrl": "./",
+    "strict": false,
     "moduleResolution": "bundler",
     "paths": {
       "@/*": [
