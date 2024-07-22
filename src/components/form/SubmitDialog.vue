@@ -1,7 +1,13 @@
 <template>
   <v-dialog width="75%" scrollable>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" @click="add_reserve()" text="繼續"> </v-btn>
+      <v-btn
+        v-bind="props"
+        @click="add_reserve()"
+        variant="tonal"
+        color="primary"
+        >{{ edit_flag ? "變更預約" : "送出預約" }}
+      </v-btn>
     </template>
     <template v-slot:default="{ isActive }">
       <v-card title="Dialog">
@@ -82,10 +88,12 @@ import { useDateFormat } from "@vueuse/core";
 import { apiPostReserve } from "@/api";
 
 const wh = useWindowSize();
-const props = defineProps(["submit_data", "silist"]);
+const props = defineProps(["edit_flag", "submit_data", "silist"]);
 const submit_data = props.submit_data;
 const silist = props.silist;
 const submit = ref();
+const edit_flag = props.edit_flag;
+console.log(props.edit_flag);
 const add_reserve = () => {
   const date = new Date();
   const temp = useDateFormat(date, "YYYY-MM-DDTHH:mm:ss.SSS+08:00");

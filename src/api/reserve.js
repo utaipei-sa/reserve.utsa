@@ -6,8 +6,8 @@ const reserveRequest = axios.create({
   baseURL: `${API_URL}/v1/reserve`,
 });
 
-export const getReserve = (params) =>
-  reserveRequest.get("/reserve", { params: params });
+export const getReserve = (id) =>
+  reserveRequest.get(`/reserve/${id}`,id);
 export const postReserve = (data) => 
   reserveRequest.post("/reserve", data);
 export const putReserve = (data, params) =>
