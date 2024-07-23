@@ -64,7 +64,9 @@
       </v-row>
       <v-row>
         <v-col class="v-col-auto">
-          <v-btn color="error" variant="outlined" @click="delete_form()"> 刪除預約 </v-btn>
+          <v-btn color="error" variant="outlined" @click="delete_form()">
+            刪除預約
+          </v-btn>
         </v-col>
         <v-col class="v-col-auto">
           <SubmitDialog
@@ -83,33 +85,15 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-dialog width="75%" scrollable v-model="dialog_flag">
-      <v-card  >
-        <v-card-title class="text-h4 pa-3">
-          {{ dialog_title }}
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text>
-          {{ dialog_text }}
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            text="取消"
-            variant="outlined"
-            color="error"
-            @click="dialog_flag = false"
-          ></v-btn>
-          <v-btn
-            text="確認"
-            variant="tonal"
-            color="primary"
-            @click="dialog_flag = false"
-          ></v-btn>
-        </v-card-actions>
-      </v-card>
-  </v-dialog>
+    <ResponseDialog
+      dialog_text="確定要刪除此筆預約嗎"
+      dialog_title="刪除預約"
+      :cancel_button_flag="true"
+      :click_cancel="()=>{}"
+      :click_confirm="()=>{delete_form()}"
+      v-model:dialog_flag="delete_form_dialog_flag"
+    ></ResponseDialog>
+    
   </v-sheet>
 </template>
 
@@ -124,9 +108,6 @@ const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
 const item_data = ref([]);
 const note = ref("");
-const dialog_flag = ref(false)
-const dialog_title = ref("")
-const dialog_text = ref("")
 const basic_info = ref({
   email: "",
   org: "",
@@ -134,12 +115,13 @@ const basic_info = ref({
   name: "",
   reason: "",
 });
+const delete_form_dialog_flag = ref(false)
 const route = useRoute();
 const router = useRouter();
 const delete_form = () => {
-  dialog_flag.value = true
-  dialog_title.value = "刪除預約"
-  dialog_text.value = "確定要刪除此筆預約嗎"
+  delete_form_dialog_flag.value = true
+  console.log(delete_form_dialog_flag)
+  console.log("刪除預約")
 };
 onMounted(async () => {
   const id = route.query.id;
@@ -152,19 +134,21 @@ onMounted(async () => {
     const items = await apiGetReserveItems();
     const spaces = await apiGetReserveSpaces();
     const reservation = await apiGetReserve(id);
-    for (let i = 0; i < spaces["data"]["data"].length; i++) {
-      space_list.value[0][spaces["data"]["data"][i]["name"]["zh-tw"]] =
-        spaces["data"]["data"][i]["_id"];
-      space_list.value[1].push(spaces["data"]["data"][i]["name"]["zh-tw"]);
-      space_list.value[2][spaces["data"]["data"][i]["_id"]] =
-        spaces["data"]["data"][i]["name"]["zh-tw"];
+    const spaces_fetch_list = spaces["data"]["data"]
+    for (let i = 0; i < spaces_fetch_list.length; i++) {
+      space_list.value[0][spaces_fetch_list[i]["name"]["zh-tw"]] =
+      spaces_fetch_list[i]["_id"];
+      space_list.value[1].push(spaces_fetch_list[i]["name"]["zh-tw"]);
+      space_list.value[2][spaces_fetch_list[i]["_id"]] =
+      spaces_fetch_list[i]["name"]["zh-tw"];
     }
-    for (let i = 0; i < items["data"]["data"].length; i++) {
-      item_list.value[0][items["data"]["data"][i]["name"]["zh-tw"]] =
-        items["data"]["data"][i]["_id"];
-      item_list.value[1].push(items["data"]["data"][i]["name"]["zh-tw"]);
-      item_list.value[2][items["data"]["data"][i]["_id"]] =
-        items["data"]["data"][i]["name"]["zh-tw"];
+    const items_fetch_list = items["data"]["data"]
+    for (let i = 0; i < items_fetch_list.length; i++) {
+      item_list.value[0][items_fetch_list[i]["name"]["zh-tw"]] =
+      items_fetch_list[i]["_id"];
+      item_list.value[1].push(items_fetch_list[i]["name"]["zh-tw"]);
+      item_list.value[2][items_fetch_list[i]["_id"]] =
+      items_fetch_list[i]["name"]["zh-tw"];
     }
     basic_info.value.department = reservation.data.department_grade;
     basic_info.value.email = reservation.data.email;
