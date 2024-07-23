@@ -64,9 +64,7 @@
       </v-row>
       <v-row>
         <v-col class="v-col-auto">
-          <v-btn color="error" variant="outlined" @click="delete_form()">
-            刪除預約
-          </v-btn>
+          <v-btn color="error" variant="outlined" @click="delete_form()"> 刪除預約 </v-btn>
         </v-col>
         <v-col class="v-col-auto">
           <SubmitDialog
@@ -85,15 +83,33 @@
         </v-col>
       </v-row>
     </v-container>
-    <ResponseDialog
-      dialog_text="確定要刪除此筆預約嗎"
-      dialog_title="刪除預約"
-      :cancel_button_flag="true"
-      :click_cancel="()=>{}"
-      :click_confirm="()=>{delete_form()}"
-      v-model:dialog_flag="delete_form_dialog_flag"
-    ></ResponseDialog>
-    
+    <v-dialog width="75%" scrollable v-model="dialog_flag">
+      <v-card  >
+        <v-card-title class="text-h4 pa-3">
+          {{ dialog_title }}
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text>
+          {{ dialog_text }}
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            text="取消"
+            variant="outlined"
+            color="error"
+            @click="dialog_flag = false"
+          ></v-btn>
+          <v-btn
+            text="確認"
+            variant="tonal"
+            color="primary"
+            @click="dialog_flag = false"
+          ></v-btn>
+        </v-card-actions>
+      </v-card>
+  </v-dialog>
   </v-sheet>
 </template>
 
@@ -108,6 +124,9 @@ const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
 const item_data = ref([]);
 const note = ref("");
+const dialog_flag = ref(false)
+const dialog_title = ref("")
+const dialog_text = ref("")
 const basic_info = ref({
   email: "",
   org: "",
@@ -115,13 +134,12 @@ const basic_info = ref({
   name: "",
   reason: "",
 });
-const delete_form_dialog_flag = ref(false)
 const route = useRoute();
 const router = useRouter();
 const delete_form = () => {
-  delete_form_dialog_flag.value = true
-  console.log(delete_form_dialog_flag)
-  console.log("刪除預約")
+  dialog_flag.value = true
+  dialog_title.value = "刪除預約"
+  dialog_text.value = "確定要刪除此筆預約嗎"
 };
 onMounted(async () => {
   const id = route.query.id;
