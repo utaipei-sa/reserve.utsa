@@ -74,18 +74,25 @@
           <v-btn
             text="確認"
             variant="tonal"
-            @click="(isActive.value = false), post_api()"
+            @click="(isActive.value = false),props.edit_flag ? patch_api() : post_api()"
           ></v-btn>
         </v-card-actions>
       </v-card>
     </template>
   </v-dialog>
+  <ResponseDialog
+    dialog_text="系統通知"
+    dialog_title="預約成功"
+    :cancel_button_flag="false"
+    :click_confirm="()=>{/* 回到主頁 */}"
+    v-model:dialog_flag="response_dialog_flag"
+  ></ResponseDialog>
 </template>
 <script setup>
 import { ref } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { useDateFormat } from "@vueuse/core";
-import { apiPostReserve } from "@/api";
+import { apiPostReserve,apiPutReserve } from "@/api";
 
 const wh = useWindowSize();
 const props = defineProps(["edit_flag", "submit_data", "silist"]);
@@ -93,6 +100,7 @@ const submit_data = props.submit_data;
 const silist = props.silist;
 const submit = ref();
 const edit_flag = props.edit_flag;
+const response_dialog_flag = ref(false)
 console.log(props.edit_flag);
 const add_reserve = () => {
   const date = new Date();
@@ -143,8 +151,19 @@ const post_api = async () => {
   try {
     const response = await apiPostReserve(submit.value);
     console.log(response);
+    response_dialog_flag.value = true//判斷式，用constant
   } catch (error) {
     console.error(error);
   }
 };
+
+const patch_api = async () =>{
+  try {
+    const response = await apiPutReserve(submit.value);
+    console.log(response);
+    response_dialog_flag.value = true//判斷式，用constant
+  } catch (error) {
+    console.error(error);
+  }
+}
 </script>
