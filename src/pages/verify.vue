@@ -103,25 +103,6 @@ onMounted(async () => {
   catch (error) {
     console.error(error);
   }
-  /*axios
-    .get('http://localhost:3000/api/v1/reserve/spaces',).
-    then((response) => {
-      for (let i = 0; i < response['data']['data'].length; i++) {
-        /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) //
-        space_list.value[response['data']['data'][i]['_id']] = response['data']['data'][i]['name']['zh-tw']
-      }
-    })
-  axios
-    .get('http://localhost:3000/api/v1/reserve/items',).
-    then((response) => {
-      for (let i = 0; i < response['data']['data'].length; i++) {
-        /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) //
-        item_list.value[response['data']['data'][i]['_id']] = response['data']['data'][i]['name']['zh-tw']
-      }
-    })
-  check_verify_id(props.verifyid)*/
 })
 
 const props = defineProps(['verifyid'])
