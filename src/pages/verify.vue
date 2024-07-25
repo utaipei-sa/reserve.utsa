@@ -79,7 +79,6 @@
 
 <script setup>
 import { apiGetReserve } from '@/api';
-import axios from 'axios';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 
