@@ -78,19 +78,38 @@
 </template>
 
 <script setup>
+import { apiGetReserve } from '@/api';
 import axios from 'axios';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
 
 const item_list = ref({})
 const space_list = ref({})
-onMounted(() => {
-  axios
+onMounted(async () => {
+  try{
+    const items = await apiGetReserveItems();
+    const spaces = await apiGetReserveSpaces();
+    for (let i = 0; i < spaces['data']['data'].length; i++) {
+      /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
+      space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
+      space_list.value[spaces['data']['data'][i]['_id']] = spaces['data']['data'][i]['name']['zh-tw']
+    }
+    for (let i = 0; i < items['data']['data'].length; i++) {
+      /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
+      space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
+      item_list.value[items['data']['data'][i]['_id']] = items['data']['data'][i]['name']['zh-tw']
+    }
+    check_verify_id(props.verifyid)
+  }
+  catch (error) {
+    console.error(error);
+  }
+  /*axios
     .get('http://localhost:3000/api/v1/reserve/spaces',).
     then((response) => {
       for (let i = 0; i < response['data']['data'].length; i++) {
         /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
+        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) //
         space_list.value[response['data']['data'][i]['_id']] = response['data']['data'][i]['name']['zh-tw']
       }
     })
@@ -99,11 +118,11 @@ onMounted(() => {
     then((response) => {
       for (let i = 0; i < response['data']['data'].length; i++) {
         /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
+        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) //
         item_list.value[response['data']['data'][i]['_id']] = response['data']['data'][i]['name']['zh-tw']
       }
     })
-  check_verify_id(props.verifyid)
+  check_verify_id(props.verifyid)*/
 })
 
 const props = defineProps(['verifyid'])
@@ -121,76 +140,53 @@ const alert_type = ref("success")
 const text = ref("")
 const check_verify_id = async (verifyid) => {
   console.log(verifyid)
-  await axios.get('http://localhost:3000/api/v1/reserve/verify', {
-    params: {
-      id: verifyid
-    }
-  }).then(async (response) => {
-    if (response['data']['code'] == 87) {
-      await axios.get(`http://localhost:3000/api/v1/reserve/reservation/${verifyid}`
-      ).then((response) => {
-        console.log(response)
-        department.value = response['data']['department_grade']
-        email.value = response['data']['email']
-        item_data.value = response['data']['item_reservations']
-        name.value = response['data']['name']
-        note.value = response['data']['note']
-        reason.value = response['data']['reason']
-        org.value = response['data']['organization']
-        space_data.value = response['data']['space_reservations']
-      })
-      alert_type.value = "success"
-    }
-    hasContent.value = true
-    title.value = "成功預約"
-  }).catch(async (error) => {
-    if (error['response']['data']['code'] == 88) {
-      text.value = "請確認預約代碼，或洽系統管理員"
-      title.value = "查無此筆預約資料"
-      hasContent.value = false
-      alert_type.value = "error"
-    } else if (error['response']['data']['code'] == 89) {
-      await axios.get(`http://localhost:3000/api/v1/reserve/reservation/${verifyid}`).
-        then((response) => {
-          department.value = response['data']['department_grade']
-          email.value = response['data']['email']
-          item_data.value = response['data']['item_reservations']
-          name.value = response['data']['name']
-          note.value = response['data']['note']
-          reason.value = response['data']['reason']
-          org.value = response['data']['organization']
-          space_data.value = response['data']['space_reservations']
-        })
-      title.value = "此筆預約已驗證"
-      hasContent.value = true
-      alert_type.value = "warning"
-    } else if (error['response']['data']['code'] == 90) {
-      text.value = "請確認預約代碼，或洽系統管理員"
-      title.value = "查無此筆預約資料"
-      hasContent.value = false
-      alert_type.value = "error"
-    }
-  })
+  try{
+    const verifyResponse = apiGetReserveVerify(verifyid)
 
-}
-/* 	then((response) => {
-      if(response['data']['code'] == 87){
-        text.value = "ㄚㄚㄚㄚ"
-        title.value = "成功預約"
-        text_class.value = "bg-green-accent-1 pt-4"
-        title_class.value = "bg-green-accent-3"
-      }	
-    }).catch((error)=>{
-      if(error['response']['data']['code'] == 88){
-        text.value = "ㄚㄚㄚㄚ"
-        title.value = "查無此筆預約資料"
-        text_class.value = "bg-red-lighten-4 pt-4"
-        title_class.value = "bg-red-darken-2"
-      }else if(error['response']['data']['code'] == 89){
-        text.value = "ㄚㄚㄚㄚ"
-        title.value = "此筆預約已驗證"
-        text_class.value = "bg-red-lighten-4 pt-4"
-        title_class.value = "bg-red-darken-2"
+    if (verifyResponse['data']['code'] == 87) {
+      await GetReservationData(verifyid)
+      console.log(reserve_data)
+      alert_type.value = "success"
+      hasContent.value = true
+      title.value = "成功預約"
+    } 
+    } catch (error) {
+      switch(verifyResponse['data']['code']) {
+        case 88:
+          text.value = "請確認預約代碼，或洽系統管理員"
+          title.value = "查無此筆預約資料"
+          hasContent.value = false
+          alert_type.value = "error"
+          break;
+        case 89:
+          await GetReservationData(verifyid);
+          title.value = "此筆預約已驗證";
+          hasContent.value = true;
+          alert_type.value = "warning";
+          break;
+        case 90:
+          text.value = "請確認預約代碼，或洽系統管理員"
+          title.value = "查無此筆預約資料"
+          hasContent.value = false
+          alert_type.value = "error"
+          break;
       }
-    }) */
+    }
+  }
+  const GetReservationData = async (verifyid) => {
+  try {
+    const reservationResponse = apiGetReserve(verifyid)
+    const data = reservationResponse.data
+    department.value = data.department_grade
+    email.value = data.email
+    item_data.value = data.item_reservations
+    name.value = data.name
+    note.value = data.note
+    reason.value = data.reason
+    org.value = data.organization
+    space_data.value = data.space_reservations
+  } catch (error) {
+    console.error(error)
+  }
+};
 </script>
