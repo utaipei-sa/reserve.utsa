@@ -155,7 +155,8 @@ const add_reserve = () => {
 const post_api = async () => {
   try {
     const response = await apiPostReserve(submit.value);
-    const dialog_content = handle_response(response['response']['data']['error_code'])
+    console.log(response)
+    const dialog_content = handle_response(response['data']['code'],"new")
     change_dialog_status(dialog_content)
   } catch (error) {
     const dialog_content = handle_response(error['response']['data']['error_code'])
@@ -167,7 +168,7 @@ const post_api = async () => {
 const patch_api = async () =>{
   try {
     const response = await apiPutReserve(submit.value);
-    const dialog_content = handle_response(response['response']['data']['error_code'])
+    const dialog_content = handle_response(response['data']['code'],"edit")
     change_dialog_status(dialog_content)
     console.log(response);
   } catch (error) {
@@ -180,6 +181,5 @@ const change_dialog_status = (dialog_content) => {
   dialog_text.value = dialog_content.dialog_text
   dialog_title.value = dialog_content.dialog_title
   response_dialog_flag.value = true
-  console.log(response);
 }
 </script>
