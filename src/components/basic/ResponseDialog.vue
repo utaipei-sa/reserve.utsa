@@ -1,5 +1,5 @@
 <template>
-  <v-dialog width="75%" scrollable v-model="dialog_flag">
+  <v-dialog width="75%" scrollable v-model="dialog_flag" @click:outside="click_confirm()">
     <v-card>
       <v-card-title class="text-h4 pa-3">
         {{ props.dialog_title }}

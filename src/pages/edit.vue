@@ -93,12 +93,20 @@
       :click_confirm="()=>{delete_form()}"
       v-model:dialog_flag="delete_form_dialog_flag"
     ></ResponseDialog>
-    
+    <ResponseDialog
+      :dialog_text="dialog_text"
+      :dialog_title="dialog_title"
+      :cancel_button_flag="cancel_button_flag"
+      :click_cancel="()=>{}"
+      :click_confirm="()=>{click_confirm_function()}"
+      v-model:dialog_flag="response_dialog_flag"
+    ></ResponseDialog>
   </v-sheet>
 </template>
 
 <script setup>
 import { apiGetReserveItems, apiGetReserveSpaces, apiGetReserve } from "@/api";
+import { handle_response } from '@/api/response'
 import { useDateFormat } from "@vueuse/core";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -108,6 +116,7 @@ const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
 const item_data = ref([]);
 const note = ref("");
+
 const basic_info = ref({
   email: "",
   org: "",
@@ -116,8 +125,18 @@ const basic_info = ref({
   reason: "",
 });
 const delete_form_dialog_flag = ref(false)
+const response_dialog_flag = ref(false)
+const dialog_text = ref('')
+const dialog_title = ref('')
+const cancel_button_flag = ref(false)
+const click_confirm_function = ref(()=>{})
 const route = useRoute();
 const router = useRouter();
+const return_homepage = () => {
+  router.replace({
+    name: "/",
+  });
+}
 const delete_form = () => {
   delete_form_dialog_flag.value = true
   console.log(delete_form_dialog_flag)
@@ -126,9 +145,7 @@ const delete_form = () => {
 onMounted(async () => {
   const id = route.query.id;
   if (id == null) {
-    router.replace({
-      name: "/",
-    });
+    return_homepage()
   }
   try {
     const items = await apiGetReserveItems();
@@ -201,7 +218,11 @@ onMounted(async () => {
       }
     }
   } catch (error) {
-    console.error(error);
-  }
+    const dialog_content = handle_response(error['response']['data']['error_code'])
+    dialog_text.value = dialog_content.dialog_text
+    dialog_title.value = dialog_content.dialog_title
+    response_dialog_flag.value = true
+    click_confirm_function.value = return_homepage
+  } 
 });
 </script>

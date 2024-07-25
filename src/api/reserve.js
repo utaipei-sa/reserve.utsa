@@ -25,10 +25,10 @@ export const getReserveSpaces = () =>
 export const getReserveSpace = (id) =>
   reserveRequest.get(`/Space"/${id}`,id);
 
-export const getReserveItemAvailableTime = (id) =>
-  reserveRequest.get(`/item_available_time/${id}`,id);
-export const getReserveSpaceAvailableTime = (id) =>
-  reserveRequest.get(`/space_available_time/${id}`,id);
+export const getReserveItemAvailableTime = (params) =>
+  reserveRequest.get(`/item_available_time`,{params:params});
+export const getReserveSpaceAvailableTime = (params) =>
+  reserveRequest.get(`/space_available_time`,{params:params});
 
 export const getReserveVerify = (id) =>
   reserveRequest.get(`/verify/${id}`,id);
