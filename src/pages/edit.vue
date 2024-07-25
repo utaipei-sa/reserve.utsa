@@ -64,7 +64,7 @@
       </v-row>
       <v-row>
         <v-col class="v-col-auto">
-          <v-btn color="error" variant="outlined" @click="delete_form()">
+          <v-btn color="error" variant="outlined" @click="delete_form_dialog_flag = true">
             刪除預約
           </v-btn>
         </v-col>
@@ -105,7 +105,7 @@
 </template>
 
 <script setup>
-import { apiGetReserveItems, apiGetReserveSpaces, apiGetReserve } from "@/api";
+import { apiGetReserveItems, apiGetReserveSpaces, apiGetReserve,apiDeleteReserve } from "@/api";
 import { handle_response } from '@/api/response'
 import { useDateFormat } from "@vueuse/core";
 import { ref, onMounted } from "vue";
@@ -131,19 +131,33 @@ const dialog_title = ref('')
 const cancel_button_flag = ref(false)
 const click_confirm_function = ref(()=>{})
 const route = useRoute();
+const id = route.query.id;
 const router = useRouter();
 const return_homepage = () => {
   router.replace({
     name: "/",
   });
 }
-const delete_form = () => {
-  delete_form_dialog_flag.value = true
-  console.log(delete_form_dialog_flag)
-  console.log("刪除預約")
+const delete_form = async () => {
+  try{
+    const response = await apiDeleteReserve(id);
+    console.log(response);
+    const dialog_content = handle_response(response['data']['code'],"delete")
+    change_dialog_status(dialog_content)
+    return_homepage()
+  }catch(error){
+    console.error(error);
+    const dialog_content = handle_response(error['response']['data']['error_code'])
+    change_dialog_status(dialog_content)
+  }
 };
+const change_dialog_status = (dialog_content) => {
+  dialog_text.value = dialog_content.dialog_text
+  dialog_title.value = dialog_content.dialog_title
+  response_dialog_flag.value = true
+}
 onMounted(async () => {
-  const id = route.query.id;
+  
   if (id == null) {
     return_homepage()
   }
