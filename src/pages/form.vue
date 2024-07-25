@@ -65,6 +65,7 @@
       <v-row>
         <v-col>
           <SubmitDialog
+            :edit_flag="false"
             :submit_data="{
               space_data: space_data,
               item_data: item_data,

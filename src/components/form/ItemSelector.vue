@@ -33,6 +33,7 @@
 import axios from 'axios';
 import { useDateFormat } from '@vueuse/core'
 import { ref } from 'vue';
+import { apiGetReserveItemAvailableTime } from "@/api";
 
 const props = defineProps(['item_list'])
 const item_data = defineModel('item_data')
@@ -51,16 +52,19 @@ const addobj = async () => {
   const format_temp1 = useDateFormat(date_input1.value, "YYYY-MM-DDTHH:mm").value
   const format_temp2 = useDateFormat(date_input2.value, "YYYY-MM-DDTHH:mm").value
   let check = -1
-  await axios.get("http://localhost:3000/api/v1/reserve/integral_item_availability",
-    {
-      params: {
-        item_id: props.item_list[0][item_temp.value],
-        start_datetime: format_temp1,
-        end_datetime: format_temp2
-      }
-    },).then((response) => {
-      check = response['data']['data']['available_quantity']
+  try {
+    const response = await apiGetReserveItemAvailableTime({
+      item_id : props.item_list[0][item_temp.value],
+      start_datetime : format_temp1,
+      end_datetime : format_temp2,
+      intervals : false
     })
+    console.log(response)
+    check = response['data']['available_quantity']
+    console.log(check)
+  }catch(err){
+    console.error(err)
+  }
   let alert_timer
   if (quantity_temp.value <= 0) {
     set_alert(alert_timer, alert_title_list[0], alert_text_list[0])

@@ -1,7 +1,13 @@
 <template>
   <v-dialog width="75%" scrollable>
     <template v-slot:activator="{ props }">
-      <v-btn v-bind="props" @click="add_reserve()" text="繼續"> </v-btn>
+      <v-btn
+        v-bind="props"
+        @click="add_reserve()"
+        variant="tonal"
+        color="primary"
+        >{{ edit_flag ? "變更預約" : "送出預約" }}
+      </v-btn>
     </template>
     <template v-slot:default="{ isActive }">
       <v-card title="Dialog">
@@ -59,33 +65,48 @@
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
-
           <v-btn
             text="取消"
             variant="outlined"
+            color="error"
             @click="isActive.value = false"
           ></v-btn>
           <v-btn
             text="確認"
             variant="tonal"
-            @click="(isActive.value = false), post_api()"
+            color="primary"
+            @click="(isActive.value = false),props.edit_flag ? patch_api() : post_api()"
           ></v-btn>
         </v-card-actions>
       </v-card>
     </template>
   </v-dialog>
+  <ResponseDialog
+    :dialog_text="dialog_text"
+    :dialog_title="dialog_title"
+    :cancel_button_flag="cancel_button_flag"
+    :click_cancel="()=>{}"
+    :click_confirm="()=>{}"
+    v-model:dialog_flag="response_dialog_flag"
+  ></ResponseDialog>
 </template>
 <script setup>
 import { ref } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { useDateFormat } from "@vueuse/core";
-import { apiPostReserve } from "@/api";
+import { apiPostReserve,apiPutReserve } from "@/api";
+import { handle_response } from '@/api/response'
 
 const wh = useWindowSize();
-const props = defineProps(["submit_data", "silist"]);
+const props = defineProps(["edit_flag", "submit_data", "silist"]);
 const submit_data = props.submit_data;
 const silist = props.silist;
 const submit = ref();
+const edit_flag = props.edit_flag;
+const response_dialog_flag = ref(false)
+const dialog_text = ref('')
+const dialog_title = ref('')
+const cancel_button_flag = ref(false)
 const add_reserve = () => {
   const date = new Date();
   const temp = useDateFormat(date, "YYYY-MM-DDTHH:mm:ss.SSS+08:00");
@@ -134,9 +155,31 @@ const add_reserve = () => {
 const post_api = async () => {
   try {
     const response = await apiPostReserve(submit.value);
-    console.log(response);
+    console.log(response)
+    const dialog_content = handle_response(response['data']['code'],"new")
+    change_dialog_status(dialog_content)
   } catch (error) {
+    const dialog_content = handle_response(error['response']['data']['error_code'])
+    change_dialog_status(dialog_content)
     console.error(error);
   }
 };
+
+const patch_api = async () =>{
+  try {
+    const response = await apiPutReserve(submit.value);
+    const dialog_content = handle_response(response['data']['code'],"edit")
+    change_dialog_status(dialog_content)
+    console.log(response);
+  } catch (error) {
+    const dialog_content = handle_response(error['response']['data']['error_code'])
+    change_dialog_status(dialog_content)
+    console.error(error);
+  }
+}
+const change_dialog_status = (dialog_content) => {
+  dialog_text.value = dialog_content.dialog_text
+  dialog_title.value = dialog_content.dialog_title
+  response_dialog_flag.value = true
+}
 </script>
