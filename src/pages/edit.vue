@@ -64,7 +64,9 @@
       </v-row>
       <v-row>
         <v-col class="v-col-auto">
-          <v-btn color="error" variant="outlined" @click="delete_form()"> 刪除預約 </v-btn>
+          <v-btn color="error" variant="outlined" @click="delete_form()">
+            刪除預約
+          </v-btn>
         </v-col>
         <v-col class="v-col-auto">
           <SubmitDialog
@@ -83,38 +85,28 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-dialog width="75%" scrollable v-model="dialog_flag">
-      <v-card  >
-        <v-card-title class="text-h4 pa-3">
-          {{ dialog_title }}
-        </v-card-title>
-        <v-divider></v-divider>
-        <v-card-text>
-          {{ dialog_text }}
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            text="取消"
-            variant="outlined"
-            color="error"
-            @click="dialog_flag = false"
-          ></v-btn>
-          <v-btn
-            text="確認"
-            variant="tonal"
-            color="primary"
-            @click="dialog_flag = false"
-          ></v-btn>
-        </v-card-actions>
-      </v-card>
-  </v-dialog>
+    <ResponseDialog
+      dialog_text="確定要刪除此筆預約嗎"
+      dialog_title="刪除預約"
+      :cancel_button_flag="true"
+      :click_cancel="()=>{}"
+      :click_confirm="()=>{delete_form()}"
+      v-model:dialog_flag="delete_form_dialog_flag"
+    ></ResponseDialog>
+    <ResponseDialog
+      :dialog_text="dialog_text"
+      :dialog_title="dialog_title"
+      :cancel_button_flag="cancel_button_flag"
+      :click_cancel="()=>{}"
+      :click_confirm="()=>{click_confirm_function()}"
+      v-model:dialog_flag="response_dialog_flag"
+    ></ResponseDialog>
   </v-sheet>
 </template>
 
 <script setup>
 import { apiGetReserveItems, apiGetReserveSpaces, apiGetReserve } from "@/api";
+import { handle_response } from '@/api/response'
 import { useDateFormat } from "@vueuse/core";
 import { ref, onMounted } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -124,9 +116,7 @@ const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
 const item_data = ref([]);
 const note = ref("");
-const dialog_flag = ref(false)
-const dialog_title = ref("")
-const dialog_text = ref("")
+
 const basic_info = ref({
   email: "",
   org: "",
@@ -134,19 +124,28 @@ const basic_info = ref({
   name: "",
   reason: "",
 });
+const delete_form_dialog_flag = ref(false)
+const response_dialog_flag = ref(false)
+const dialog_text = ref('')
+const dialog_title = ref('')
+const cancel_button_flag = ref(false)
+const click_confirm_function = ref(()=>{})
 const route = useRoute();
 const router = useRouter();
+const return_homepage = () => {
+  router.replace({
+    name: "/",
+  });
+}
 const delete_form = () => {
-  dialog_flag.value = true
-  dialog_title.value = "刪除預約"
-  dialog_text.value = "確定要刪除此筆預約嗎"
+  delete_form_dialog_flag.value = true
+  console.log(delete_form_dialog_flag)
+  console.log("刪除預約")
 };
 onMounted(async () => {
   const id = route.query.id;
   if (id == null) {
-    router.replace({
-      name: "/",
-    });
+    return_homepage()
   }
   try {
     const items = await apiGetReserveItems();
@@ -221,7 +220,11 @@ onMounted(async () => {
       }
     }
   } catch (error) {
-    console.error(error);
-  }
+    const dialog_content = handle_response(error['response']['data']['error_code'])
+    dialog_text.value = dialog_content.dialog_text
+    dialog_title.value = dialog_content.dialog_title
+    response_dialog_flag.value = true
+    click_confirm_function.value = return_homepage
+  } 
 });
 </script>

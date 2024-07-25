@@ -27,10 +27,9 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import { useDateFormat } from '@vueuse/core'
 import { ref } from 'vue';
-
+import { apiGetReserveSpaceAvailableTime } from "@/api";
 const props = defineProps(['space_list', 'time_list'])
 const space_data = defineModel('space_data')
 const date_input = ref()
@@ -46,19 +45,18 @@ const addobj = async () => {
   const format_temp1 = useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value + time_input.value.toString().split('-')[0]
   const format_temp2 = useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value + time_input.value.toString().split('-')[1]
   let check_flag
-  await axios.get("http://localhost:3000/api/v1/reserve/integral_space_availability",
-    {
-      params: {
-        space_id: props.space_list[0][space_input.value],
-        start_datetime: format_temp1,
-        end_datetime: format_temp2
-      }
-    },).then((response) => {
-      let temp = response['data']['data']
-      check_flag = temp['availability']
-      console.log(response);
+  try {
+    const response = await apiGetReserveSpaceAvailableTime({
+      space_id : props.space_list[0][space_input.value],
+      start_datetime : format_temp1,
+      end_datetime : format_temp2,
+      intervals : false
     })
-  console.log(check_flag);
+    console.log(response)
+    check_flag = response['data']['availability']
+  }catch(err){
+    console.error(err)
+  }
   if (check_flag == 0) {
     alert.value = true
     setTimeout(() => {
