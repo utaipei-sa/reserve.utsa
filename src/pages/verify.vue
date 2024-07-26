@@ -3,7 +3,7 @@
     <v-container class=" h-100">
       <v-row class="justify-center align-center h-100	">
         <v-col class="px-sm-16">
-          <v-alert :title="title" :type="alert_type" :text="text" />
+          <v-alert :title="title" :type="alert_type" :text="message.dialog_text" />
           <v-card class=" my-4 bg-grey-lighten-2">
             <v-card-text v-if="hasContent">
               <v-container>
@@ -78,9 +78,10 @@
 </template>
 
 <script setup>
-import { apiGetReserve } from '@/api';
+import { apiGetReserve, apiGetReserveItems, apiGetReserveSpaces, apiPatchReserveVerify } from '@/api';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
+import { R_SUCCESS, R_INVALID_INFO, R_ALREADY_VERIFIED, R_ID_NOT_FOUND, handle_response } from '@/api/response.js';
 
 const item_list = ref({})
 const space_list = ref({})
@@ -89,13 +90,9 @@ onMounted(async () => {
     const items = await apiGetReserveItems();
     const spaces = await apiGetReserveSpaces();
     for (let i = 0; i < spaces['data']['data'].length; i++) {
-      /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-      space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
       space_list.value[spaces['data']['data'][i]['_id']] = spaces['data']['data'][i]['name']['zh-tw']
     }
     for (let i = 0; i < items['data']['data'].length; i++) {
-      /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-      space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
       item_list.value[items['data']['data'][i]['_id']] = items['data']['data'][i]['name']['zh-tw']
     }
     check_verify_id(props.verifyid)
@@ -114,39 +111,36 @@ const email = ref("")
 const note = ref("")
 const item_data = ref()
 const space_data = ref()
-const title = ref("default")
 const hasContent = ref(false)
 const alert_type = ref("success")
-const text = ref("")
+const message = ref("")
 const check_verify_id = async (verifyid) => {
   console.log(verifyid)
   try{
-    const verifyResponse = apiGetReserveVerify(verifyid)
+    const verifyResponse = apiPatchReserveVerify(verifyid)
 
-    if (verifyResponse['data']['code'] == 87) {
+    if (verifyResponse['data']['code'] == R_SUCCESS) {
       await GetReservationData(verifyid)
       console.log(reserve_data)
       alert_type.value = "success"
       hasContent.value = true
-      title.value = "成功預約"
+      message.value = handle_response(verifyResponse['data']['code'] ,"verify")
     } 
     } catch (error) {
       switch(verifyResponse['data']['code']) {
-        case 88:
-          text.value = "請確認預約代碼，或洽系統管理員"
-          title.value = "查無此筆預約資料"
+        case R_ID_NOT_FOUND:
+          message.value = handle_response(verifyResponse['data']['code'] ,"verify")
           hasContent.value = false
           alert_type.value = "error"
           break;
-        case 89:
+        case R_ALREADY_VERIFIED:
           await GetReservationData(verifyid);
-          title.value = "此筆預約已驗證";
+          message.value = handle_response(verifyResponse['data']['code'] ,"verify")
           hasContent.value = true;
           alert_type.value = "warning";
           break;
-        case 90:
-          text.value = "請確認預約代碼，或洽系統管理員"
-          title.value = "查無此筆預約資料"
+        case R_INVALID_INFO:
+          message.value = handle_response(verifyResponse['data']['code'] ,"verify")
           hasContent.value = false
           alert_type.value = "error"
           break;
