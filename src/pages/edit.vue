@@ -144,7 +144,7 @@ const delete_form = async () => {
     console.log(response);
     const dialog_content = handle_response(response['data']['code'],"delete")
     change_dialog_status(dialog_content)
-    return_homepage()
+    click_confirm_function.value = return_homepage
   }catch(error){
     console.error(error);
     const dialog_content = handle_response(error['response']['data']['error_code'])
