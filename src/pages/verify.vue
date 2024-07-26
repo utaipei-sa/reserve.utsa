@@ -3,7 +3,7 @@
     <v-container class=" h-100">
       <v-row class="justify-center align-center h-100	">
         <v-col class="px-sm-16">
-          <v-alert :title="title" :type="alert_type" :text="message.dialog_text" />
+          <v-alert :title="message.dialog_title" :type="alert_type" :text="message.dialog_text" />
           <v-card class=" my-4 bg-grey-lighten-2">
             <v-card-text v-if="hasContent">
               <v-container>
@@ -81,10 +81,12 @@
 import { apiGetReserve, apiGetReserveItems, apiGetReserveSpaces, apiPatchReserveVerify } from '@/api';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
+import { useRoute } from "vue-router";
 import { R_SUCCESS, R_INVALID_INFO, R_ALREADY_VERIFIED, R_ID_NOT_FOUND, handle_response } from '@/api/response.js';
-
+const route = useRoute();
 const item_list = ref({})
 const space_list = ref({})
+const id = route.query.id;
 onMounted(async () => {
   try{
     const items = await apiGetReserveItems();
@@ -95,14 +97,13 @@ onMounted(async () => {
     for (let i = 0; i < items['data']['data'].length; i++) {
       item_list.value[items['data']['data'][i]['_id']] = items['data']['data'][i]['name']['zh-tw']
     }
-    check_verify_id(props.verifyid)
+    check_verify_id(id)
   }
   catch (error) {
     console.error(error);
   }
 })
 
-const props = defineProps(['verifyid'])
 const name = ref("")
 const reason = ref("")
 const department = ref("")
@@ -114,42 +115,29 @@ const space_data = ref()
 const hasContent = ref(false)
 const alert_type = ref("success")
 const message = ref("")
-const check_verify_id = async (verifyid) => {
-  console.log(verifyid)
+const check_verify_id = async (id) => {
+  console.log(id)
   try{
-    const verifyResponse = apiPatchReserveVerify(verifyid)
-
-    if (verifyResponse['data']['code'] == R_SUCCESS) {
-      await GetReservationData(verifyid)
-      console.log(reserve_data)
-      alert_type.value = "success"
-      hasContent.value = true
-      message.value = handle_response(verifyResponse['data']['code'] ,"verify")
-    } 
+      const verifyResponse = await apiPatchReserveVerify(id)
+      if (verifyResponse['data']['code'] == R_SUCCESS) {
+        await GetReservationData(id)
+        console.log(verifyResponse)
+        alert_type.value = "success"
+        hasContent.value = true
+        message.value = handle_response(verifyResponse['data']['code'] ,"verify")
+      } 
     } catch (error) {
-      switch(verifyResponse['data']['code']) {
-        case R_ID_NOT_FOUND:
-          message.value = handle_response(verifyResponse['data']['code'] ,"verify")
-          hasContent.value = false
-          alert_type.value = "error"
-          break;
-        case R_ALREADY_VERIFIED:
-          await GetReservationData(verifyid);
-          message.value = handle_response(verifyResponse['data']['code'] ,"verify")
-          hasContent.value = true;
-          alert_type.value = "warning";
-          break;
-        case R_INVALID_INFO:
-          message.value = handle_response(verifyResponse['data']['code'] ,"verify")
-          hasContent.value = false
-          alert_type.value = "error"
-          break;
-      }
+      console.log(error)
+      const error_code = error["response"]["data"]["error_code"]
+      message.value = handle_response(error_code,"verify")
+      hasContent.value = message.value.dialog_ContentFlag
+      alert_type.value = message.value.dialog_alert
+      if(error_code == R_ALREADY_VERIFIED) await GetReservationData(id)
     }
   }
-  const GetReservationData = async (verifyid) => {
+  const GetReservationData = async (id) => {
   try {
-    const reservationResponse = apiGetReserve(verifyid)
+    const reservationResponse = await apiGetReserve(id)
     const data = reservationResponse.data
     department.value = data.department_grade
     email.value = data.email
