@@ -42,8 +42,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { useDateFormat } from "@vueuse/core";
-import axios from "axios";
-import { apiGetReserveItems, apiGetReserveSpaces } from "@/api";
+import {
+  apiGetReserveItems,
+  apiGetReserveSpaces,
+  apiGetReserveItemAvailableTime,
+  apiGetReserveSpaceAvailableTime,
+} from "@/api";
 
 const item_list = ref([{}, []]);
 const space_list = ref([{}, []]);
@@ -69,47 +73,45 @@ const serach = async () => {
     start_datetime,
     "YYYY-MM-DDTHH:mm"
   ).value;
-
-  if (type_input.value == "場地") {
-    await axios
-      .get("http://localhost:3000/api/v1/reserve/interval_space_availability", {
-        params: {
-          space_id: space_list.value[0][space.value],
-          start_datetime: start_datetime.value,
-          end_datetime: end_datetime.value,
-        },
-      })
-      .then((response) => {
-        for (let i = 0; i < response["data"].length; i += 3) {
-          let row_date = new Date(response["data"][i]["start_datetime"]);
-          available.value[i / 3] = {
-            date: row_date.getMonth() + 1 + "/" + row_date.getDate(),
-            time1: response["data"][i]["availability"],
-            time2: response["data"][i + 1]["availability"],
-            time3: response["data"][i + 2]["availability"],
-          };
-        }
+  try {
+    if (type_input.value == "場地") {
+      console.log(start_datetime, end_datetime);
+      const response = await apiGetReserveSpaceAvailableTime({
+        space_id: space_list.value[0][space.value],
+        start_datetime: start_datetime.value,
+        end_datetime: end_datetime.value,
+        intervals: true,
       });
-  } else {
-    await axios
-      .get("http://localhost:3000/api/v1/reserve/interval_item_availability", {
-        params: {
-          item_id: item_list.value[0][item.value],
-          start_datetime: start_datetime.value,
-          end_datetime: end_datetime.value,
-        },
-      })
-      .then((response) => {
-        for (let i = 0; i < response["data"].length; i++) {
-          let row_date = new Date(response["data"][i]["start_datetime"]);
-          available.value[i] = {
-            date: row_date.getMonth() + 1 + "/" + row_date.getDate(),
-            quantity: response["data"][i]["available_quantity"],
-          };
-        }
+      console.log(response);
+      for (let i = 0; i < response["data"].length; i += 3) {
+        let row_date = new Date(response["data"][i]["start_datetime"]);
+        available.value[i / 3] = {
+          date: row_date.getMonth() + 1 + "/" + row_date.getDate(),
+          time1: response["data"][i]["availability"],
+          time2: response["data"][i + 1]["availability"],
+          time3: response["data"][i + 2]["availability"],
+        };
+      }
+    } else if (type_input.value == "物品") {
+      const response = await apiGetReserveItemAvailableTime({
+        item_id: item_list.value[0][item.value],
+        start_datetime: start_datetime.value,
+        end_datetime: end_datetime.value,
+        intervals: true,
       });
+      for (let i = 0; i < response["data"].length; i++) {
+        let row_date = new Date(response["data"][i]["start_datetime"]);
+        available.value[i] = {
+          date: row_date.getMonth() + 1 + "/" + row_date.getDate(),
+          quantity: response["data"][i]["available_quantity"],
+        };
+      }
+      console.log(response);
+    }
+    has_data.value = true;
+  } catch (error) {
+    console.error(error);
   }
-  has_data.value = true;
 };
 onMounted(async () => {
   try {
