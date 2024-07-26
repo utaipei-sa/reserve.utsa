@@ -43,16 +43,13 @@
   <v-app-bar :elevation="10" max-width="960px" rounded="4" color="primary" v-if="width > 960">
     <v-app-bar-title>
       <v-row no-gutters align="center" justify="space-between">
-        <v-col class="d-flex align-center">
-          <img :src="utsaLogo" alt="UTSA Logo" class="logo" />
-          <v-app-bar-title class="text-white font-weight-bold">場地預約平台</v-app-bar-title>
-        </v-col>
+        <router-link class="text-decoration-none" to="/">
+          <v-col class="d-flex align-center">
+            <img :src="utsaLogo" alt="UTSA Logo" class="logo" />
+            <v-app-bar-title class="text-white font-weight-bold">場地預約平台</v-app-bar-title>
+          </v-col>
+        </router-link>
         <v-col class="d-flex justify-end">
-          <router-link class="pa-0 ma-0 " to="/">
-            <v-btn class="text-white">
-              <v-icon icon="mdi-home" />
-            </v-btn>
-          </router-link>
           <router-link class="pa-0 ma-0 " to="/form">
             <v-btn class="text-white">表單</v-btn>
           </router-link>
@@ -75,7 +72,7 @@ const drawer = ref(null)
 </script>
 
 <style scoped>
-.logo{
+.logo {
   width: 50px;
   height: 50px;
   margin-right: 20px;
