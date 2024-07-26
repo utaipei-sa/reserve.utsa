@@ -7,23 +7,23 @@ const reserveRequest = axios.create({
 });
 
 export const getReserve = (id) =>
-  reserveRequest.get(`/reserve/${id}`);
+  reserveRequest.get(`/reserve/${id}`,id);
 export const postReserve = (data) => 
   reserveRequest.post("/reserve", data);
 export const putReserve = (data, id) =>
-  reserveRequest.put(`/reserve/${id}`, data);
+  reserveRequest.put((`/reserve/${id}`,id), data);
 export const deleteReserve = (id) =>
-  reserveRequest.delete(`/reserve/${id}`);
+  reserveRequest.delete(`/reserve/${id}`,id);
 
 export const getReserveItems = () => 
   reserveRequest.get("/items");
 export const getReserveItem = (id) =>
-  reserveRequest.get(`/item/${id}`);
+  reserveRequest.get(`/item/${id}`,id);
 
 export const getReserveSpaces = () => 
   reserveRequest.get("/Spaces");
 export const getReserveSpace = (id) =>
-  reserveRequest.get(`/Space"/${id}`);
+  reserveRequest.get(`/Space"/${id}`,id);
 
 export const getReserveItemAvailableTime = (params) =>
   reserveRequest.get(`/item_available_time`,{params:params});
@@ -31,4 +31,4 @@ export const getReserveSpaceAvailableTime = (params) =>
   reserveRequest.get(`/space_available_time`,{params:params});
 
 export const getReserveVerify = (id) =>
-  reserveRequest.get(`/verify/${id}`);
+  reserveRequest.get(`/verify/${id}`,id);
