@@ -65,16 +65,17 @@ const end_datetime = ref();
 const serach = async () => {
   available.value = [];
   type.value = type_input.value;
-  start_datetime.value = new Date(date.value);
-  end_datetime.value = new Date(date.value);
-  end_datetime.value.setDate(end_datetime.value.getDate() + 7);
-  end_datetime.value = useDateFormat(end_datetime, "YYYY-MM-DDTHH:mm").value;
-  start_datetime.value = useDateFormat(
-    start_datetime,
-    "YYYY-MM-DDTHH:mm"
-  ).value;
+  
   try {
     if (type_input.value == "場地") {
+      start_datetime.value = new Date(date.value);
+      end_datetime.value = new Date(date.value);
+      end_datetime.value.setDate(end_datetime.value.getDate() + 7);
+      end_datetime.value = useDateFormat(end_datetime, "YYYY-MM-DDTHH:mm").value;
+      start_datetime.value = useDateFormat(
+        start_datetime,
+        "YYYY-MM-DDTHH:mm"
+      ).value;
       console.log(start_datetime, end_datetime);
       const response = await apiGetReserveSpaceAvailableTime({
         space_id: space_list.value[0][space.value],
@@ -93,6 +94,16 @@ const serach = async () => {
         };
       }
     } else if (type_input.value == "物品") {
+      start_datetime.value = new Date(date.value);
+      end_datetime.value = new Date(date.value);
+      start_datetime.value.setHours(12)
+      end_datetime.value.setDate(end_datetime.value.getDate() + 7);
+      end_datetime.value.setHours(12)
+      end_datetime.value = useDateFormat(end_datetime, "YYYY-MM-DDTHH:mm").value;
+      start_datetime.value = useDateFormat(
+        start_datetime,
+        "YYYY-MM-DDTHH:mm"
+      ).value;
       const response = await apiGetReserveItemAvailableTime({
         item_id: item_list.value[0][item.value],
         start_datetime: start_datetime.value,
