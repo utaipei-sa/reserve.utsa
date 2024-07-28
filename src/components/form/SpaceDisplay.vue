@@ -6,29 +6,29 @@
           <v-row v-if="submit_flag">
             <v-col class="v-col-12">
               <span v-if="wh.width.value < width_rwd">場地名稱：</span>
-              {{ i['space_id'] }}
+              {{ i['space_name'] }}
             </v-col>
             <v-col class="v-col-12">
               <span v-if="wh.width.value < width_rwd">借用日期：</span>
-              {{ i['start_datetime'] }}
+              {{ i['datetime'] }}
             </v-col>
             <v-col class="v-col-12">
               <span v-if="wh.width.value < width_rwd">借用時間：</span>
-              {{ i['end_datetime'] }}
+              {{ i['period'] }}
             </v-col>
           </v-row>
           <v-row v-else>
             <v-col class="v-col-sm-3 v-col-12">
               <span v-if="wh.width.value < width_rwd">場地名稱：</span>
-              {{ i['space_id']}}
+              {{ i['space_name']}}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
               <span v-if="wh.width.value < width_rwd">借用日期：</span>
-              {{ i['start_datetime'] }}
+              {{ i['datetime'] }}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
               <span v-if="wh.width.value < width_rwd">借用時間：</span>
-              {{ i['end_datetime'] }}
+              {{ i['period'] }}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
               <v-btn @click="delspace(index)" a>刪除</v-btn>
@@ -52,13 +52,13 @@
         <tbody>
           <tr v-for="(i,index) in space_data" :key="i">
             <td>
-              {{ i['space_id'] }}
+              {{ i['space_name'] }}
             </td>
             <td>
-              {{ i['start_datetime'] }}
+              {{ i['datetime'] }}
             </td>
             <td>
-              {{ i['end_datetime'] }}
+              {{ i['period'] }}
             </td>
             <td v-if="btn_flag">
               <v-btn @click="delspace(index)" >刪除</v-btn>

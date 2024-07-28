@@ -123,31 +123,31 @@ const add_reserve = () => {
   };
   for (var i = 0; i < submit_data.space_data.length; i++) {
     const date_format_temp1 =
-      useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value +
-      submit_data.space_data[i][2].toString().split("-")[0];
+      useDateFormat(submit_data.space_data[i]['datetime'], "YYYY-MM-DDT").value +
+      submit_data.space_data[i]['period'].toString().split("-")[0];
     const date_format_temp2 =
-      useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value +
-      submit_data.space_data[i][2].toString().split("-")[1];
+      useDateFormat(submit_data.space_data[i]['datetime'], "YYYY-MM-DDT").value +
+      submit_data.space_data[i]['period'].toString().split("-")[1];
     submit.value.space_reservations.push({
-      space_id: silist.space_list[0][submit_data.space_data[i][0]],
+      space_id: silist.space_list[0][submit_data.space_data[i]['space_name']],
       start_datetime: date_format_temp1,
       end_datetime: date_format_temp2,
     });
   }
   for (var i = 0; i < submit_data.item_data.length; i++) {
     const date_format_temp1 = useDateFormat(
-      submit_data.item_data[i][1],
+      submit_data.item_data[i]['start_datetime'],
       "YYYY-MM-DDTHH:mm"
     ).value;
     const date_format_temp2 = useDateFormat(
-      submit_data.item_data[i][2],
+      submit_data.item_data[i]['end_datetime'],
       "YYYY-MM-DDTHH:mm"
     ).value;
     submit.value.item_reservations.push({
-      item_id: silist.item_list[0][submit_data.item_data[i][0]],
+      item_id: silist.item_list[0][submit_data.item_data[i]['item_name']],
       start_datetime: date_format_temp1,
       end_datetime: date_format_temp2,
-      quantity: submit_data.item_data[i][3],
+      quantity: submit_data.item_data[i]['quantity'],
     });
   }
 };

@@ -86,10 +86,10 @@ const addobj = async () => {
     time_input.value != ""
   ) {
     space_data.value.push({
-      space_id: space_input.value,
-      start_datetime: useDateFormat(date_input.value.toString(), "YYYY-MM-DD")
+      space_name: space_input.value,
+      datetime: useDateFormat(date_input.value.toString(), "YYYY-MM-DD")
         .value,
-      end_datetime: time_input.value,
+      period: time_input.value,
     });
   }
 };
