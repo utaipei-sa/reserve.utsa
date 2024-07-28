@@ -9,18 +9,35 @@
 
         </v-col>
         <v-col class="v-col-12 nav-bar-btn-container">
-          <router-Link to="/" class="">
-            <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">首頁</v-btn>
-          </router-Link>
-        </v-col>
-        <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/form" class="">
-            <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">表單</v-btn>
+            <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">
+              <v-icon class="mr-2">mdi-file-table</v-icon>
+              表單
+            </v-btn>
           </router-link>
         </v-col>
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/timetable" class="">
-            <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">時間表</v-btn>
+            <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">
+              <v-icon class="mr-2">mdi-calendar-clock</v-icon>
+              時間表
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/form" class="">
+            <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">
+              <v-icon class="mr-2">mdi-alert</v-icon>
+              錯誤回報
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/timetable" class="">
+            <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">
+              <v-icon class="mr-2">mdi-comment-quote</v-icon>
+              意見回饋
+            </v-btn>
           </router-link>
         </v-col>
       </v-row>
@@ -49,6 +66,12 @@
       <router-link class="pa-0 ma-0 " to="/timetable">
         <v-btn class="text-white">時間表</v-btn>
       </router-link>
+      <router-link class="pa-0 ma-0 " to="/timetable">
+        <v-btn class="text-white">錯誤回報</v-btn>
+      </router-link>
+      <router-link class="pa-0 ma-0 " to="/timetable">
+        <v-btn class="text-white">意見回饋</v-btn>
+      </router-link>
     </v-app-bar-title>
   </v-app-bar>
 </template>
@@ -70,10 +93,11 @@ const drawer = ref(null)
   box-shadow: none !important;
   padding: 16px 0px;
   margin: 0px;
+  margin-left: 24px;
   background-color: #D6E6F2;
   font-size: 16px;
   height: auto !important;
-  justify-content: center;
+  justify-content: start;
   text-align: center;
 }
 

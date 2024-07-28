@@ -1,31 +1,32 @@
 <template>
   <v-sheet rounded="rounded" class="main-content" :style="{ backgroundColor: '#F7FBFC' }">
     <v-container>
-      <v-row>
-        <v-col>
-          <v-card>
-            <v-img src="">
-              <!--pic for homepage-->
-            </v-img>
-            <!-- <v-carousel cycle height="400px" hide-delimiters show-arrows>
-              <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src">
-                <v-img :src="item.src" height="100%"></v-img>
-              </v-carousel-item>
-            </v-carousel> -->
-          </v-card>
-        </v-col>
-      </v-row>
       <v-row class="d-flex justify-center">
         <v-col>
           <v-card class="text-center" style="background-color: #B9D7EA;">
             <v-card-text>
               <!--以下為提醒事項-->
               <div class="message">
-                <li v-for="item in RemindMessage" :key="item"><v-icon class="pr-4"
-                    color="blue-grey-darken-4">mdi-information</v-icon>{{ item }}
+                <span class="text-h5 font-weight-bold">提醒事項</span>
+                <li v-for="item in RemindMessage" :key="item">
+                  <v-icon class="pr-4" color="blue-grey-darken-4" icon="mdi-information" />{{ item }}
                 </li>
               </div>
             </v-card-text>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card>
+            <v-img src="">
+              <!--pic for homepage-->
+            </v-img>
+            <v-carousel cycle height="400px" hide-delimiters show-arrows>
+              <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src">
+                <v-img :src="item.src" height="100%"></v-img>
+              </v-carousel-item>
+            </v-carousel>
           </v-card>
         </v-col>
       </v-row>
