@@ -87,9 +87,9 @@ const addobj = async () => {
   ) {
     space_data.value.push({
       space_name: space_input.value,
-      start_datetime: useDateFormat(date_input.value.toString(), "YYYY-MM-DD")
+      datetime: useDateFormat(date_input.value.toString(), "YYYY-MM-DD")
         .value,
-      end_datetime: time_input.value,
+      period: time_input.value,
     });
   }
 };

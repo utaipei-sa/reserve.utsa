@@ -202,8 +202,8 @@ onMounted(async () => {
         "YYYY-MM-DD"
       ).value;
       if (start_date_temp === end_date_temp) {
-        space_data.value[i]['start_datetime'] = start_date_temp;
-        space_data.value[i]['end_datetime'] =
+        space_data.value[i]['datetime'] = start_date_temp;
+        space_data.value[i]['period'] =
           useDateFormat(
             reservation.data.space_reservations[i]["start_datetime"],
             "HH:mm"
@@ -214,8 +214,8 @@ onMounted(async () => {
             "HH:mm"
           ).value;
       } else {
-        space_data.value[i]['start_datetime'] = "Data Corrupted";
-        space_data.value[i]['end_datetime'  ] = "Data Corrupted";
+        space_data.value[i]['datetime'] = "Data Corrupted";
+        space_data.value[i]['period'  ] = "Data Corrupted";
       }
 
     }
