@@ -6,37 +6,37 @@
           <v-row class="align-center" v-if="submit_flag">
             <v-col class="v-col-12">
               <span >物品名稱：</span>
-              {{ i[0] }}
+              {{ i['item_id'] }}
             </v-col>
             <v-col class="v-col-12">
               <span >借用日期：</span>
-              {{ i[1] }}
+              {{ i['start_datetime'] }}
             </v-col>
             <v-col class="v-col-12">
               <span >歸還日期：</span>
-              {{ i[2] }}
+              {{ i['end_datetime'] }}
             </v-col>
             <v-col class="v-col-12">
               <span >數　　量：</span>
-              {{ i[3] }}
+              {{ i['quantity'] }}
             </v-col>
           </v-row>
           <v-row class="align-center" v-else>
             <v-col class="v-col-sm-2 v-col-12">
               <span >物品名稱：</span>
-              {{ i[0] }}
+              {{ i['item_id'] }}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
               <span >借用日期：</span>
-              {{ i[1] }}
+              {{ i['start_datetime'] }}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
               <span >歸還日期：</span>
-              {{ i[2] }}
+              {{ i['end_datetime'] }}
             </v-col>
             <v-col class="v-col-sm-2  v-col-12">
               <span >數　　量：</span>
-              {{ i[3] }}
+              {{ i['quantity'] }}
             </v-col>
             <v-col class="v-col-sm-2 v-col-12" >
               <v-btn @click="delitem(index)" >刪除</v-btn>
@@ -61,16 +61,16 @@
         <tbody>
           <tr v-for="(i,index) in item_data" :key="i">
             <td>
-              {{ i[0] }}
+              {{ i['item_id'] }}
             </td>
             <td>
-              {{ i[1] }}
+              {{ i['start_datetime'] }}
             </td>
             <td>
-              {{ i[2] }}
+              {{ i['end_datetime'] }}
             </td>
             <td>
-              {{ i[3] }}
+              {{ i['quantity'] }}
             </td>
             <td v-if="btn_flag">
               <v-btn @click="delitem(index)" >刪除</v-btn>
