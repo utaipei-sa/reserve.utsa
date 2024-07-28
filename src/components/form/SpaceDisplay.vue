@@ -6,7 +6,7 @@
           <v-row v-if="submit_flag">
             <v-col class="v-col-12">
               <span v-if="wh.width.value < width_rwd">場地名稱：</span>
-              {{ i['space_id'] }}
+              {{ i['space_name'] }}
             </v-col>
             <v-col class="v-col-12">
               <span v-if="wh.width.value < width_rwd">借用日期：</span>
@@ -20,7 +20,7 @@
           <v-row v-else>
             <v-col class="v-col-sm-3 v-col-12">
               <span v-if="wh.width.value < width_rwd">場地名稱：</span>
-              {{ i['space_id']}}
+              {{ i['space_name']}}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
               <span v-if="wh.width.value < width_rwd">借用日期：</span>
@@ -52,7 +52,7 @@
         <tbody>
           <tr v-for="(i,index) in space_data" :key="i">
             <td>
-              {{ i['space_id'] }}
+              {{ i['space_name'] }}
             </td>
             <td>
               {{ i['start_datetime'] }}

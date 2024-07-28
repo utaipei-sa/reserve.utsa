@@ -116,7 +116,7 @@ const addobj = async () => {
     quantity_temp.value != 0
   ) {
     item_data.value.push({
-      item_id: item_temp.value,
+      item_name: item_temp.value,
       start_datetime: useDateFormat(format_temp1, "YYYY-MM-DD").value,
       end_datetime: useDateFormat(format_temp2, "YYYY-MM-DD").value,
       quantity: quantity_temp.value,

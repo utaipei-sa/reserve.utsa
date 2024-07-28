@@ -6,7 +6,7 @@
           <v-row class="align-center" v-if="submit_flag">
             <v-col class="v-col-12">
               <span >物品名稱：</span>
-              {{ i['item_id'] }}
+              {{ i['item_name'] }}
             </v-col>
             <v-col class="v-col-12">
               <span >借用日期：</span>
@@ -24,7 +24,7 @@
           <v-row class="align-center" v-else>
             <v-col class="v-col-sm-2 v-col-12">
               <span >物品名稱：</span>
-              {{ i['item_id'] }}
+              {{ i['item_name'] }}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
               <span >借用日期：</span>
@@ -61,7 +61,7 @@
         <tbody>
           <tr v-for="(i,index) in item_data" :key="i">
             <td>
-              {{ i['item_id'] }}
+              {{ i['item_name'] }}
             </td>
             <td>
               {{ i['start_datetime'] }}
