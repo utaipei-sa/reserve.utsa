@@ -1,78 +1,128 @@
 <template>
-  <v-sheet rounded="rounded" class="main-content" :style="{ backgroundColor: '#F7FBFC' }">
-    <v-container>
-      <v-row class="d-flex justify-center">
+  <v-sheet rounded="rounded" class="main-content" :style="{ backgroundColor: '#F7FBFC', color: `#191F23` }">
+    <v-container class="border-info" v-if="width > 960">
+
+      <v-row>
         <v-col>
-          <v-card class="text-center" style="background-color: #B9D7EA;">
-            <v-card-text>
-              <!--以下為提醒事項-->
-              <div class="message">
-                <span class="text-h5 font-weight-bold">提醒事項</span>
-                <li v-for="item in RemindMessage" :key="item">
-                  <v-icon class="pr-4" color="blue-grey-darken-4" icon="mdi-information" />{{ item }}
-                </li>
-              </div>
-            </v-card-text>
+          <v-card class="pa-2 rounded-lg overflow-x-hidden text-overflow-content">
+            <!-- 公告 -->
+            <div class="text-overflow">
+              <v-icon class="mr-2" icon="mdi-bullhorn-outline" />
+              政府宣佈災防假時，不開放借用
+            </div>
           </v-card>
         </v-col>
       </v-row>
-      <v-row>
-        <v-col>
-          <v-card>
-            <v-img src="">
-              <!--pic for homepage-->
-            </v-img>
-            <v-carousel cycle height="400px" hide-delimiters show-arrows>
-              <v-carousel-item v-for="(item, i) in items" :key="i" :src="item.src">
-                <v-img :src="item.src" height="100%"></v-img>
-              </v-carousel-item>
-            </v-carousel>
+      <v-row class="d-flex align-center justify-center">
+        <v-col class="d-flex flex-column align-center">
+          <v-btn to="/timetable" class="rounded-lg my-3" width="95%" height="215px">
+            <div class="d-flex flex-column align-center">
+              <v-icon class="mb-2" icon="mdi-calendar-check" size="84px" />
+              <span class="text-h5 font-weight-bold">查詢時間</span>
+            </div>
+          </v-btn>
+          <v-btn to="/form" class="rounded-lg my-3" width="95%" height="215px">
+            <div class="d-flex flex-column align-center">
+              <v-icon class="mb-2" icon="mdi-square-edit-outline" size="84px" />
+              <span class="text-h5 font-weight-bold">立即預約</span>
+            </div>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row class="d-flex align-center justify-center">
+        <v-col class="d-flex flex-column align-center">
+          <v-card class="pa-6 rounded-lg" width="95%">
+            <v-card-title class="pa-0 mb-2"><v-icon class="mr-2" icon="mdi-clipboard-outline" />借用規則</v-card-title>
+            <li class="ml-3" v-for="mes in RemindMessage" :key="mes"> {{ mes }} </li>
           </v-card>
+        </v-col>
+      </v-row>
+      <v-row class="d-flex align-center justify-center">
+        <v-col class="d-flex flex-column align-center">
+          <div class="d-flex justify-between rounded-lg mx-1" style="width: 95%;">
+            <v-col cols="6" class="d-flex align-center justify-center pa-0">
+              <v-btn class="text-h6 py-2 rounded-lg text-overflow" width="100%" height="auto">
+                <v-icon icon="mdi-flag-outline" />
+                問題回報
+              </v-btn>
+            </v-col>
+            <v-col cols="6" class="d-flex align-center justify-center pa-0">
+              <v-btn class="text-h6 py-2 rounded-lg text-overflow" width="100%" height="auto">
+                <v-icon icon="mdi-lightbulb-outline" />
+                意見回饋
+              </v-btn>
+            </v-col>
+          </div>
         </v-col>
       </v-row>
     </v-container>
-    <!-- <v-container class="">
-      <v-row class="d-flex justify-center">
+    <v-container class="border-info" v-if="width <= 960">
+      <v-row>
         <v-col>
-          <v-card class="bg-grey-lighten-4">
-            <v-card-text>
-                <v-row class="d-flex justify-center">
-                  <v-col>
-                    <v-card title="聯絡我們" color="grey-lighten-1">
-                      <v-card-text>
-                        <v-row class="d-flex justify-center">
-                          <v-col >
-                            <v-btn text href="https://www.instagram.com/utaipei_sa/">學生會IG</v-btn>
-                          </v-col>
-                          <v-col>
-                            <v-btn text href="https://www.facebook.com/Utaipeisa2.0/?locale=zh_TW">學生會FB</v-btn>
-                          </v-col>
-                          <v-col>
-                            <v-btn text href="mailto:utsa@go.utaipei.edu.tw​">學生會Email</v-btn>
-                          </v-col>
-                        </v-row>
-                      </v-card-text>
-                    </v-card>
-                  </v-col>
-                  
-                </v-row>
-              </v-card-text>
+          <v-card class="pa-2 rounded-lg overflow-x-hidden text-overflow-content">
+            <!-- 公告 -->
+            <div class="text-overflow">
+              <v-icon class="mr-2" icon="mdi-bullhorn-outline" />
+              政府宣佈災防假時，不開放借用
+            </div>
           </v-card>
         </v-col>
       </v-row>
-    </v-container> -->
+      <v-row class="d-flex align-center justify-center">
+        <v-col class="d-flex flex-column align-center">
+          <v-btn to="/timetable" class="rounded-lg my-3" width="95%" height="215px">
+            <div class="d-flex flex-column align-center">
+              <v-icon class="mb-2" icon="mdi-calendar-check" size="84px" />
+              <span class="text-h5 font-weight-bold">查詢時間</span>
+            </div>
+          </v-btn>
+          <v-btn to="/form" class="rounded-lg my-3" width="95%" height="215px">
+            <div class="d-flex flex-column align-center">
+              <v-icon class="mb-2" icon="mdi-square-edit-outline" size="84px" />
+              <span class="text-h5 font-weight-bold">立即預約</span>
+            </div>
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row class="d-flex align-center justify-center">
+        <v-col class="d-flex flex-column align-center">
+          <v-card class="pa-6 rounded-lg" width="95%">
+            <v-card-title class="pa-0 mb-2"><v-icon class="mr-2" icon="mdi-clipboard-outline" />借用規則</v-card-title>
+            <li class="ml-3" v-for="mes in RemindMessage" :key="mes"> {{ mes }} </li>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row class="d-flex align-center justify-center">
+        <v-col class="d-flex flex-column align-center">
+          <div class="d-flex justify-between rounded-lg mx-1" style="width: 95%;">
+            <v-col cols="6" class="d-flex align-center justify-center pa-0">
+              <v-btn class="text-h6 px-4 py-2 rounded-lg text-overflow" width="100%" height="auto">
+                <v-icon icon="mdi-flag-outline" />
+                問題回報
+              </v-btn>
+            </v-col>
+            <v-col cols="6" class="d-flex align-center justify-center pa-0">
+              <v-btn class="text-h6 px-4 py-2 rounded-lg text-overflow" width="100%" height="auto">
+                <v-icon icon="mdi-lightbulb-outline" />
+                意見回饋
+              </v-btn>
+            </v-col>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-sheet>
 </template>
 
 <script setup>
+import { useWindowSize } from '@vueuse/core';
+const { width } = useWindowSize();
 const RemindMessage = [
   "預約領取時間：平日12:10~12:30",
   "天母資源請到課活組借用",
-];
-const items = [
-  { src: 'https://via.placeholder.com/800x400.png?text=First+Slide' },
-  { src: 'https://via.placeholder.com/800x400.png?text=Second+Slide' },
-  { src: 'https://via.placeholder.com/800x400.png?text=Third+Slide' }
+  "冷氣電卡請自備",
+  "其他規定",
+  "(後臺管理者自行設定)"
 ];
 </script>
 
@@ -84,19 +134,33 @@ body {
   background-color: #F7FBFC;
 }
 
+.transparent-card {
+  border-radius: 20px;
+}
+
+@media screen and (min-width: 960px) {
+  .transparent-card {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+}
+
 .main-content {
-  padding-top: 48px;
+  padding: 12px 0px 0px 0px;
   flex: 1;
   background-color: #F7FBFC;
 }
 
 .message {
   font-size: 16px;
+  align-items: center;
 }
 
-li {
-  list-style-type: none;
-  padding: 10px;
-  font-size: 16px;
+.text-overflow {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
