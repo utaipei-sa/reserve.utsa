@@ -14,11 +14,11 @@
           </router-link>
         </v-col>
         <v-col class="v-col-12 ">
-          <router-link class="d-flex text-decoration-none align-center justify-center " to="/">
+          <router-link class="d-flex text-decoration-none align-center justify-center" to="/">
             <span class="font-weight-bold align-center justify-center text-black text-h6">借用預約平台</span>
           </router-link>
         </v-col>
-        <hr class="w-100 my-5" />
+        <v-divider class="mb-4" />
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/form" class="">
             <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">
@@ -124,8 +124,8 @@ const drawer = ref(null)
 
 .nav-bar-btn {
   box-shadow: none !important;
-  padding: 16px 0px;
-  margin: 0px 0px 0px 24px;
+  padding: 16px 12px;
+  margin: 0px 0px 0px 12px;
   background-color: #D6E6F2;
   font-size: 16px;
   height: auto !important;
