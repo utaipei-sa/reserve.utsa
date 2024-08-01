@@ -189,23 +189,24 @@ onMounted(async () => {
     note.value = reservation.data.note;
     for (let i = 0; i < reservation.data.item_reservations.length; i++) {
       console.log(reservation);
-      item_data.value[i] = [];
-      item_data.value[i][0] =
+      item_data.value[i] = {};
+      item_data.value[i]['item_name'] =
         item_list.value[2][reservation.data.item_reservations[i]["item_id"]];
-      item_data.value[i][1] = useDateFormat(
+      item_data.value[i]['start_datetime'] = useDateFormat(
         reservation.data.item_reservations[i]["start_datetime"],
         "YYYY-MM-DD"
       ).value;
-      item_data.value[i][2] = useDateFormat(
+      item_data.value[i]['end_datetime'] = useDateFormat(
         reservation.data.item_reservations[i]["end_datetime"],
         "YYYY-MM-DD"
       ).value;
-      item_data.value[i][3] = reservation.data.item_reservations[i]["quantity"];
+      item_data.value[i]['quantity'] = reservation.data.item_reservations[i]["quantity"];
     }
+    console.log(item_data.value)
     for (let i = 0; i < reservation.data.space_reservations.length; i++) {
       console.log(reservation);
-      space_data.value[i] = [];
-      space_data.value[i][0] =
+      space_data.value[i] = {};
+      space_data.value[i]['space_name'] =
         space_list.value[2][reservation.data.space_reservations[i]["space_id"]];
 
       const start_date_temp = useDateFormat(
@@ -217,8 +218,8 @@ onMounted(async () => {
         "YYYY-MM-DD"
       ).value;
       if (start_date_temp === end_date_temp) {
-        space_data.value[i][1] = start_date_temp;
-        space_data.value[i][2] =
+        space_data.value[i]['datetime'] = start_date_temp;
+        space_data.value[i]['period'] =
           useDateFormat(
             reservation.data.space_reservations[i]["start_datetime"],
             "HH:mm"
@@ -229,10 +230,12 @@ onMounted(async () => {
             "HH:mm"
           ).value;
       } else {
-        space_data.value[i][1] = "Data Corrupted";
-        space_data.value[i][2] = "Data Corrupted";
+        space_data.value[i]['datetime'] = "Data Corrupted";
+        space_data.value[i]['period'  ] = "Data Corrupted";
       }
+
     }
+    console.log(space_data.value)
   } catch (error) {
     const dialog_content = handle_response(error['response']['data']['error_code'])
     dialog_text.value = dialog_content.dialog_text
