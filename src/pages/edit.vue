@@ -64,7 +64,7 @@
       </v-row>
       <v-row>
         <v-col class="v-col-auto">
-          <v-btn color="error" variant="outlined" @click="delete_form()">
+          <v-btn color="error" variant="outlined" @click="delete_form_dialog_flag = true">
             刪除預約
           </v-btn>
         </v-col>
@@ -105,7 +105,7 @@
 </template>
 
 <script setup>
-import { apiGetReserveItems, apiGetReserveSpaces, apiGetReserve } from "@/api";
+import { apiGetReserveItems, apiGetReserveSpaces, apiGetReserve,apiDeleteReserve } from "@/api";
 import { handle_response } from '@/api/response'
 import { useDateFormat } from "@vueuse/core";
 import { ref, onMounted } from "vue";
@@ -131,19 +131,33 @@ const dialog_title = ref('')
 const cancel_button_flag = ref(false)
 const click_confirm_function = ref(()=>{})
 const route = useRoute();
+const id = route.query.id;
 const router = useRouter();
 const return_homepage = () => {
   router.replace({
     name: "/",
   });
 }
-const delete_form = () => {
-  delete_form_dialog_flag.value = true
-  console.log(delete_form_dialog_flag)
-  console.log("刪除預約")
+const delete_form = async () => {
+  try{
+    const response = await apiDeleteReserve(id);
+    console.log(response);
+    const dialog_content = handle_response(response['data']['code'],"delete")
+    change_dialog_status(dialog_content)
+    click_confirm_function.value = return_homepage
+  }catch(error){
+    console.error(error);
+    const dialog_content = handle_response(error['response']['data']['error_code'])
+    change_dialog_status(dialog_content)
+  }
 };
+const change_dialog_status = (dialog_content) => {
+  dialog_text.value = dialog_content.dialog_text
+  dialog_title.value = dialog_content.dialog_title
+  response_dialog_flag.value = true
+}
 onMounted(async () => {
-  const id = route.query.id;
+  
   if (id == null) {
     return_homepage()
   }
@@ -151,19 +165,21 @@ onMounted(async () => {
     const items = await apiGetReserveItems();
     const spaces = await apiGetReserveSpaces();
     const reservation = await apiGetReserve(id);
-    for (let i = 0; i < spaces["data"]["data"].length; i++) {
-      space_list.value[0][spaces["data"]["data"][i]["name"]["zh-tw"]] =
-        spaces["data"]["data"][i]["_id"];
-      space_list.value[1].push(spaces["data"]["data"][i]["name"]["zh-tw"]);
-      space_list.value[2][spaces["data"]["data"][i]["_id"]] =
-        spaces["data"]["data"][i]["name"]["zh-tw"];
+    const spaces_fetch_list = spaces["data"]["data"]
+    for (let i = 0; i < spaces_fetch_list.length; i++) {
+      space_list.value[0][spaces_fetch_list[i]["name"]["zh-tw"]] =
+      spaces_fetch_list[i]["_id"];
+      space_list.value[1].push(spaces_fetch_list[i]["name"]["zh-tw"]);
+      space_list.value[2][spaces_fetch_list[i]["_id"]] =
+      spaces_fetch_list[i]["name"]["zh-tw"];
     }
-    for (let i = 0; i < items["data"]["data"].length; i++) {
-      item_list.value[0][items["data"]["data"][i]["name"]["zh-tw"]] =
-        items["data"]["data"][i]["_id"];
-      item_list.value[1].push(items["data"]["data"][i]["name"]["zh-tw"]);
-      item_list.value[2][items["data"]["data"][i]["_id"]] =
-        items["data"]["data"][i]["name"]["zh-tw"];
+    const items_fetch_list = items["data"]["data"]
+    for (let i = 0; i < items_fetch_list.length; i++) {
+      item_list.value[0][items_fetch_list[i]["name"]["zh-tw"]] =
+      items_fetch_list[i]["_id"];
+      item_list.value[1].push(items_fetch_list[i]["name"]["zh-tw"]);
+      item_list.value[2][items_fetch_list[i]["_id"]] =
+      items_fetch_list[i]["name"]["zh-tw"];
     }
     basic_info.value.department = reservation.data.department_grade;
     basic_info.value.email = reservation.data.email;

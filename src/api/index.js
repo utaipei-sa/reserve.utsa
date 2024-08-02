@@ -9,7 +9,7 @@ import {
   getReserveSpace,
   getReserveItemAvailableTime,
   getReserveSpaceAvailableTime,
-  PatchReserveVerify,
+  patchReserveVerify,
 } from "./reserve.js";
 
 export const apiGetReserve = getReserve;
@@ -22,4 +22,4 @@ export const apiGetReserveSpaces = getReserveSpaces;
 export const apiGetReserveSpace = getReserveSpace;
 export const apiGetReserveItemAvailableTime = getReserveItemAvailableTime;
 export const apiGetReserveSpaceAvailableTime = getReserveSpaceAvailableTime;
-export const apiPatchReserveVerify = PatchReserveVerify;
+export const apiPatchReserveVerify = patchReserveVerify;

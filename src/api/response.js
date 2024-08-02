@@ -13,8 +13,9 @@ export const handle_response = (error_code,type=null) => {
             }else if(type == "new"){
                 return {dialog_text:"預約新增成功，請查看email，並進行驗證",dialog_title:"預約成功"}
             }else if(type == "verify"){
-                
                 return {dialog_text:"此筆預約驗證成功",dialog_title:"驗證成功"}
+            }else if(type == "delete"){
+                return {dialog_text:"此筆預約刪除成功",dialog_title:"刪除成功"}
             }
         case R_INVALID_INFO:
             return {dialog_alert:'error', dialog_ContentFlag:false,dialog_text:"表單資訊錯誤",dialog_title:"預約失敗"}
