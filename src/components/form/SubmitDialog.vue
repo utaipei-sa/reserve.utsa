@@ -141,18 +141,18 @@ const add_reserve = () => {
   }
   for (var i = 0; i < submit_data.item_data.length; i++) {
     const date_format_temp1 = useDateFormat(
-      submit_data.item_data[i]['start_datetime'],
+      new Date(submit_data.item_data[i]['start_datetime']).setHours(12),
       "YYYY-MM-DDTHH:mm"
     ).value;
     const date_format_temp2 = useDateFormat(
-      submit_data.item_data[i]['end_datetime'],
+      new Date(submit_data.item_data[i]['end_datetime']).setHours(12),
       "YYYY-MM-DDTHH:mm"
     ).value;
     submit.value.item_reservations.push({
       item_id: silist.item_list[0][submit_data.item_data[i]['item_name']],
       start_datetime: date_format_temp1,
       end_datetime: date_format_temp2,
-      quantity: submit_data.item_data[i]['quantity'],
+      quantity: Number(submit_data.item_data[i]['quantity']),
     });
   }
 };
