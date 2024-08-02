@@ -30,5 +30,5 @@ export const getReserveItemAvailableTime = (params) =>
 export const getReserveSpaceAvailableTime = (params) =>
   reserveRequest.get(`/space_available_time`,{params:params});
 
-export const getReserveVerify = (id) =>
-  reserveRequest.get(`/verify/${id}`);
+export const patchReserveVerify = (id) =>
+  reserveRequest.patch(`/verify/${id}`);
