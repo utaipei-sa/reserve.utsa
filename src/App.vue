@@ -1,40 +1,17 @@
 <template>
-  <v-app>
+  <v-app class="pa-0 ma-0 fill-height fill-width">
     <AppBar></AppBar>
-    <v-main>
-      <router-view />
-    </v-main>
-    <AppFooter></AppFooter>
+    <v-parallax height="100%" width="100%" :src="chairs"
+      class="parallax-background mt-10 ma-0 pa-0 fill-height fill-width" :style="{ width: `100%`, height: `100%` }">
+      <v-main class="pa-0 ma-0 fill-height fill-width" :style="{ width: `100%`, height: `100%` }">
+        <router-view class="pa-0 ma-0 fill-height fill-width" :style="{ width: `100%`, height: `100%` }" />
+      </v-main>
+    </v-parallax>
   </v-app>
 </template>
 
 <script setup>
-import AppFooter from '@/components/layout/AppFooter.vue';
-//
+import chairs from '@/assets/chairs.svg';
 </script>
 
-<style>
-html,
-body {
-  height: 100%;
-  margin: 0;
-  background-color: #F7FBFC;
-}
-
-.v-application {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  background-color: #F7FBFC;
-}
-
-v-app {
-  background-color: #F7FBFC;
-}
-
-v-main {
-  flex: 1;
-  margin: 0%;
-  padding: 0%;
-}
-</style>
+<style></style>
