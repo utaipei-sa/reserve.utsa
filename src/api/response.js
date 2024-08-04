@@ -20,6 +20,7 @@ export const handle_response = (error_code, type = null) => {
       } else if (type == 'delete') {
         return { dialog_text: '此筆預約刪除成功', dialog_title: '刪除成功' };
       }
+      break;
     case R_INVALID_INFO:
       return {
         dialog_alert: 'error',
@@ -28,18 +29,20 @@ export const handle_response = (error_code, type = null) => {
         dialog_title: '預約失敗'
       };
     case R_ID_NOT_FOUND:
-      if (type == 'edit')
+      if (type == 'edit') {
         return {
           dialog_text: '請確認預約代碼，或洽系統管理員',
           dialog_title: '預約失敗'
         };
-      if (type == 'verify')
+      } else if (type == 'verify') {
         return {
           dialog_alert: 'error',
           dialog_ContentFlag: false,
           dialog_text: '請確認預約代碼，或洽系統管理員',
           dialog_title: '認證失敗'
         };
+      }
+      break;
     case R_INVALID_RESERVATION:
       return {
         dialog_text: '借用時間有誤，請先確認可借用時間',
