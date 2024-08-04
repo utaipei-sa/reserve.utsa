@@ -9,8 +9,8 @@ import {
   getReserveSpace,
   getReserveItemAvailableTime,
   getReserveSpaceAvailableTime,
-  patchReserveVerify,
-} from "./reserve.js";
+  patchReserveVerify
+} from './reserve.js';
 
 export const apiGetReserve = getReserve;
 export const apiPostReserve = postReserve;
