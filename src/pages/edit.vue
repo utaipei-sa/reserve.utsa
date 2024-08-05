@@ -64,7 +64,11 @@
       </v-row>
       <v-row>
         <v-col class="v-col-auto">
-          <v-btn color="error" variant="outlined" @click="delete_form_dialog_flag = true">
+          <v-btn
+            color="error"
+            variant="outlined"
+            @click="delete_form_dialog_flag = true"
+          >
             刪除預約
           </v-btn>
         </v-col>
@@ -75,11 +79,11 @@
               space_data: space_data,
               item_data: item_data,
               note: note,
-              basic_info: basic_info,
+              basic_info: basic_info
             }"
             :silist="{
               item_list: item_list,
-              space_list: space_list,
+              space_list: space_list
             }"
           />
         </v-col>
@@ -89,97 +93,111 @@
       dialog_text="確定要刪除此筆預約嗎"
       dialog_title="刪除預約"
       :cancel_button_flag="true"
-      :click_cancel="()=>{}"
-      :click_confirm="()=>{delete_form()}"
+      :click_cancel="() => {}"
+      :click_confirm="
+        () => {
+          delete_form();
+        }
+      "
       v-model:dialog_flag="delete_form_dialog_flag"
     ></ResponseDialog>
     <ResponseDialog
       :dialog_text="dialog_text"
       :dialog_title="dialog_title"
       :cancel_button_flag="cancel_button_flag"
-      :click_cancel="()=>{}"
-      :click_confirm="()=>{click_confirm_function()}"
+      :click_cancel="() => {}"
+      :click_confirm="
+        () => {
+          click_confirm_function();
+        }
+      "
       v-model:dialog_flag="response_dialog_flag"
     ></ResponseDialog>
   </v-sheet>
 </template>
 
 <script setup>
-import { apiGetReserveItems, apiGetReserveSpaces, apiGetReserve,apiDeleteReserve } from "@/api";
-import { handle_response } from '@/api/response'
-import { useDateFormat } from "@vueuse/core";
-import { ref, onMounted } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import {
+  apiGetReserveItems,
+  apiGetReserveSpaces,
+  apiGetReserve,
+  apiDeleteReserve
+} from '@/api';
+import { handle_response } from '@/api/response';
+import { useDateFormat } from '@vueuse/core';
+import { ref, onMounted } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const item_list = ref([{}, [], {}]);
 const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
 const item_data = ref([]);
-const note = ref("");
+const note = ref('');
 
 const basic_info = ref({
-  email: "",
-  org: "",
-  department: "",
-  name: "",
-  reason: "",
+  email: '',
+  org: '',
+  department: '',
+  name: '',
+  reason: ''
 });
-const delete_form_dialog_flag = ref(false)
-const response_dialog_flag = ref(false)
-const dialog_text = ref('')
-const dialog_title = ref('')
-const cancel_button_flag = ref(false)
-const click_confirm_function = ref(()=>{})
+const delete_form_dialog_flag = ref(false);
+const response_dialog_flag = ref(false);
+const dialog_text = ref('');
+const dialog_title = ref('');
+const cancel_button_flag = ref(false);
+const click_confirm_function = ref(() => {});
 const route = useRoute();
 const id = route.query.id;
 const router = useRouter();
 const return_homepage = () => {
   router.replace({
-    name: "/",
+    name: '/'
   });
-}
+};
 const delete_form = async () => {
-  try{
+  try {
     const response = await apiDeleteReserve(id);
     console.log(response);
-    const dialog_content = handle_response(response['data']['code'],"delete")
-    change_dialog_status(dialog_content)
-    click_confirm_function.value = return_homepage
-  }catch(error){
+    const dialog_content = handle_response(response['data']['code'], 'delete');
+    change_dialog_status(dialog_content);
+    click_confirm_function.value = return_homepage;
+  } catch (error) {
     console.error(error);
-    const dialog_content = handle_response(error['response']['data']['error_code'])
-    change_dialog_status(dialog_content)
+    const dialog_content = handle_response(
+      error['response']['data']['error_code']
+    );
+    change_dialog_status(dialog_content);
   }
 };
 const change_dialog_status = (dialog_content) => {
-  dialog_text.value = dialog_content.dialog_text
-  dialog_title.value = dialog_content.dialog_title
-  response_dialog_flag.value = true
-}
+  dialog_text.value = dialog_content.dialog_text;
+  dialog_title.value = dialog_content.dialog_title;
+  response_dialog_flag.value = true;
+};
 onMounted(async () => {
-  
   if (id == null) {
-    return_homepage()
+    return_homepage();
   }
   try {
     const items = await apiGetReserveItems();
     const spaces = await apiGetReserveSpaces();
     const reservation = await apiGetReserve(id);
-    const spaces_fetch_list = spaces["data"]["data"]
+    const spaces_fetch_list = spaces['data']['data'];
     for (let i = 0; i < spaces_fetch_list.length; i++) {
-      space_list.value[0][spaces_fetch_list[i]["name"]["zh-tw"]] =
-      spaces_fetch_list[i]["_id"];
-      space_list.value[1].push(spaces_fetch_list[i]["name"]["zh-tw"]);
-      space_list.value[2][spaces_fetch_list[i]["_id"]] =
-      spaces_fetch_list[i]["name"]["zh-tw"];
+      space_list.value[0][spaces_fetch_list[i]['name']['zh-tw']] =
+        spaces_fetch_list[i]['_id'];
+      space_list.value[1].push(spaces_fetch_list[i]['name']['zh-tw']);
+      space_list.value[2][spaces_fetch_list[i]['_id']] =
+        spaces_fetch_list[i]['name']['zh-tw'];
     }
-    const items_fetch_list = items["data"]["data"]
+    const items_fetch_list = items['data']['data'];
     for (let i = 0; i < items_fetch_list.length; i++) {
-      item_list.value[0][items_fetch_list[i]["name"]["zh-tw"]] =
-      items_fetch_list[i]["_id"];
-      item_list.value[1].push(items_fetch_list[i]["name"]["zh-tw"]);
-      item_list.value[2][items_fetch_list[i]["_id"]] =
-      items_fetch_list[i]["name"]["zh-tw"];
+      item_list.value[0][items_fetch_list[i]['name']['zh-tw']] =
+        items_fetch_list[i]['_id'];
+      item_list.value[1].push(items_fetch_list[i]['name']['zh-tw']);
+      item_list.value[2][items_fetch_list[i]['_id']] =
+        items_fetch_list[i]['name']['zh-tw'];
     }
     basic_info.value.department = reservation.data.department_grade;
     basic_info.value.email = reservation.data.email;
@@ -191,57 +209,59 @@ onMounted(async () => {
       console.log(reservation);
       item_data.value[i] = {};
       item_data.value[i]['item_name'] =
-        item_list.value[2][reservation.data.item_reservations[i]["item_id"]];
+        item_list.value[2][reservation.data.item_reservations[i]['item_id']];
       item_data.value[i]['start_datetime'] = useDateFormat(
-        reservation.data.item_reservations[i]["start_datetime"],
-        "YYYY-MM-DD"
+        reservation.data.item_reservations[i]['start_datetime'],
+        'YYYY-MM-DD'
       ).value;
       item_data.value[i]['end_datetime'] = useDateFormat(
-        reservation.data.item_reservations[i]["end_datetime"],
-        "YYYY-MM-DD"
+        reservation.data.item_reservations[i]['end_datetime'],
+        'YYYY-MM-DD'
       ).value;
-      item_data.value[i]['quantity'] = reservation.data.item_reservations[i]["quantity"];
+      item_data.value[i]['quantity'] =
+        reservation.data.item_reservations[i]['quantity'];
     }
-    console.log(item_data.value)
+    console.log(item_data.value);
     for (let i = 0; i < reservation.data.space_reservations.length; i++) {
       console.log(reservation);
       space_data.value[i] = {};
       space_data.value[i]['space_name'] =
-        space_list.value[2][reservation.data.space_reservations[i]["space_id"]];
+        space_list.value[2][reservation.data.space_reservations[i]['space_id']];
 
       const start_date_temp = useDateFormat(
-        reservation.data.space_reservations[i]["start_datetime"],
-        "YYYY-MM-DD"
+        reservation.data.space_reservations[i]['start_datetime'],
+        'YYYY-MM-DD'
       ).value;
       const end_date_temp = useDateFormat(
-        reservation.data.space_reservations[i]["end_datetime"],
-        "YYYY-MM-DD"
+        reservation.data.space_reservations[i]['end_datetime'],
+        'YYYY-MM-DD'
       ).value;
       if (start_date_temp === end_date_temp) {
         space_data.value[i]['datetime'] = start_date_temp;
         space_data.value[i]['period'] =
           useDateFormat(
-            reservation.data.space_reservations[i]["start_datetime"],
-            "HH:mm"
+            reservation.data.space_reservations[i]['start_datetime'],
+            'HH:mm'
           ).value +
-          "~" +
+          '~' +
           useDateFormat(
-            reservation.data.space_reservations[i]["end_datetime"],
-            "HH:mm"
+            reservation.data.space_reservations[i]['end_datetime'],
+            'HH:mm'
           ).value;
       } else {
-        space_data.value[i]['datetime'] = "Data Corrupted";
-        space_data.value[i]['period'  ] = "Data Corrupted";
+        space_data.value[i]['datetime'] = 'Data Corrupted';
+        space_data.value[i]['period'] = 'Data Corrupted';
       }
-
     }
-    console.log(space_data.value)
+    console.log(space_data.value);
   } catch (error) {
-    const dialog_content = handle_response(error['response']['data']['error_code'])
-    dialog_text.value = dialog_content.dialog_text
-    dialog_title.value = dialog_content.dialog_title
-    response_dialog_flag.value = true
-    click_confirm_function.value = return_homepage
-  } 
+    const dialog_content = handle_response(
+      error['response']['data']['error_code']
+    );
+    dialog_text.value = dialog_content.dialog_text;
+    dialog_title.value = dialog_content.dialog_title;
+    response_dialog_flag.value = true;
+    click_confirm_function.value = return_homepage;
+  }
 });
 </script>

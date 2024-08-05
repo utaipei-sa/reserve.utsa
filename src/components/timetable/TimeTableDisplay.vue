@@ -39,5 +39,5 @@
   </v-row>
 </template>
 <script setup>
-const props = defineProps(['hasGetData','type','available'])
+const props = defineProps(['hasGetData', 'type', 'available']);
 </script>

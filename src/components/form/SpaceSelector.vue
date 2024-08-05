@@ -38,37 +38,37 @@
 </template>
 
 <script setup>
-import { useDateFormat } from "@vueuse/core";
-import { ref } from "vue";
-import { apiGetReserveSpaceAvailableTime } from "@/api";
-const props = defineProps(["space_list", "time_list"]);
-const space_data = defineModel("space_data");
+import { useDateFormat } from '@vueuse/core';
+import { ref } from 'vue';
+import { apiGetReserveSpaceAvailableTime } from '@/api';
+const props = defineProps(['space_list', 'time_list']);
+const space_data = defineModel('space_data');
 const date_input = ref();
-const time_input = ref("");
-const space_input = ref("");
-const alert_title = "時段無法借用";
-const alert_text = "可以查詢時間表，確認此時段的借用情況";
-const time_list = ["08:00-12:00", "13:00-17:00", "18:00-22:00"];
+const time_input = ref('');
+const space_input = ref('');
+const alert_title = '時段無法借用';
+const alert_text = '可以查詢時間表，確認此時段的借用情況';
+const time_list = ['08:00-12:00', '13:00-17:00', '18:00-22:00'];
 
 const alert = ref(false);
 
 const addobj = async () => {
   const format_temp1 =
-    useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value +
-    time_input.value.toString().split("-")[0];
+    useDateFormat(date_input.value.toString(), 'YYYY-MM-DDT').value +
+    time_input.value.toString().split('-')[0];
   const format_temp2 =
-    useDateFormat(date_input.value.toString(), "YYYY-MM-DDT").value +
-    time_input.value.toString().split("-")[1];
+    useDateFormat(date_input.value.toString(), 'YYYY-MM-DDT').value +
+    time_input.value.toString().split('-')[1];
   let check_flag;
   try {
     const response = await apiGetReserveSpaceAvailableTime({
       space_id: props.space_list[0][space_input.value],
       start_datetime: format_temp1,
       end_datetime: format_temp2,
-      intervals: false,
+      intervals: false
     });
     console.log(response);
-    check_flag = response["data"]["availability"];
+    check_flag = response['data']['availability'];
   } catch (err) {
     console.error(err);
   }
@@ -79,17 +79,16 @@ const addobj = async () => {
     }, 5000);
     return;
   }
-  useDateFormat(date_input.value.toString(), "YYYY-MM-DD").value;
+  useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value;
   if (
-    space_input.value != "" &&
-    date_input.value != "" &&
-    time_input.value != ""
+    space_input.value != '' &&
+    date_input.value != '' &&
+    time_input.value != ''
   ) {
     space_data.value.push({
       space_name: space_input.value,
-      datetime: useDateFormat(date_input.value.toString(), "YYYY-MM-DD")
-        .value,
-      period: time_input.value,
+      datetime: useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value,
+      period: time_input.value
     });
   }
 };

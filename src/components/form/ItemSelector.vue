@@ -46,40 +46,40 @@
 </template>
 
 <script setup>
-import axios from "axios";
-import { useDateFormat } from "@vueuse/core";
-import { ref } from "vue";
-import { apiGetReserveItemAvailableTime } from "@/api";
+import axios from 'axios';
+import { useDateFormat } from '@vueuse/core';
+import { ref } from 'vue';
+import { apiGetReserveItemAvailableTime } from '@/api';
 
-const props = defineProps(["item_list"]);
-const item_data = defineModel("item_data");
-const alert_title = ref("時段無法借用");
-const alert_text = ref("可以查詢時間表，確認此時段的借用情況");
+const props = defineProps(['item_list']);
+const item_data = defineModel('item_data');
+const alert_title = ref('時段無法借用');
+const alert_text = ref('可以查詢時間表，確認此時段的借用情況');
 const date_input1 = ref();
 const date_input2 = ref();
 const quantity_temp = ref();
-const item_temp = ref("");
+const item_temp = ref('');
 const alert = ref(false);
 const alert_title_list = [
-  "物品數量不可為負數或零",
-  "時段無法借用",
-  "起始時間晚於結束時間",
+  '物品數量不可為負數或零',
+  '時段無法借用',
+  '起始時間晚於結束時間'
 ];
 const alert_text_list = [
-  "請確認需要的物品數量是否正確",
-  "可以查詢時間表，確認次時段的借用情況",
-  "請將起始時間與結束時間對調",
+  '請確認需要的物品數量是否正確',
+  '可以查詢時間表，確認次時段的借用情況',
+  '請將起始時間與結束時間對調'
 ];
 //  [小於0, 被借光了, 時間順序錯誤]
 
 const addobj = async () => {
   const format_temp1 = useDateFormat(
     date_input1.value,
-    "YYYY-MM-DDTHH:mm"
+    'YYYY-MM-DDTHH:mm'
   ).value;
   const format_temp2 = useDateFormat(
     date_input2.value,
-    "YYYY-MM-DDTHH:mm"
+    'YYYY-MM-DDTHH:mm'
   ).value;
   let check = -1;
   try {
@@ -87,10 +87,10 @@ const addobj = async () => {
       item_id: props.item_list[0][item_temp.value],
       start_datetime: format_temp1,
       end_datetime: format_temp2,
-      intervals: false,
+      intervals: false
     });
     console.log(response);
-    check = response["data"]["available_quantity"];
+    check = response['data']['available_quantity'];
     console.log(check);
   } catch (err) {
     console.error(err);
@@ -110,16 +110,16 @@ const addobj = async () => {
     set_alert(alert_timer, alert_title_list[2], alert_text_list[2]);
     return;
   } else if (
-    item_temp.value != "" &&
-    date_input1.value != "" &&
-    date_input2.value != "" &&
+    item_temp.value != '' &&
+    date_input1.value != '' &&
+    date_input2.value != '' &&
     quantity_temp.value != 0
   ) {
     item_data.value.push({
       item_name: item_temp.value,
-      start_datetime: useDateFormat(format_temp1, "YYYY-MM-DD").value,
-      end_datetime: useDateFormat(format_temp2, "YYYY-MM-DD").value,
-      quantity: quantity_temp.value,
+      start_datetime: useDateFormat(format_temp1, 'YYYY-MM-DD').value,
+      end_datetime: useDateFormat(format_temp2, 'YYYY-MM-DD').value,
+      quantity: quantity_temp.value
     });
     console.log(item_data);
   }

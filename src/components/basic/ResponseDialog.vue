@@ -1,5 +1,10 @@
 <template>
-  <v-dialog width="75%" scrollable v-model="dialog_flag" @click:outside="click_confirm()">
+  <v-dialog
+    width="75%"
+    scrollable
+    v-model="dialog_flag"
+    @click:outside="click_confirm()"
+  >
     <v-card>
       <v-card-title class="text-h4 pa-3">
         {{ props.dialog_title }}
@@ -36,13 +41,12 @@
 </template>
 <script setup>
 const props = defineProps([
-  "dialog_text",
-  "dialog_title",
-  "cancel_button_flag",
-  "click_cancel",
-  "click_confirm",
+  'dialog_text',
+  'dialog_title',
+  'cancel_button_flag',
+  'click_cancel',
+  'click_confirm'
 ]);
 
-const dialog_flag = defineModel('dialog_flag')
-
+const dialog_flag = defineModel('dialog_flag');
 </script>
