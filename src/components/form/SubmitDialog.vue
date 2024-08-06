@@ -127,12 +127,16 @@ const add_reserve = () => {
     note: submit_data.note
   };
   for (var i = 0; i < submit_data.space_data.length; i++) {
-    const date_format_temp1 =
+    const date_format_temp1 = useDateFormat(
       useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
-        .value + submit_data.space_data[i]['period'].toString().split('-')[0];
-    const date_format_temp2 =
+        .value + submit_data.space_data[i]['period'].toString().split('-')[0],
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
+    ).value;
+    const date_format_temp2 = useDateFormat(
       useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
-        .value + submit_data.space_data[i]['period'].toString().split('-')[1];
+        .value + submit_data.space_data[i]['period'].toString().split('-')[1],
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
+    ).value;
     submit.value.space_reservations.push({
       space_id: silist.space_list[0][submit_data.space_data[i]['space_name']],
       start_datetime: date_format_temp1,
@@ -142,11 +146,11 @@ const add_reserve = () => {
   for (var i = 0; i < submit_data.item_data.length; i++) {
     const date_format_temp1 = useDateFormat(
       new Date(submit_data.item_data[i]['start_datetime']).setHours(12),
-      'YYYY-MM-DDTHH:mm'
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     const date_format_temp2 = useDateFormat(
       new Date(submit_data.item_data[i]['end_datetime']).setHours(12),
-      'YYYY-MM-DDTHH:mm'
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     submit.value.item_reservations.push({
       item_id: silist.item_list[0][submit_data.item_data[i]['item_name']],
@@ -155,6 +159,7 @@ const add_reserve = () => {
       quantity: Number(submit_data.item_data[i]['quantity'])
     });
   }
+  console.log(submit.value);
 };
 
 const post_api = async () => {
