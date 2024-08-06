@@ -159,7 +159,6 @@ const add_reserve = () => {
       quantity: Number(submit_data.item_data[i]['quantity'])
     });
   }
-  console.log(submit.value);
 };
 
 const post_api = async () => {
@@ -178,7 +177,6 @@ const post_api = async () => {
 };
 
 const patch_api = async () => {
-  console.log(submit.value);
   try {
     const response = await apiPutReserve(submit.value, id);
     const dialog_content = handle_response(response['data']['code'], 'edit');
