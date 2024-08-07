@@ -1,16 +1,10 @@
 <template>
   <v-navigation-drawer v-model="drawer" temporary color="#f7fbff">
     <v-container>
-      <v-row class="">
-        <v-col class="v-col-12">
-
-        </v-col>
-        <v-col class="v-col-12">
-
-        </v-col>
-        <v-col class="v-col-12 d-flex align-center justify-center pb-0">
+      <v-row>
+        <v-col class="v-col-12 d-flex align-center justify-center pb-0 mt-12">
           <router-link class="d-flex" to="/">
-            <img :src="utsaLogo" alt="UTSA Logo" class="logo" />
+            <img :src="utsaLogo" alt="UTSA Logo" width="90px" height="90px" />
           </router-link>
         </v-col>
         <v-col class="v-col-12 pt-0">
@@ -20,7 +14,7 @@
         </v-col>
         <v-divider class="mb-4" />
         <v-col class="v-col-12 nav-bar-btn-container">
-          <router-link to="/" class="">
+          <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
               <v-icon class="mr-2" icon="mdi-account" />
               登入
@@ -28,7 +22,7 @@
           </router-link>
         </v-col>
         <v-col class="v-col-12 nav-bar-btn-container">
-          <router-link to="/timetable" class="">
+          <router-link to="/timetable">
             <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">
               <v-icon class="mr-2" icon="mdi-calendar-clock" />
               時間查詢
@@ -36,7 +30,7 @@
           </router-link>
         </v-col>
         <v-col class="v-col-12 nav-bar-btn-container">
-          <router-link to="/form" class="">
+          <router-link to="/form">
             <v-btn class="w-100 nav-bar-btn" @click=" drawer = !drawer">
               <v-icon class="mr-2" icon="mdi-clipboard-edit-outline" />
               立即預約
@@ -44,7 +38,7 @@
           </router-link>
         </v-col>
         <v-col class="v-col-12 nav-bar-btn-container">
-          <router-link to="/form" class="">
+          <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
               <v-icon class="mr-2" icon="mdi-alert" />
               錯誤回報
@@ -52,7 +46,7 @@
           </router-link>
         </v-col>
         <v-col class="v-col-12 nav-bar-btn-container">
-          <router-link to="/timetable" class="">
+          <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
               <v-icon class="mr-2" icon="mdi-comment-quote" />
               意見回饋
@@ -60,7 +54,7 @@
           </router-link>
         </v-col>
         <v-col class="v-col-12 nav-bar-btn-container">
-          <router-link to="/timetable" class="">
+          <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
               <v-icon class="mr-2" icon="mdi-file-document" />
               規則說明
@@ -69,25 +63,17 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-footer class="app-bar-footer">
-      <p>
-        Background Image by <a
-          href="https://pixabay.com/users/pexels-2286921/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2181916">Pexels</a>
-        from <a
-          href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=2181916">Pixabay</a>
-      </p>
-    </v-footer>
   </v-navigation-drawer>
 
-  <v-app-bar :elevation="6" flat color="#f7fbfff5" class="" v-if="width <= 960">
-    <v-app-bar-title class="d-flex align-center">
+  <v-app-bar :elevation="6" flat color="#f7fbfff5" v-if="width <= 960">
+    <v-app-bar-title class="d-flex align-center ml-0 pl-0 justify-center">
       <v-row no-gutters align="center">
         <v-col class="d-flex align-center">
-          <v-btn class="pa-0 ma-0 " @click.stop="drawer = !drawer">
+          <v-btn class="pa-0 ma-0 appbar-menu-icon" @click.stop="drawer = !drawer">
             <v-icon icon="mdi-menu" color="#191F23" />
           </v-btn>
         </v-col>
-        <router-link class="text-decoration-none" to="/" v-if="width > 320">
+        <router-link class="text-decoration-none justify-center" to="/" v-if="width > 320">
           <v-col class="d-flex pa-0 ma-0 ">
             <img :src="title" alt="Reserve Platform" width="auto" height="100%" />
           </v-col>
@@ -116,7 +102,7 @@
         </v-col>
         <v-col cols="auto" class="justify-end mr-6">
           <router-link class="pa-0 ma-0" to="/">
-            <v-btn class="font-weight-bold bg-cyan-lighten-5" @click="dialog = true">登入</v-btn>
+            <v-btn class="font-weight-bold bg-transparent" @click="dialog = true">登入</v-btn>
           </router-link>
         </v-col>
       </v-row>
@@ -150,10 +136,10 @@ const dialog = ref(false);
 </script>
 
 <style scoped>
-.logo {
-  width: 90px;
-  height: 90px;
-  border-radius: 8px;
+.appbar-menu-icon {
+  position: absolute;
+  left: 0px;
+  align-items: center;
 }
 
 .nav-bar-btn-container {
@@ -177,23 +163,5 @@ const dialog = ref(false);
   background-color: #E6FFFE;
   box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.3) !important;
   z-index: 1;
-}
-
-.app-bar-footer {
-  background-color: #ffffff63;
-  bottom: 0px;
-  position: absolute;
-  font-size: 10px;
-  width: 100%;
-}
-
-.parallax-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0.5;
-  object-fit: cover;
 }
 </style>
