@@ -70,11 +70,11 @@
               space_data: space_data,
               item_data: item_data,
               note: note,
-              basic_info: basic_info,
+              basic_info: basic_info
             }"
             :silist="{
               item_list: item_list,
-              space_list: space_list,
+              space_list: space_list
             }"
           />
         </v-col>
@@ -84,34 +84,40 @@
 </template>
 
 <script setup>
-import { apiGetReserveItems, apiGetReserveSpaces } from "@/api";
-import { ref, onMounted } from "vue";
-const item_list = ref([{}, []]);
-const space_list = ref([{}, []]);
+import { apiGetReserveItems, apiGetReserveSpaces } from '@/api';
+import { ref, onMounted } from 'vue';
+const item_list = ref([{}, [], {}]);
+const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
 const item_data = ref([]);
-const note = ref("");
+const note = ref('');
 const basic_info = ref({
-  email: "",
-  org: "",
-  department: "",
-  name: "",
-  reason: "",
+  email: '',
+  org: '',
+  department: '',
+  name: '',
+  reason: ''
 });
 
 onMounted(async () => {
   try {
     const items = await apiGetReserveItems();
     const spaces = await apiGetReserveSpaces();
-    for (let i = 0; i < spaces["data"]["data"].length; i++) {
-      space_list.value[0][spaces["data"]["data"][i]["name"]["zh-tw"]] =
-        spaces["data"]["data"][i]["_id"];
-      space_list.value[1].push(spaces["data"]["data"][i]["name"]["zh-tw"]);
+    const spaces_fetch_list = spaces['data']['data'];
+    for (let i = 0; i < spaces_fetch_list.length; i++) {
+      space_list.value[0][spaces_fetch_list[i]['name']['zh-tw']] =
+        spaces_fetch_list[i]['_id'];
+      space_list.value[1].push(spaces_fetch_list[i]['name']['zh-tw']);
+      space_list.value[2][spaces_fetch_list[i]['_id']] =
+        spaces_fetch_list[i]['name']['zh-tw'];
     }
-    for (let i = 0; i < items["data"]["data"].length; i++) {
-      item_list.value[0][items["data"]["data"][i]["name"]["zh-tw"]] =
-        items["data"]["data"][i]["_id"];
-      item_list.value[1].push(items["data"]["data"][i]["name"]["zh-tw"]);
+    const items_fetch_list = items['data']['data'];
+    for (let i = 0; i < items_fetch_list.length; i++) {
+      item_list.value[0][items_fetch_list[i]['name']['zh-tw']] =
+        items_fetch_list[i]['_id'];
+      item_list.value[1].push(items_fetch_list[i]['name']['zh-tw']);
+      item_list.value[2][items_fetch_list[i]['_id']] =
+        items_fetch_list[i]['name']['zh-tw'];
     }
   } catch (error) {
     console.error(error);

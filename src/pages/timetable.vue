@@ -15,8 +15,8 @@
   </v-sheet>
 </template>
 <script setup>
-import { ref } from "vue";
-const type = ref("");
+import { ref } from 'vue';
+const type = ref('');
 const available = ref([]);
 const hasGetData = ref(false);
 </script>

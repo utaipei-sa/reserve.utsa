@@ -6,7 +6,7 @@
         @click="add_reserve()"
         variant="tonal"
         color="primary"
-        >{{ edit_flag ? "變更預約" : "送出預約" }}
+        >{{ edit_flag ? '變更預約' : '送出預約' }}
       </v-btn>
     </template>
     <template v-slot:default="{ isActive }">
@@ -75,7 +75,10 @@
             text="確認"
             variant="tonal"
             color="primary"
-            @click="(isActive.value = false),props.edit_flag ? patch_api() : post_api()"
+            @click="
+              (isActive.value = false),
+                props.edit_flag ? patch_api() : post_api()
+            "
           ></v-btn>
         </v-card-actions>
       </v-card>
@@ -85,31 +88,33 @@
     :dialog_text="dialog_text"
     :dialog_title="dialog_title"
     :cancel_button_flag="cancel_button_flag"
-    :click_cancel="()=>{}"
-    :click_confirm="()=>{}"
+    :click_cancel="() => {}"
+    :click_confirm="() => {}"
     v-model:dialog_flag="response_dialog_flag"
   ></ResponseDialog>
 </template>
 <script setup>
-import { ref } from "vue";
-import { useWindowSize } from "@vueuse/core";
-import { useDateFormat } from "@vueuse/core";
-import { apiPostReserve,apiPutReserve } from "@/api";
-import { handle_response } from '@/api/response'
-
+import { ref } from 'vue';
+import { useWindowSize } from '@vueuse/core';
+import { useDateFormat } from '@vueuse/core';
+import { apiPostReserve, apiPutReserve } from '@/api';
+import { handle_response } from '@/api/response';
+import { useRoute } from 'vue-router';
 const wh = useWindowSize();
-const props = defineProps(["edit_flag", "submit_data", "silist"]);
+const props = defineProps(['edit_flag', 'submit_data', 'silist']);
 const submit_data = props.submit_data;
 const silist = props.silist;
 const submit = ref();
 const edit_flag = props.edit_flag;
-const response_dialog_flag = ref(false)
-const dialog_text = ref('')
-const dialog_title = ref('')
-const cancel_button_flag = ref(false)
+const response_dialog_flag = ref(false);
+const dialog_text = ref('');
+const dialog_title = ref('');
+const cancel_button_flag = ref(false);
+const route = useRoute();
+const id = route.query.id;
 const add_reserve = () => {
   const date = new Date();
-  const temp = useDateFormat(date, "YYYY-MM-DDTHH:mm:ss.SSS+08:00");
+  const temp = useDateFormat(date, 'YYYY-MM-DDTHH:mm:ss.SSS+08:00');
   submit.value = {
     submit_datetime: temp.value,
     organization: submit_data.basic_info.org,
@@ -119,35 +124,35 @@ const add_reserve = () => {
     reason: submit_data.basic_info.reason,
     space_reservations: [],
     item_reservations: [],
-    note: submit_data.note,
+    note: submit_data.note
   };
   for (var i = 0; i < submit_data.space_data.length; i++) {
     const date_format_temp1 =
-      useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value +
-      submit_data.space_data[i][2].toString().split("-")[0];
+      useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
+        .value + submit_data.space_data[i]['period'].toString().split('-')[0];
     const date_format_temp2 =
-      useDateFormat(submit_data.space_data[i][1], "YYYY-MM-DDT").value +
-      submit_data.space_data[i][2].toString().split("-")[1];
+      useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
+        .value + submit_data.space_data[i]['period'].toString().split('-')[1];
     submit.value.space_reservations.push({
-      space_id: silist.space_list[0][submit_data.space_data[i][0]],
+      space_id: silist.space_list[0][submit_data.space_data[i]['space_name']],
       start_datetime: date_format_temp1,
-      end_datetime: date_format_temp2,
+      end_datetime: date_format_temp2
     });
   }
   for (var i = 0; i < submit_data.item_data.length; i++) {
     const date_format_temp1 = useDateFormat(
-      submit_data.item_data[i][1],
-      "YYYY-MM-DDTHH:mm"
+      new Date(submit_data.item_data[i]['start_datetime']).setHours(12),
+      'YYYY-MM-DDTHH:mm'
     ).value;
     const date_format_temp2 = useDateFormat(
-      submit_data.item_data[i][2],
-      "YYYY-MM-DDTHH:mm"
+      new Date(submit_data.item_data[i]['end_datetime']).setHours(12),
+      'YYYY-MM-DDTHH:mm'
     ).value;
     submit.value.item_reservations.push({
-      item_id: silist.item_list[0][submit_data.item_data[i][0]],
+      item_id: silist.item_list[0][submit_data.item_data[i]['item_name']],
       start_datetime: date_format_temp1,
       end_datetime: date_format_temp2,
-      quantity: submit_data.item_data[i][3],
+      quantity: Number(submit_data.item_data[i]['quantity'])
     });
   }
 };
@@ -155,31 +160,37 @@ const add_reserve = () => {
 const post_api = async () => {
   try {
     const response = await apiPostReserve(submit.value);
-    console.log(response)
-    const dialog_content = handle_response(response['data']['code'],"new")
-    change_dialog_status(dialog_content)
+    console.log(response);
+    const dialog_content = handle_response(response['data']['code'], 'new');
+    change_dialog_status(dialog_content);
   } catch (error) {
-    const dialog_content = handle_response(error['response']['data']['error_code'])
-    change_dialog_status(dialog_content)
+    const dialog_content = handle_response(
+      error['response']['data']['error_code']
+    );
+    change_dialog_status(dialog_content);
     console.error(error);
   }
 };
 
-const patch_api = async () =>{
+const patch_api = async () => {
+  console.log(submit.value);
   try {
-    const response = await apiPutReserve(submit.value);
-    const dialog_content = handle_response(response['data']['code'],"edit")
-    change_dialog_status(dialog_content)
+    const response = await apiPutReserve(submit.value, id);
+    const dialog_content = handle_response(response['data']['code'], 'edit');
+    change_dialog_status(dialog_content);
     console.log(response);
   } catch (error) {
-    const dialog_content = handle_response(error['response']['data']['error_code'])
-    change_dialog_status(dialog_content)
+    /* const dialog_content = handle_response(
+      error["response"]["data"]["error_code"]
+    ); */
     console.error(error);
+    /* change_dialog_status(dialog_content);
+    console.error(error); */
   }
-}
+};
 const change_dialog_status = (dialog_content) => {
-  dialog_text.value = dialog_content.dialog_text
-  dialog_title.value = dialog_content.dialog_title
-  response_dialog_flag.value = true
-}
+  dialog_text.value = dialog_content.dialog_text;
+  dialog_title.value = dialog_content.dialog_title;
+  response_dialog_flag.value = true;
+};
 </script>

@@ -64,7 +64,6 @@
       </v-row>
     </v-container>
   </v-navigation-drawer>
-
   <v-app-bar :elevation="6" flat color="#f7fbfff5" v-if="width <= 960">
     <v-app-bar-title class="d-flex align-center ml-0 pl-0 justify-center">
       <v-row no-gutters align="center">

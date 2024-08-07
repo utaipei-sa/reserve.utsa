@@ -1,10 +1,14 @@
 <template>
   <v-sheet class="h-100 bg-grey-lighten-4">
-    <v-container class=" h-100">
-      <v-row class="justify-center align-center h-100	">
+    <v-container class="h-100">
+      <v-row class="justify-center align-center h-100">
         <v-col class="px-sm-16">
-          <v-alert :title="title" :type="alert_type" :text="text" />
-          <v-card class=" my-4 bg-grey-lighten-2">
+          <v-alert
+            :title="message.dialog_title"
+            :type="alert_type"
+            :text="message.dialog_text"
+          />
+          <v-card class="my-4 bg-grey-lighten-2">
             <v-card-text v-if="hasContent">
               <v-container>
                 <v-row>
@@ -21,53 +25,18 @@
                 <v-row>
                   <v-col>備註:{{ note }}</v-col>
                 </v-row>
-                <v-row v-for="(i, index) in item_data">
-                  <v-col>
-                    <v-card color="grey-lighten-3">
-                      <v-container>
-                        <v-row class="align-center">
-                          <v-col class="v-col-sm-1 v-col-12">
-                            {{ index + 1 }}
-                          </v-col>
-                          <v-col class="v-col-sm-2 v-col-12">
-                            {{ item_list[i['item_id']] }}
-                          </v-col>
-                          <v-col class="v-col-sm-3 v-col-12">
-                            {{ i['start_datetime'] }}
-                          </v-col>
-                          <v-col class="v-col-sm-3 v-col-12">
-                            {{ i['end_datetime'] }}
-                          </v-col>
-                          <v-col class="v-col-sm-3 v-col-12">
-                            {{ i['quantity'] }}
-                          </v-col>
-                        </v-row>
-                      </v-container>
-                    </v-card>
-                  </v-col>
-                </v-row>
-                <v-row v-for="(i, index) in space_data">
-                  <v-col>
-                    <v-card color="grey-lighten-3">
-                      <v-container>
-                        <v-row class="align-center">
-                          <v-col class="v-col-sm-1 v-col-12">
-                            {{ index + 1 }}
-                          </v-col>
-                          <v-col class="v-col-sm-4 v-col-12">
-                            {{ space_list[i['space_id']] }}
-                          </v-col>
-                          <v-col class="v-col-sm-3 v-col-12">
-                            {{ i['start_datetime'] }}
-                          </v-col>
-                          <v-col class="v-col-sm-3 v-col-12">
-                            {{ i['end_datetime'] }}
-                          </v-col>
-                        </v-row>
-                      </v-container>
-                    </v-card>
-                  </v-col>
-                </v-row>
+                <ItemDisplay
+                  v-model:item_data="item_data"
+                  width_rwd="600"
+                  :btn_flag="false"
+                  :submit_flag="true"
+                />
+                <SpaceDisplay
+                  v-model:space_data="space_data"
+                  width_rwd="600"
+                  :btn_flag="false"
+                  :submit_flag="true"
+                />
               </v-container>
             </v-card-text>
           </v-card>
@@ -78,119 +47,102 @@
 </template>
 
 <script setup>
-import axios from 'axios';
+import {
+  apiGetReserve,
+  apiGetReserveItems,
+  apiGetReserveSpaces,
+  apiPatchReserveVerify
+} from '@/api';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
-
-const item_list = ref({})
-const space_list = ref({})
-onMounted(() => {
-  axios
-    .get('http://localhost:3000/api/v1/reserve/spaces',).
-    then((response) => {
-      for (let i = 0; i < response['data']['data'].length; i++) {
-        /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
-        space_list.value[response['data']['data'][i]['_id']] = response['data']['data'][i]['name']['zh-tw']
-      }
-    })
-  axios
-    .get('http://localhost:3000/api/v1/reserve/items',).
-    then((response) => {
-      for (let i = 0; i < response['data']['data'].length; i++) {
-        /* space_list.value[0][response['data']['data'][i]['name']['zh-tw']]=response['data']['data'][i]['_id']
-        space_list.value[1].push(response['data']['data'][i]['name']['zh-tw']) */
-        item_list.value[response['data']['data'][i]['_id']] = response['data']['data'][i]['name']['zh-tw']
-      }
-    })
-  check_verify_id(props.verifyid)
-})
-
-const props = defineProps(['verifyid'])
-const name = ref("")
-const reason = ref("")
-const department = ref("")
-const org = ref("")
-const email = ref("")
-const note = ref("")
-const item_data = ref()
-const space_data = ref()
-const title = ref("default")
-const hasContent = ref(false)
-const alert_type = ref("success")
-const text = ref("")
-const check_verify_id = async (verifyid) => {
-  console.log(verifyid)
-  await axios.get('http://localhost:3000/api/v1/reserve/verify', {
-    params: {
-      id: verifyid
+import { useRoute } from 'vue-router';
+import {
+  R_SUCCESS,
+  R_ALREADY_VERIFIED,
+  handle_response
+} from '@/api/response.js';
+import { useDateFormat } from '@vueuse/core';
+const route = useRoute();
+const item_list = ref({});
+const space_list = ref({});
+const id = route.query.id;
+onMounted(async () => {
+  try {
+    const items = await apiGetReserveItems();
+    const spaces = await apiGetReserveSpaces();
+    for (let i = 0; i < spaces['data']['data'].length; i++) {
+      space_list.value[spaces['data']['data'][i]['_id']] =
+        spaces['data']['data'][i]['name']['zh-tw'];
     }
-  }).then(async (response) => {
-    if (response['data']['code'] == 87) {
-      await axios.get(`http://localhost:3000/api/v1/reserve/reservation/${verifyid}`
-      ).then((response) => {
-        console.log(response)
-        department.value = response['data']['department_grade']
-        email.value = response['data']['email']
-        item_data.value = response['data']['item_reservations']
-        name.value = response['data']['name']
-        note.value = response['data']['note']
-        reason.value = response['data']['reason']
-        org.value = response['data']['organization']
-        space_data.value = response['data']['space_reservations']
-      })
-      alert_type.value = "success"
+    for (let i = 0; i < items['data']['data'].length; i++) {
+      item_list.value[items['data']['data'][i]['_id']] =
+        items['data']['data'][i]['name']['zh-tw'];
     }
-    hasContent.value = true
-    title.value = "成功預約"
-  }).catch(async (error) => {
-    if (error['response']['data']['code'] == 88) {
-      text.value = "請確認預約代碼，或洽系統管理員"
-      title.value = "查無此筆預約資料"
-      hasContent.value = false
-      alert_type.value = "error"
-    } else if (error['response']['data']['code'] == 89) {
-      await axios.get(`http://localhost:3000/api/v1/reserve/reservation/${verifyid}`).
-        then((response) => {
-          department.value = response['data']['department_grade']
-          email.value = response['data']['email']
-          item_data.value = response['data']['item_reservations']
-          name.value = response['data']['name']
-          note.value = response['data']['note']
-          reason.value = response['data']['reason']
-          org.value = response['data']['organization']
-          space_data.value = response['data']['space_reservations']
-        })
-      title.value = "此筆預約已驗證"
-      hasContent.value = true
-      alert_type.value = "warning"
-    } else if (error['response']['data']['code'] == 90) {
-      text.value = "請確認預約代碼，或洽系統管理員"
-      title.value = "查無此筆預約資料"
-      hasContent.value = false
-      alert_type.value = "error"
-    }
-  })
+    check_verify_id(id);
+  } catch (error) {
+    console.error(error);
+  }
+});
 
-}
-/* 	then((response) => {
-      if(response['data']['code'] == 87){
-        text.value = "ㄚㄚㄚㄚ"
-        title.value = "成功預約"
-        text_class.value = "bg-green-accent-1 pt-4"
-        title_class.value = "bg-green-accent-3"
-      }	
-    }).catch((error)=>{
-      if(error['response']['data']['code'] == 88){
-        text.value = "ㄚㄚㄚㄚ"
-        title.value = "查無此筆預約資料"
-        text_class.value = "bg-red-lighten-4 pt-4"
-        title_class.value = "bg-red-darken-2"
-      }else if(error['response']['data']['code'] == 89){
-        text.value = "ㄚㄚㄚㄚ"
-        title.value = "此筆預約已驗證"
-        text_class.value = "bg-red-lighten-4 pt-4"
-        title_class.value = "bg-red-darken-2"
-      }
-    }) */
+const name = ref('');
+const reason = ref('');
+const department = ref('');
+const org = ref('');
+const email = ref('');
+const note = ref('');
+const item_data = ref();
+const space_data = ref();
+const hasContent = ref(false);
+const alert_type = ref('success');
+const message = ref('');
+const check_verify_id = async (id) => {
+  try {
+    const verifyResponse = await apiPatchReserveVerify(id);
+    if (verifyResponse['data']['code'] == R_SUCCESS) {
+      await GetReservationData(id);
+      console.log(verifyResponse);
+      alert_type.value = 'success';
+      hasContent.value = true;
+      message.value = handle_response(verifyResponse['data']['code'], 'verify');
+    }
+  } catch (error) {
+    console.log(error);
+    const error_code = error['response']['data']['error_code'];
+    message.value = handle_response(error_code, 'verify');
+    hasContent.value = message.value.dialog_ContentFlag;
+    alert_type.value = message.value.dialog_alert;
+    if (error_code == R_ALREADY_VERIFIED) await GetReservationData(id);
+  }
+};
+const GetReservationData = async (id) => {
+  try {
+    const reservationResponse = await apiGetReserve(id);
+    const data = reservationResponse.data;
+    department.value = data.department_grade;
+    email.value = data.email;
+    item_data.value = data.item_reservations;
+    name.value = data.name;
+    note.value = data.note;
+    reason.value = data.reason;
+    org.value = data.organization;
+    space_data.value = data.space_reservations;
+    item_data.value.forEach((item) => {
+      item['item_name'] = item_list.value[item['item_id']];
+    });
+    space_data.value.forEach((space) => {
+      space['space_name'] = space_list.value[space['space_id']];
+      space['period'] =
+        useDateFormat(space['start_datetime'], 'HH:mm').value +
+        '~' +
+        useDateFormat(space['end_datetime'], 'HH:mm').value;
+      space['datetime'] = useDateFormat(
+        space['start_datetime'],
+        'YYYY-MM-DD'
+      ).value;
+    });
+    console.log(space_data.value);
+  } catch (error) {
+    console.error(error);
+  }
+};
 </script>

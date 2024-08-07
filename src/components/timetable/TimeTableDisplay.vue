@@ -28,9 +28,9 @@
           <tbody>
             <tr v-for="(i, index) in available" :key="index">
               <td>{{ i['date'] }}</td>
-              <td>{{ i['time1'] == '0' ? '可借用' : '不可借' }}</td>
-              <td>{{ i['time2'] == '0' ? '可借用' : '不可借' }}</td>
-              <td>{{ i['time3'] == '0' ? '可借用' : '不可借' }}</td>
+              <td>{{ i['time1'] == '1' ? '可借用' : '不可借' }}</td>
+              <td>{{ i['time2'] == '1' ? '可借用' : '不可借' }}</td>
+              <td>{{ i['time3'] == '1' ? '可借用' : '不可借' }}</td>
             </tr>
           </tbody>
         </v-table>
@@ -39,5 +39,5 @@
   </v-row>
 </template>
 <script setup>
-const props = defineProps(['hasGetData','type','available'])
+const props = defineProps(['hasGetData', 'type', 'available']);
 </script>
