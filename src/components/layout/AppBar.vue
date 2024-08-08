@@ -96,8 +96,8 @@
           </v-col>
         </router-link>
       </v-row>
-    </v-app-bar-title> </v-app-bar
-  >"
+    </v-app-bar-title>
+  </v-app-bar>
   <v-app-bar
     :elevation="6"
     max-width="960px"
