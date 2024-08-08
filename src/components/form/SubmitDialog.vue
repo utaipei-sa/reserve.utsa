@@ -89,9 +89,11 @@
     :dialog_title="dialog_title"
     :cancel_button_flag="cancel_button_flag"
     :click_cancel="() => {}"
-    :click_confirm="() => {
-      click_confirm_function()
-    }"
+    :click_confirm="
+      () => {
+        click_confirm_function();
+      }
+    "
     v-model:dialog_flag="response_dialog_flag"
   ></ResponseDialog>
 </template>
@@ -101,7 +103,7 @@ import { useWindowSize } from '@vueuse/core';
 import { useDateFormat } from '@vueuse/core';
 import { apiPostReserve, apiPutReserve } from '@/api';
 import { handle_response } from '@/api/response';
-import { useRoute,useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const wh = useWindowSize();
 const props = defineProps(['edit_flag', 'submit_data', 'silist']);
 const submit_data = props.submit_data;
