@@ -3,7 +3,7 @@
     rounded="rounded"
     class="bg-transparent ma-0 pa-0 justify-center align-center"
   >
-    <v-parallax :src="background" style="overflow: hidden; height: 100vh">
+    <v-parallax :src="background" style="overflow: hidden; height: 92vh">
       <div class="background-overlay"></div>
 
       <!-- 公告 -->

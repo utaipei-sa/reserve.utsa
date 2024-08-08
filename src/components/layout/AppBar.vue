@@ -106,7 +106,7 @@
     v-if="width > 960"
   >
     <v-app-bar-title>
-      <v-row no-gutters align="center">
+      <v-row no-gutters class="align-center">
         <router-link class="text-decoration-none" to="/">
           <v-col class="d-flex align-center">
             <img
