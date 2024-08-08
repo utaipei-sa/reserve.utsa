@@ -91,7 +91,8 @@
               :src="title"
               alt="Reserve Platform"
               width="auto"
-              height="100%"
+              height="auto"
+              style="max-width: 300px; max-height: 60px"
             />
           </v-col>
         </router-link>
@@ -113,7 +114,8 @@
               :src="title"
               alt="Reserve Platform"
               width="auto"
-              height="100%"
+              height="auto"
+              style="max-width: 300px; max-height: 60px"
             />
           </v-col>
         </router-link>
