@@ -1,60 +1,199 @@
 <template>
-  <v-navigation-drawer v-model="drawer" temporary color="blue-lighten-4">
+  <v-navigation-drawer v-model="drawer" temporary color="#f7fbff">
     <v-container>
-      <v-row class="">
-        <v-col class="v-col-12"> </v-col>
-        <v-col class="v-col-12"> </v-col>
-        <v-col class="v-col-12">
-          <router-Link to="/" class="">
-            <v-btn class="w-100" @click="drawer = !drawer">首頁</v-btn>
-          </router-Link>
-        </v-col>
-        <v-col class="v-col-12">
-          <router-link to="/form" class="">
-            <v-btn class="w-100" @click="drawer = !drawer">表單</v-btn>
+      <v-row>
+        <v-col class="v-col-12 d-flex align-center justify-center pb-0 mt-12">
+          <router-link class="d-flex" to="/">
+            <img :src="utsaLogo" alt="UTSA Logo" width="90px" height="90px" />
           </router-link>
         </v-col>
-        <v-col class="v-col-12">
-          <router-link to="/timetable" class="">
-            <v-btn class="w-100" @click="drawer = !drawer">時間表</v-btn>
+        <v-col class="v-col-12 pt-0">
+          <router-link
+            class="d-flex text-decoration-none align-center justify-center"
+            to="/"
+          >
+            <span
+              class="font-weight-bold align-center justify-center text-black text-h6"
+              >借用預約平台</span
+            >
+          </router-link>
+        </v-col>
+        <v-divider class="mb-4" />
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/">
+            <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
+              <v-icon class="mr-2" icon="mdi-account" />
+              登入
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/timetable">
+            <v-btn class="w-100 nav-bar-btn" @click="drawer = !drawer">
+              <v-icon class="mr-2" icon="mdi-calendar-clock" />
+              時間查詢
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/form">
+            <v-btn class="w-100 nav-bar-btn" @click="drawer = !drawer">
+              <v-icon class="mr-2" icon="mdi-clipboard-edit-outline" />
+              立即預約
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/">
+            <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
+              <v-icon class="mr-2" icon="mdi-alert" />
+              錯誤回報
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/">
+            <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
+              <v-icon class="mr-2" icon="mdi-comment-quote" />
+              意見回饋
+            </v-btn>
+          </router-link>
+        </v-col>
+        <v-col class="v-col-12 nav-bar-btn-container">
+          <router-link to="/">
+            <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
+              <v-icon class="mr-2" icon="mdi-file-document" />
+              規則說明
+            </v-btn>
           </router-link>
         </v-col>
       </v-row>
     </v-container>
   </v-navigation-drawer>
-  <v-app-bar :elevation="10" flat color="primary" class="" v-if="width <= 960">
-    <v-app-bar-title>
-      <v-btn class="pa-0 ma-0" @click.stop="drawer = !drawer">
-        <v-icon icon="mdi-format-list-bulleted" />
-      </v-btn>
+  <v-app-bar :elevation="6" flat color="#f7fbfff5" v-if="width <= 960">
+    <v-app-bar-title class="d-flex align-center ml-0 pl-0 justify-center">
+      <v-row no-gutters align="center">
+        <v-col class="d-flex align-center">
+          <v-btn
+            class="pa-0 ma-0 appbar-menu-icon"
+            @click.stop="drawer = !drawer"
+          >
+            <v-icon icon="mdi-menu" color="#191F23" />
+          </v-btn>
+        </v-col>
+        <router-link
+          class="text-decoration-none justify-center"
+          to="/"
+          v-if="width > 320"
+        >
+          <v-col class="d-flex pa-0 ma-0">
+            <img
+              :src="title"
+              alt="Reserve Platform"
+              width="auto"
+              height="100%"
+            />
+          </v-col>
+        </router-link>
+      </v-row>
     </v-app-bar-title>
   </v-app-bar>
   <v-app-bar
-    :elevation="10"
+    :elevation="6"
     max-width="960px"
     rounded="4"
-    color="primary"
+    color="#f7fbff"
     v-if="width > 960"
   >
     <v-app-bar-title>
-      <router-link class="pa-0 ma-0" to="/">
-        <v-btn class="text-white">
-          <v-icon icon="mdi-home" />
-        </v-btn>
-      </router-link>
-      <router-link class="pa-0 ma-0" to="/form">
-        <v-btn class="text-white">表單</v-btn>
-      </router-link>
-      <router-link class="pa-0 ma-0" to="/timetable">
-        <v-btn class="text-white">時間表</v-btn>
-      </router-link>
+      <v-row no-gutters class="align-center">
+        <router-link class="text-decoration-none" to="/">
+          <v-col class="d-flex align-center">
+            <img
+              :src="title"
+              alt="Reserve Platform"
+              width="auto"
+              height="100%"
+            />
+          </v-col>
+        </router-link>
+        <v-col class="d-flex">
+          <router-link class="pa-0 ma-0" to="/timetable">
+            <v-btn class="text-black">時間查詢</v-btn>
+          </router-link>
+          <router-link class="pa-0 ma-0" to="/form">
+            <v-btn class="text-black">立即預約</v-btn>
+          </router-link>
+          <router-link class="pa-0 ma-0" to="/">
+            <v-btn class="text-black" @click="dialog = true">規則說明</v-btn>
+          </router-link>
+        </v-col>
+        <v-col cols="auto" class="justify-end mr-6">
+          <router-link class="pa-0 ma-0" to="/">
+            <v-btn
+              class="font-weight-bold bg-transparent"
+              @click="dialog = true"
+              >登入</v-btn
+            >
+          </router-link>
+        </v-col>
+      </v-row>
     </v-app-bar-title>
   </v-app-bar>
+
+  <v-dialog v-model="dialog" max-width="300px">
+    <v-card>
+      <v-card-title>
+        <span class="font-weight-bold">通知</span>
+      </v-card-title>
+      <v-card-subtitle>
+        <p>目前沒有此功能</p>
+      </v-card-subtitle>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn text @click="dialog = false">關閉</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
 import { useWindowSize } from '@vueuse/core';
 import { ref } from 'vue';
-const { width, height } = useWindowSize();
+import utsaLogo from '@/assets/utsaLogo.svg';
+import title from '@/assets/title.svg';
+const { width } = useWindowSize();
 const drawer = ref(null);
+const dialog = ref(false);
 </script>
+
+<style scoped>
+.appbar-menu-icon {
+  position: absolute;
+  left: 0px;
+  align-items: center;
+}
+
+.nav-bar-btn-container {
+  padding: 0px;
+  margin: 0px;
+  border-bottom: #afc4d6d0 1px solid;
+}
+
+.nav-bar-btn {
+  box-shadow: none !important;
+  padding: 16px 24px;
+  margin: 0px;
+  background-color: #f7fbff;
+  font-size: 16px;
+  height: auto !important;
+  justify-content: start;
+  text-align: center;
+}
+
+.nav-bar-btn:hover {
+  background-color: #e6fffe;
+  box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.3) !important;
+  z-index: 1;
+}
+</style>
