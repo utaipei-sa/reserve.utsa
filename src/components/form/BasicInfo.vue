@@ -50,7 +50,7 @@
 
 <script setup>
 const basic_info = defineModel('basic_info');
-const props = defineProps(['edit_flag'])
+const props = defineProps(['edit_flag']);
 const rules = {
   required: (value) => !!value || 'Field is required'
 };

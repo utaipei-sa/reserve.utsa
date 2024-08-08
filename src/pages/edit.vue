@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <BasicInfo v-model:basic_info="basic_info" :edit_flag="true"/>
+          <BasicInfo v-model:basic_info="basic_info" :edit_flag="true" />
         </v-col>
       </v-row>
       <v-row>
@@ -255,9 +255,10 @@ onMounted(async () => {
     }
     console.log(space_data.value);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     const dialog_content = handle_response(
-      error['response']['data']['error_code'],"edit"
+      error['response']['data']['error_code'],
+      'edit'
     );
     dialog_text.value = dialog_content.dialog_text;
     dialog_title.value = dialog_content.dialog_title;
