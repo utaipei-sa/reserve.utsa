@@ -243,7 +243,7 @@ onMounted(async () => {
             reservation.data.space_reservations[i]['start_datetime'],
             'HH:mm'
           ).value +
-          '~' +
+          '-' +
           useDateFormat(
             reservation.data.space_reservations[i]['end_datetime'],
             'HH:mm'

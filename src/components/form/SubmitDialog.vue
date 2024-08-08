@@ -89,7 +89,11 @@
     :dialog_title="dialog_title"
     :cancel_button_flag="cancel_button_flag"
     :click_cancel="() => {}"
-    :click_confirm="() => {}"
+    :click_confirm="
+      () => {
+        click_confirm_function();
+      }
+    "
     v-model:dialog_flag="response_dialog_flag"
   ></ResponseDialog>
 </template>
@@ -99,7 +103,7 @@ import { useWindowSize } from '@vueuse/core';
 import { useDateFormat } from '@vueuse/core';
 import { apiPostReserve, apiPutReserve } from '@/api';
 import { handle_response } from '@/api/response';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const wh = useWindowSize();
 const props = defineProps(['edit_flag', 'submit_data', 'silist']);
 const submit_data = props.submit_data;
@@ -109,9 +113,16 @@ const edit_flag = props.edit_flag;
 const response_dialog_flag = ref(false);
 const dialog_text = ref('');
 const dialog_title = ref('');
+const click_confirm_function = ref(() => {});
 const cancel_button_flag = ref(false);
 const route = useRoute();
 const id = route.query.id;
+const router = useRouter();
+const return_homepage = () => {
+  router.replace({
+    name: '/'
+  });
+};
 const add_reserve = () => {
   const date = new Date();
   const temp = useDateFormat(date, 'YYYY-MM-DDTHH:mm:ss.SSS+08:00');
@@ -127,12 +138,16 @@ const add_reserve = () => {
     note: submit_data.note
   };
   for (var i = 0; i < submit_data.space_data.length; i++) {
-    const date_format_temp1 =
+    const date_format_temp1 = useDateFormat(
       useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
-        .value + submit_data.space_data[i]['period'].toString().split('-')[0];
-    const date_format_temp2 =
+        .value + submit_data.space_data[i]['period'].toString().split('-')[0],
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
+    ).value;
+    const date_format_temp2 = useDateFormat(
       useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
-        .value + submit_data.space_data[i]['period'].toString().split('-')[1];
+        .value + submit_data.space_data[i]['period'].toString().split('-')[1],
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
+    ).value;
     submit.value.space_reservations.push({
       space_id: silist.space_list[0][submit_data.space_data[i]['space_name']],
       start_datetime: date_format_temp1,
@@ -142,11 +157,11 @@ const add_reserve = () => {
   for (var i = 0; i < submit_data.item_data.length; i++) {
     const date_format_temp1 = useDateFormat(
       new Date(submit_data.item_data[i]['start_datetime']).setHours(12),
-      'YYYY-MM-DDTHH:mm'
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     const date_format_temp2 = useDateFormat(
       new Date(submit_data.item_data[i]['end_datetime']).setHours(12),
-      'YYYY-MM-DDTHH:mm'
+      'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     submit.value.item_reservations.push({
       item_id: silist.item_list[0][submit_data.item_data[i]['item_name']],
@@ -162,6 +177,7 @@ const post_api = async () => {
     const response = await apiPostReserve(submit.value);
     console.log(response);
     const dialog_content = handle_response(response['data']['code'], 'new');
+    click_confirm_function.value = return_homepage;
     change_dialog_status(dialog_content);
   } catch (error) {
     const dialog_content = handle_response(
@@ -173,19 +189,18 @@ const post_api = async () => {
 };
 
 const patch_api = async () => {
-  console.log(submit.value);
   try {
     const response = await apiPutReserve(submit.value, id);
     const dialog_content = handle_response(response['data']['code'], 'edit');
     change_dialog_status(dialog_content);
+    click_confirm_function.value = return_homepage;
     console.log(response);
   } catch (error) {
-    /* const dialog_content = handle_response(
-      error["response"]["data"]["error_code"]
-    ); */
+    const dialog_content = handle_response(
+      error['response']['data']['error_code']
+    );
     console.error(error);
-    /* change_dialog_status(dialog_content);
-    console.error(error); */
+    change_dialog_status(dialog_content);
   }
 };
 const change_dialog_status = (dialog_content) => {
