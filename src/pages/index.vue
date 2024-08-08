@@ -190,7 +190,7 @@
 <script setup>
 import { useWindowSize } from '@vueuse/core';
 const { width } = useWindowSize();
-import background from '@/assets/background.png';
+import background from '@/assets/background.jpg';
 const announcement = [
   '政府宣佈災防假時，不開放借用',
   '正在加載中......',
