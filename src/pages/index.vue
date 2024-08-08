@@ -213,17 +213,6 @@ const icons = [
 </script>
 
 <style scoped>
-.v-list-item-title {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  overflow-wrap: break-word;
-}
-
-.v-list-item {
-  overflow-wrap: break-word;
-}
-
 .announcement-position {
   position: fixed;
   display: flex;
@@ -234,15 +223,6 @@ const icons = [
   top: 80px;
   width: 100%;
   z-index: 1000;
-}
-
-.background-wrapper {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  z-index: inherit;
 }
 
 .background-overlay {
