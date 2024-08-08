@@ -32,6 +32,7 @@
           <v-text-field
             :rules="[rules.required]"
             v-model="basic_info.email"
+            :disabled="edit_flag"
             label="email"
           />
         </v-col>
@@ -49,6 +50,7 @@
 
 <script setup>
 const basic_info = defineModel('basic_info');
+const props = defineProps(['edit_flag']);
 const rules = {
   required: (value) => !!value || 'Field is required'
 };
