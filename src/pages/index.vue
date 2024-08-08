@@ -1,9 +1,9 @@
 <template>
   <v-sheet
     rounded="rounded"
-    class="bg-transparent ma-0 pa-0 justify-center align-center"
+    class="bg-transparent ma-0 pa-0 justify-center align-center h-100"
   >
-    <v-parallax :src="background" style="overflow: hidden; height: 92vh">
+    <v-parallax :src="background" style="overflow: hidden; height: 100%">
       <div class="background-overlay"></div>
 
       <!-- 公告 -->
