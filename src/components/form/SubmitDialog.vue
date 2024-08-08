@@ -89,7 +89,9 @@
     :dialog_title="dialog_title"
     :cancel_button_flag="cancel_button_flag"
     :click_cancel="() => {}"
-    :click_confirm="() => {}"
+    :click_confirm="() => {
+      click_confirm_function()
+    }"
     v-model:dialog_flag="response_dialog_flag"
   ></ResponseDialog>
 </template>
@@ -99,7 +101,7 @@ import { useWindowSize } from '@vueuse/core';
 import { useDateFormat } from '@vueuse/core';
 import { apiPostReserve, apiPutReserve } from '@/api';
 import { handle_response } from '@/api/response';
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 const wh = useWindowSize();
 const props = defineProps(['edit_flag', 'submit_data', 'silist']);
 const submit_data = props.submit_data;
@@ -109,9 +111,16 @@ const edit_flag = props.edit_flag;
 const response_dialog_flag = ref(false);
 const dialog_text = ref('');
 const dialog_title = ref('');
+const click_confirm_function = ref(() => {});
 const cancel_button_flag = ref(false);
 const route = useRoute();
 const id = route.query.id;
+const router = useRouter();
+const return_homepage = () => {
+  router.replace({
+    name: '/'
+  });
+};
 const add_reserve = () => {
   const date = new Date();
   const temp = useDateFormat(date, 'YYYY-MM-DDTHH:mm:ss.SSS+08:00');
@@ -166,6 +175,7 @@ const post_api = async () => {
     const response = await apiPostReserve(submit.value);
     console.log(response);
     const dialog_content = handle_response(response['data']['code'], 'new');
+    click_confirm_function.value = return_homepage;
     change_dialog_status(dialog_content);
   } catch (error) {
     const dialog_content = handle_response(
@@ -181,14 +191,14 @@ const patch_api = async () => {
     const response = await apiPutReserve(submit.value, id);
     const dialog_content = handle_response(response['data']['code'], 'edit');
     change_dialog_status(dialog_content);
+    click_confirm_function.value = return_homepage;
     console.log(response);
   } catch (error) {
-    /* const dialog_content = handle_response(
-      error["response"]["data"]["error_code"]
-    ); */
+    const dialog_content = handle_response(
+      error['response']['data']['error_code']
+    );
     console.error(error);
-    /* change_dialog_status(dialog_content);
-    console.error(error); */
+    change_dialog_status(dialog_content);
   }
 };
 const change_dialog_status = (dialog_content) => {
