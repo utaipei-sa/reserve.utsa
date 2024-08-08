@@ -3,7 +3,7 @@
     <v-container>
       <v-row>
         <v-col>
-          <BasicInfo v-model:basic_info="basic_info" />
+          <BasicInfo v-model:basic_info="basic_info" :edit_flag="false"/>
         </v-col>
       </v-row>
       <v-row>
