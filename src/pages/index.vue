@@ -3,7 +3,10 @@
     rounded="rounded"
     class="bg-transparent ma-0 pa-0 justify-center align-center h-100"
   >
-    <v-parallax :src="background" style="overflow: hidden; height: 100%">
+    <v-parallax
+      :src="background"
+      style="overflow: hidden; height: 100%; max-height: calc(100vh - 60px)"
+    >
       <div class="background-overlay"></div>
 
       <!-- 公告 -->
@@ -245,6 +248,7 @@ const icons = [
   line-height: 60px;
   letter-spacing: 0.05em;
   text-align: left;
+  z-index: 15;
 }
 
 .homepage-btn {
