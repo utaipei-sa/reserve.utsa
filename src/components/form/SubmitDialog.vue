@@ -4,9 +4,13 @@
       <v-btn
         v-bind="props"
         @click="add_reserve()"
-        variant="tonal"
-        color="primary"
-        >{{ edit_flag ? '變更預約' : '送出預約' }}
+        variant="flat"
+        height="auto"
+        color="success-light"
+        class="w-100"
+        style="font-size: 18px; font-weight: bold; line-height: 45px"
+      >
+        {{ edit_flag ? '變更預約' : '送出預約' }}
       </v-btn>
     </template>
     <template v-slot:default="{ isActive }">

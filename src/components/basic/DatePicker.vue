@@ -12,9 +12,15 @@
         v-bind="props"
         label="日期"
         v-model="format_date"
+        variant="underlined"
+        color="primary-3"
       ></v-text-field>
     </template>
-    <v-date-picker v-model="date_input" locale="zh-TW"></v-date-picker>
+    <v-date-picker
+      v-model="date_input"
+      locale="zh-TW"
+      color="primary-3"
+    ></v-date-picker>
   </v-menu>
 </template>
 
