@@ -4,7 +4,7 @@
     v-for="(i, index) in space_data"
   >
     <v-col class="v-col-12">
-      <v-card color="grey-lighten-3">
+      <v-card>
         <v-container>
           <v-row v-if="submit_flag">
             <v-col class="v-col-12">
@@ -34,7 +34,7 @@
               {{ i['period'] }}
             </v-col>
             <v-col class="v-col-sm-3 v-col-12">
-              <v-btn @click="delspace(index)" a>刪除</v-btn>
+              <v-btn @click="delspace(index)" color="error">刪除</v-btn>
             </v-col>
           </v-row>
         </v-container>

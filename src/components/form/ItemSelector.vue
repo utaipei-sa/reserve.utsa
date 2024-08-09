@@ -1,52 +1,67 @@
 <template>
-  <v-row>
-    <v-col class="v-col-auto">
-      <v-card title="物品" color="grey-lighten-1"></v-card>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col class="v-col-sm-3 v-col-12">
-      <v-select
-        label="物品"
-        :items="item_list[1]"
-        v-model="item_temp"
-      ></v-select>
-    </v-col>
-    <v-col class="v-col-sm-3 v-col-12">
-      <DatePicker v-model:date_input="date_input1"></DatePicker>
-    </v-col>
-    <v-col class="v-col-sm-3 v-col-12">
-      <DatePicker v-model:date_input="date_input2"></DatePicker>
-    </v-col>
-    <v-col class="v-col-sm-3 v-col-12">
-      <v-text-field
-        label="數量"
-        type="number"
-        v-model="quantity_temp"
-      ></v-text-field
-      ><!-- multiple -->
-    </v-col>
-    <v-col class="v-col-sm-4 v-col-12">
-      <v-btn @click="addobj()">新增</v-btn>
-    </v-col>
-  </v-row>
-  <v-row>
-    <v-col>
-      <v-alert
-        v-if="alert"
-        color="error"
-        icon="$error"
-        :title="alert_title"
-        :text="alert_text"
-        elevation="4"
-      >
-      </v-alert>
-    </v-col>
-  </v-row>
+  <v-card elevation="0" color="transparent">
+    <v-container class="px-2">
+      <v-row>
+        <v-col class="v-col-auto">
+          <v-card color="transparent" elevation="0" rounded="0">
+            <v-card-title class="pb-0" style="border-bottom: 5px solid #e6f3ee"
+              >物品</v-card-title
+            >
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col class="v-col-sm-3 v-col-12">
+          <v-select
+            label="物品"
+            :items="item_list[1]"
+            v-model="item_temp"
+            bg-color="transparent"
+            color="primary-2"
+            variant="underlined"
+          ></v-select>
+        </v-col>
+        <v-col class="v-col-sm-3 v-col-12">
+          <DatePicker v-model:date_input="date_input1"></DatePicker>
+        </v-col>
+        <v-col class="v-col-sm-3 v-col-12">
+          <DatePicker v-model:date_input="date_input2"></DatePicker>
+        </v-col>
+        <v-col class="v-col-sm-3 v-col-12">
+          <v-text-field
+            label="數量"
+            type="number"
+            v-model="quantity_temp"
+            bg-color="transparent"
+            color="primary-2"
+            variant="underlined"
+          ></v-text-field
+          ><!-- multiple -->
+        </v-col>
+        <v-col class="v-col-sm-4 v-col-12">
+          <v-btn @click="addobj()" color="success-light" elevation="0"
+            >新增</v-btn
+          >
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-alert
+            v-if="alert"
+            color="error"
+            icon="$error"
+            :title="alert_title"
+            :text="alert_text"
+            elevation="4"
+          >
+          </v-alert>
+        </v-col>
+      </v-row>
+    </v-container>
+  </v-card>
 </template>
 
 <script setup>
-import axios from 'axios';
 import { useDateFormat } from '@vueuse/core';
 import { ref } from 'vue';
 import { apiGetReserveItemAvailableTime } from '@/api';
