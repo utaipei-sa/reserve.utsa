@@ -12,18 +12,18 @@
             <v-card-text v-if="hasContent">
               <v-container>
                 <v-row>
-                  <v-col>名字:{{ name }}</v-col>
-                  <v-col>單位:{{ org }}</v-col>
-                  <v-col>系級:{{ department }}</v-col>
+                  <v-col>名字：{{ name }}</v-col>
+                  <v-col>單位：{{ org }}</v-col>
+                  <v-col>系級：{{ department }}</v-col>
                 </v-row>
                 <v-row>
-                  <v-col>email:{{ email }}</v-col>
+                  <v-col>email：{{ email }}</v-col>
                 </v-row>
                 <v-row>
-                  <v-col>理由:{{ reason }}</v-col>
+                  <v-col>理由：{{ reason }}</v-col>
                 </v-row>
                 <v-row>
-                  <v-col>備註:{{ note }}</v-col>
+                  <v-col>備註：{{ note }}</v-col>
                 </v-row>
                 <ItemDisplay
                   v-model:item_data="item_data"
@@ -128,7 +128,16 @@ const GetReservationData = async (id) => {
     space_data.value = data.space_reservations;
     item_data.value.forEach((item) => {
       item['item_name'] = item_list.value[item['item_id']];
+      item['start_datetime'] = useDateFormat(
+        item['start_datetime'],
+        'YYYY-MM-DDTHH:MM'
+      ).value;
+      item['end_datetime'] = useDateFormat(
+        item['end_datetime'],
+        'YYYY-MM-DDTHH:MM'
+      ).value;
     });
+    console.log(item_data);
     space_data.value.forEach((space) => {
       space['space_name'] = space_list.value[space['space_id']];
       space['period'] =
