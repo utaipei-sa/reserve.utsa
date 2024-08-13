@@ -130,11 +130,11 @@ const GetReservationData = async (id) => {
       item['item_name'] = item_list.value[item['item_id']];
       item['start_datetime'] = useDateFormat(
         item['start_datetime'],
-        'YYYY-MM-DDTHH:MM'
+        'YYYY-MM-DDTHH:mm'
       ).value;
       item['end_datetime'] = useDateFormat(
         item['end_datetime'],
-        'YYYY-MM-DDTHH:MM'
+        'YYYY-MM-DDTHH:mm'
       ).value;
     });
     console.log(item_data);
