@@ -73,8 +73,10 @@ const item = ref('');
 const space = ref('');
 const start_datetime = ref();
 const end_datetime = ref();
+const loading = defineModel('loading');
 
 const serach = async () => {
+  loading.value = true;
   available.value = [];
   type.value = type_input.value;
 
@@ -140,7 +142,9 @@ const serach = async () => {
     has_data.value = true;
   } catch (error) {
     console.error(error);
+    loading.value = false;
   }
+  loading.value = false;
 };
 onMounted(async () => {
   try {
@@ -158,7 +162,9 @@ onMounted(async () => {
     }
   } catch (error) {
     console.error(error);
+    loading.value = false;
   }
+  loading.value = false;
 });
 </script>
 
