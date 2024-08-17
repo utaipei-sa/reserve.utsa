@@ -14,9 +14,9 @@
       </v-btn>
     </template>
     <template v-slot:default="{ isActive }">
-      <v-card title="Dialog">
+      <v-card title="預約資料確認">
+        <v-divider />
         <v-card-text>
-          <v-divider></v-divider>
           <v-container>
             <v-row>
               <v-col class="v-col-md-4 v-col-12"
@@ -77,8 +77,9 @@
           ></v-btn>
           <v-btn
             text="確認"
-            variant="tonal"
-            color="primary"
+            variant="flat"
+            color="primary-4"
+            class="font-weight-bold"
             @click="
               (isActive.value = false),
                 props.edit_flag ? patch_api() : post_api()

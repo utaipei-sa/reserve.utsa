@@ -190,6 +190,7 @@ const dialog = ref(false);
   justify-content: start;
   text-align: center;
   border-radius: 0px;
+  background-color: transparent;
 }
 
 .nav-bar-btn:hover {

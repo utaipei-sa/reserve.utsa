@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="0" color="transparent">
-    <v-container class="px-2">
+    <v-container :class="width > 960 ? `px-2` : `px-0`">
       <v-row>
         <v-col class="v-col-auto">
           <v-card color="transparent" elevation="0" rounded="0">

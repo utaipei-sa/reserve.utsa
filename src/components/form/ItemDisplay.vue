@@ -42,7 +42,9 @@
               {{ i['quantity'] }}
             </v-col>
             <v-col class="v-col-sm-2 v-col-12">
-              <v-btn @click="delitem(index)" color="error">刪除</v-btn>
+              <v-btn @click="delitem(index)" color="error" elevation="0"
+                >刪除</v-btn
+              >
             </v-col>
           </v-row>
         </v-container>
@@ -76,7 +78,9 @@
               {{ i['quantity'] }}
             </td>
             <td v-if="btn_flag">
-              <v-btn @click="delitem(index)">刪除</v-btn>
+              <v-btn @click="delitem(index)" color="error" elevation="0"
+                >刪除</v-btn
+              >
             </td>
           </tr>
         </tbody>

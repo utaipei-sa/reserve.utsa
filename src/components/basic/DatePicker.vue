@@ -3,7 +3,6 @@
     v-model="is_menu_open"
     :close-on-content-click="false"
     transition="scale-transition"
-    offset-y
     max-width="290px"
     min-width="290px"
   >
@@ -14,6 +13,7 @@
         v-model="format_date"
         variant="underlined"
         color="primary-3"
+        readonly
       ></v-text-field>
     </template>
     <v-date-picker
@@ -33,9 +33,6 @@ const date_input = defineModel('date_input');
 
 const format_date = computed(() => {
   if (date_input.value == null) return '';
-  /* setTimeout(() => {
-    is_menu_open.value = false
-  }, 120) */
   is_menu_open.value = false;
   return useDateFormat(date_input.value, 'YYYY-MM-DD').value;
 });

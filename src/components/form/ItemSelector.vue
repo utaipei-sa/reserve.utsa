@@ -1,6 +1,6 @@
 <template>
   <v-card elevation="0" color="transparent">
-    <v-container class="px-2">
+    <v-container :class="width > 960 ? `px-2` : `px-0`">
       <v-row>
         <v-col class="v-col-auto">
           <v-card color="transparent" elevation="0" rounded="0">
@@ -65,7 +65,9 @@
 import { useDateFormat } from '@vueuse/core';
 import { ref } from 'vue';
 import { apiGetReserveItemAvailableTime } from '@/api';
+import { useWindowSize } from '@vueuse/core';
 
+const width = useWindowSize();
 const props = defineProps(['item_list']);
 const item_data = defineModel('item_data');
 const alert_title = ref('時段無法借用');

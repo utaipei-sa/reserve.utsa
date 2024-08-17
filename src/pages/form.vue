@@ -1,6 +1,6 @@
 <template>
   <v-sheet rounded="rounded" class="h-100 form-bg">
-    <v-container class="px-10">
+    <v-container :class="width > 960 ? `px-10` : `px-5`">
       <v-row>
         <v-col>
           <BasicInfo v-model:basic_info="basic_info" :edit_flag="false" />
@@ -45,7 +45,7 @@
       <v-row>
         <v-col>
           <v-card elevation="0" class="form-cards">
-            <v-container class="px-2">
+            <v-container :class="width > 960 ? `px-2` : `px-0`">
               <v-row>
                 <v-col class="v-col-auto">
                   <v-card color="transparent" elevation="0" rounded="0">
