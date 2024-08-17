@@ -29,7 +29,7 @@
         <v-btn
           text="確認"
           variant="flat"
-          color="primary"
+          color="primary-4"
           @click="
             props.click_confirm();
             dialog_flag = false;

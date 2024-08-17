@@ -4,7 +4,7 @@
     v-for="(i, index) in item_data"
   >
     <v-col>
-      <v-card>
+      <v-card elevation="3">
         <v-container>
           <v-row class="align-center" v-if="submit_flag">
             <v-col class="v-col-12">

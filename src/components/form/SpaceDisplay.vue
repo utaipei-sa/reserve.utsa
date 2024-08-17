@@ -4,7 +4,7 @@
     v-for="(i, index) in space_data"
   >
     <v-col class="v-col-12">
-      <v-card>
+      <v-card elevation="3">
         <v-container>
           <v-row v-if="submit_flag">
             <v-col class="v-col-12">
