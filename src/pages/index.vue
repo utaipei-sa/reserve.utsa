@@ -1,4 +1,5 @@
 <template>
+  <CircularLoader :size="100" v-if="loading" />
   <v-sheet
     rounded="rounded"
     class="bg-transparent ma-0 pa-0 justify-center align-center h-100"
@@ -194,8 +195,11 @@
 
 <script setup>
 import { useWindowSize } from '@vueuse/core';
-const { width } = useWindowSize();
 import background from '@/assets/background.jpg';
+import CircularLoader from '@/components/basic/CircularLoader.vue';
+import { onMounted, ref } from 'vue';
+const { width } = useWindowSize();
+const loading = ref(true);
 const announcement = [
   '政府宣佈災防假時，不開放借用',
   '正在加載中......',
@@ -215,6 +219,10 @@ const icons = [
     link: 'https://www.facebook.com/Utaipeisa2.0/?locale=zh_TW'
   }
 ];
+
+onMounted(() => {
+  loading.value = false;
+});
 </script>
 
 <style scoped>

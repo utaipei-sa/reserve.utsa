@@ -1,5 +1,5 @@
 <template>
-  <CircularLoader :size="100" color="success-light" v-if="loading" />
+  <CircularLoader :size="100" v-if="loading" />
   <v-dialog width="75%" scrollable>
     <template v-slot:activator="{ props }">
       <v-btn

@@ -1,18 +1,10 @@
 <template>
   <v-sheet class="h-100 w-100 timetable-bg">
     <v-container>
-      <TimeTableSelector
-        v-model:available="available"
-        v-model:type="type"
-        v-model:has_data="hasGetData"
-        v-model:loading="loading"
-      />
+      <TimeTableSelector v-model:available="available" v-model:type="type" v-model:has_data="hasGetData"
+        v-model:loading="loading" />
       <TimeTableLoader :loading="loading">
-        <TimeTableDisplay
-          :hasGetData="hasGetData"
-          :type="type"
-          :available="available"
-        />
+        <TimeTableDisplay :hasGetData="hasGetData" :type="type" :available="available" />
       </TimeTableLoader>
     </v-container>
   </v-sheet>

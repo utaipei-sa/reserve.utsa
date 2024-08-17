@@ -23,7 +23,7 @@ const props = defineProps({
   },
   color: {
     type: String,
-    default: 'primary-2'
+    default: 'dark'
   },
   texture: {
     type: String,

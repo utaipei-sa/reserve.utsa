@@ -97,6 +97,7 @@
               item_list: item_list,
               space_list: space_list
             }"
+            v-model:loading="loading"
           />
         </v-col>
       </v-row>
@@ -145,6 +146,7 @@ const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
 const item_data = ref([]);
 const note = ref('');
+const loading = ref(true);
 
 const basic_info = ref({
   email: '',
@@ -168,6 +170,7 @@ const return_homepage = () => {
   });
 };
 const delete_form = async () => {
+  loading.value = true;
   try {
     const response = await apiDeleteReserve(id);
     console.log(response);
@@ -181,6 +184,7 @@ const delete_form = async () => {
     );
     change_dialog_status(dialog_content);
   }
+  loading.value = false;
 };
 const change_dialog_status = (dialog_content) => {
   dialog_text.value = dialog_content.dialog_text;
@@ -277,6 +281,7 @@ onMounted(async () => {
     response_dialog_flag.value = true;
     click_confirm_function.value = return_homepage;
   }
+  loading.value = false;
 });
 </script>
 
