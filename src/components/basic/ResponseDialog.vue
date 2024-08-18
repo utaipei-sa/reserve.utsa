@@ -13,7 +13,6 @@
       <v-card-text>
         {{ props.dialog_text }}
       </v-card-text>
-      <v-divider />
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
