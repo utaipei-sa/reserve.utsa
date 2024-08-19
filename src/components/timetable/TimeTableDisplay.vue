@@ -66,7 +66,7 @@ const props = defineProps(['hasGetData', 'type', 'available']);
 <style scoped>
 .timetable-cards {
   padding: 24px 24px;
-  border-radius: 6px;
+  border-radius: 16px;
   background-image: linear-gradient(180deg, #ffffff98 0%, #ffffff55 100%);
 }
 
