@@ -4,15 +4,19 @@
       <v-btn
         v-bind="props"
         @click="add_reserve()"
-        variant="tonal"
-        color="primary"
-        >{{ edit_flag ? '變更預約' : '送出預約' }}
+        variant="flat"
+        height="auto"
+        color="success-light"
+        class="w-100"
+        style="font-size: 18px; font-weight: bold; line-height: 45px"
+      >
+        {{ edit_flag ? '變更預約' : '送出預約' }}
       </v-btn>
     </template>
     <template v-slot:default="{ isActive }">
-      <v-card title="Dialog">
+      <v-card title="預約資料確認">
+        <v-divider />
         <v-card-text>
-          <v-divider></v-divider>
           <v-container>
             <v-row>
               <v-col class="v-col-md-4 v-col-12"
@@ -73,8 +77,9 @@
           ></v-btn>
           <v-btn
             text="確認"
-            variant="tonal"
-            color="primary"
+            variant="flat"
+            color="primary-4"
+            class="font-weight-bold"
             @click="
               (isActive.value = false),
                 props.edit_flag ? patch_api() : post_api()
