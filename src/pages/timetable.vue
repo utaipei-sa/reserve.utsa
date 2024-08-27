@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="h-100 w-100 timetable-bg">
+  <v-sheet color="grey-lighten-4">
     <v-container>
       <TimeTableSelector
         v-model:available="available"
@@ -14,16 +14,9 @@
     </v-container>
   </v-sheet>
 </template>
-
 <script setup>
 import { ref } from 'vue';
 const type = ref('');
 const available = ref([]);
 const hasGetData = ref(false);
 </script>
-
-<style scoped>
-.timetable-bg {
-  background-image: linear-gradient(135deg, #eef1f5 0%, #b5c4df 100%);
-}
-</style>

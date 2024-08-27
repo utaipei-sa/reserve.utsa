@@ -5,17 +5,6 @@
  */
 
 // https://vuetifyjs.com/features/sass-variables/`
-@use 'vuetify/settings' with (
-  $date-picker-header-height: 50px,
-  $date-picker-month-font-size: 0.75rem,
-  $date-picker-month-btn-size: 0.75rem,
-  $date-picker-month-padding: 0px,
-  $date-picker-month-column-gap: 0px,
-  $date-picker-month-btn-height: 10px,
-  $date-picker-month-day-size: 24px,
-  $date-picker-show-week-width: 220px,
-  $date-picker-months-grid-gap: 0px,
-  $date-picker-years-padding-inline: 0px,
-  $date-picker-years-height: 185px,
-  $date-picker-width: 280px
-);
+// @use 'vuetify/settings' with (
+//   $color-pack: false
+// );

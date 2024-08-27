@@ -60,7 +60,7 @@
                     class="text-h5 py-1 px-8 font-weight-bold rounded-lg text-overflow ml-2 mr-6"
                     width="100%"
                     height="80px"
-                    :color="isHovering ? 'primary-darken-1' : `success-light`"
+                    :color="isHovering ? 'primary' : undefined"
                     v-bind="props"
                   >
                     <v-icon class="mr-2" icon="mdi-calendar-check" />
@@ -79,7 +79,7 @@
                     class="text-h5 py-1 px-8 font-weight-bold rounded-lg text-overflow mx-6"
                     width="100%"
                     height="80px"
-                    :color="isHovering ? 'primary-darken-1' : `success-light`"
+                    :color="isHovering ? 'primary' : undefined"
                     v-bind="props"
                   >
                     <v-icon class="mr-2" icon="mdi-square-edit-outline" />
@@ -103,7 +103,6 @@
             <router-link to="/timetable" class="w-100">
               <v-btn
                 class="py-2 rounded-lg text-overflow homepage-btn"
-                color="success-light"
                 width="100%"
                 min-width="170px"
                 height="80px"
@@ -117,7 +116,6 @@
             <router-link to="/form" class="w-100">
               <v-btn
                 class="py-2 rounded-lg text-overflow homepage-btn"
-                color="success-light"
                 width="100%"
                 min-width="170px"
                 height="80px"
@@ -131,8 +129,8 @@
       </v-container>
       <!-- 更多資訊 -->
       <v-fab
-        class="mr-3 mb-6 border-0"
-        :color="width > 960 ? `primary` : `grey-darken-4`"
+        class="mr-3 mb-6"
+        :color="width > 960 ? `grey-lighten-5` : `grey-darken-4`"
         size="35"
         fixed
         app

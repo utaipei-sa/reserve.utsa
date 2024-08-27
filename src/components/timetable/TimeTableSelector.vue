@@ -1,17 +1,11 @@
 <template>
   <v-row>
     <v-col>
-      <v-card elevation="0" class="timetable-cards">
+      <v-card color="grey-lighten-2">
         <v-container>
           <v-row>
             <v-col>
-              <v-select
-                label="種類"
-                :items="type_list"
-                v-model="type_input"
-                bg-color="transparent"
-                color="primary-3"
-              />
+              <v-select label="種類" :items="type_list" v-model="type_input" />
             </v-col>
           </v-row>
           <v-row v-if="type_input == '物品' || type_input == '場地'">
@@ -21,16 +15,12 @@
                 v-if="type_input == '物品'"
                 :items="item_list[1]"
                 v-model="item"
-                color="primary-3"
-                bg-color="transparent"
               ></v-select>
               <v-select
                 label="清單"
                 v-if="type_input == '場地'"
                 :items="space_list[1]"
                 v-model="space"
-                color="primary-3"
-                bg-color="transparent"
               ></v-select>
             </v-col>
           </v-row>
@@ -41,9 +31,7 @@
           </v-row>
           <v-row>
             <v-col>
-              <v-btn @click="serach()" elevation="0" color="success-light"
-                >查詢</v-btn
-              >
+              <v-btn @click="serach()">查詢</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -161,12 +149,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style scoped>
-.timetable-cards {
-  padding: 0px 24px;
-  margin-top: 24px;
-  border-radius: 16px;
-  background-image: linear-gradient(180deg, #ffffff98 0%, #ffffff55 100%);
-}
-</style>
