@@ -1,4 +1,5 @@
 <template>
+  <CircularLoader :size="100" v-if="loading" />
   <v-dialog width="75%" scrollable>
     <template v-slot:activator="{ props }">
       <v-btn
@@ -109,8 +110,10 @@ import { useDateFormat } from '@vueuse/core';
 import { apiPostReserve, apiPutReserve } from '@/api';
 import { handle_response } from '@/api/response';
 import { useRoute, useRouter } from 'vue-router';
+import CircularLoader from '../basic/CircularLoader.vue';
 const wh = useWindowSize();
 const props = defineProps(['edit_flag', 'submit_data', 'silist']);
+const loading = defineModel('loading');
 const submit_data = props.submit_data;
 const silist = props.silist;
 const submit = ref();
@@ -129,6 +132,7 @@ const return_homepage = () => {
   });
 };
 const add_reserve = () => {
+  loading.value = true;
   const date = new Date();
   const temp = useDateFormat(date, 'YYYY-MM-DDTHH:mm:ss.SSS+08:00');
   submit.value = {
@@ -175,9 +179,10 @@ const add_reserve = () => {
       quantity: Number(submit_data.item_data[i]['quantity'])
     });
   }
+  loading.value = false;
 };
-
 const post_api = async () => {
+  loading.value = true;
   try {
     const response = await apiPostReserve(submit.value);
     console.log(response);
@@ -190,10 +195,13 @@ const post_api = async () => {
     );
     change_dialog_status(dialog_content);
     console.error(error);
+  } finally {
+    loading.value = false;
   }
 };
 
 const patch_api = async () => {
+  loading.value = true;
   try {
     const response = await apiPutReserve(submit.value, id);
     const dialog_content = handle_response(response['data']['code'], 'edit');
@@ -206,6 +214,8 @@ const patch_api = async () => {
     );
     console.error(error);
     change_dialog_status(dialog_content);
+  } finally {
+    loading.value = false;
   }
 };
 const change_dialog_status = (dialog_content) => {

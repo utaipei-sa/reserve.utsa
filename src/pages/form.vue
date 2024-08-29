@@ -101,6 +101,7 @@
               item_list: item_list,
               space_list: space_list
             }"
+            v-model:loading="loading"
           />
         </v-col>
       </v-row>
@@ -125,6 +126,7 @@ const basic_info = ref({
   name: '',
   reason: ''
 });
+const loading = ref(true);
 
 onMounted(async () => {
   try {
@@ -148,6 +150,8 @@ onMounted(async () => {
     }
   } catch (error) {
     console.error(error);
+  } finally {
+    loading.value = false;
   }
 });
 </script>
