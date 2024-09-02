@@ -14,6 +14,9 @@ jobs:
 
   build-test:
     name: Build test
+    permissions:
+      packages: write 
+      id-token: write
     needs: release
     uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
     with:
@@ -22,6 +25,9 @@ jobs:
 
   build-stage:
     name: Build stage
+    permissions:
+      packages: write 
+      id-token: write
     needs: release
     uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
     with:
@@ -30,6 +36,9 @@ jobs:
 
   build-prod:
     name: Build prod
+    permissions:
+      packages: write 
+      id-token: write
     needs: release
     uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
     with:
