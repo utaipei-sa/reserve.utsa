@@ -8,6 +8,8 @@ on:
 jobs:
   release:
     name: Release
+    permissions:
+      contents: write
     uses: utaipei-sa/reserve.utsa/.github/workflows/tag-and-release.yml@main
 
   build-test:
