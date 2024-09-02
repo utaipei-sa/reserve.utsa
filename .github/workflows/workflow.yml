@@ -15,7 +15,6 @@ jobs:
   build-test:
     name: Build test
     permissions:
-      contents: read
       packages: write 
       id-token: write
     needs: release
@@ -27,7 +26,6 @@ jobs:
   build-stage:
     name: Build stage
     permissions:
-      contents: read
       packages: write 
       id-token: write
     needs: release
@@ -39,7 +37,6 @@ jobs:
   build-prod:
     name: Build prod
     permissions:
-      contents: read
       packages: write 
       id-token: write
     needs: release
