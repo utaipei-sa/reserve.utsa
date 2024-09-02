@@ -1,5 +1,7 @@
 FROM node:alpine as build
 
+ARG BUILD_ENV
+
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json ./
