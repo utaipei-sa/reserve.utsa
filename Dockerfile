@@ -1,9 +1,11 @@
 FROM node:alpine as build
 
 WORKDIR /app
+ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json ./
 RUN npm install
-COPY . .
+COPY . ./
+COPY ".env.$BUILD_ENV" .env
 RUN npm run build
 
 # Step 2: Serve the application with Nginx

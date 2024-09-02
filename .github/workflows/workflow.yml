@@ -1,0 +1,35 @@
+name: Auto Build and Depoly
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+jobs:
+  release:
+    name: Release
+    uses: utaipei-sa/reserve.utsa/.github/workflows/tag-and-release.yml@main
+
+  build-test:
+    name: Build test
+    needs: release
+    uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
+    with:
+      tag: ${{ needs.release.outputs.tag }}
+      build-env: test
+
+  build-stage:
+    name: Build stage
+    needs: release
+    uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
+    with:
+      tag: ${{ needs.release.outputs.tag }}
+      build-env: stage
+
+  build-prod:
+    name: Build prod
+    needs: release
+    uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
+    with:
+      tag: ${{ needs.release.outputs.tag }}
+      build-env: production
