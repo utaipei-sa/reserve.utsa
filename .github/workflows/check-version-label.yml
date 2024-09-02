@@ -10,9 +10,7 @@ on:
 
 jobs:
   fail-if-PR-info-not-enough:
-    permissions:
-      pull-requests: read
-      statuses: write
+    permissions: write-all
     runs-on: ubuntu-latest
     steps:
       - name: Fail if PR not tag
