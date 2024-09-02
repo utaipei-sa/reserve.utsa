@@ -17,6 +17,7 @@ jobs:
     permissions:
       packages: write 
       id-token: write
+      contents: read
     needs: release
     uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
     with:
@@ -28,6 +29,7 @@ jobs:
     permissions:
       packages: write 
       id-token: write
+      contents: read
     needs: release
     uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
     with:
@@ -39,6 +41,7 @@ jobs:
     permissions:
       packages: write 
       id-token: write
+      contents: read
     needs: release
     uses: utaipei-sa/reserve.utsa/.github/workflows/docker-image.yml@main
     with:
