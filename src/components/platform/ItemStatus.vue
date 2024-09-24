@@ -14,23 +14,6 @@
                     ></DatePickerIcon>
                 </v-col>
             </v-row>
-            <!-- <v-sheet
-            color="grey-lighten-1" 
-            class="overflow-x-auto"
-            style="display: flex;"
-            rounded
-            >
-                <v-sheet
-                v-for="(i,index) in datas"
-                :key="index"
-                class="overflow-visible"
-                >
-                    <v-card class="text-center mx-10">
-                        {{ i.end_datetime }}
-                        <v-chip variant="flat" :color=handle_color(max_quantity-i.available_quantity) class="w-75 " style="left: 50%;max-height: 10px;min-width: 100px;"></v-chip>
-                    </v-card>
-                </v-sheet>
-            </v-sheet> -->
             <v-sheet
             color="grey-lighten-1"
             rounded
