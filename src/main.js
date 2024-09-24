@@ -12,9 +12,8 @@ import App from './App.vue';
 
 // Composables
 import { createApp } from 'vue';
-import vuetify from './plugins/vuetify';
 
-const app = createApp(App).use(vuetify);
+const app = createApp(App);
 
 registerPlugins(app);
 

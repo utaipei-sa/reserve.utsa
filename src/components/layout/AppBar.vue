@@ -1,6 +1,6 @@
 <template>
-  <v-navigation-drawer v-model="drawer" temporary color="#fffffff7">
-    <v-container class="px-0">
+  <v-navigation-drawer v-model="drawer" temporary color="#f7fbff">
+    <v-container>
       <v-row>
         <v-col class="v-col-12 d-flex align-center justify-center pb-0 mt-12">
           <router-link class="d-flex" to="/">
@@ -22,7 +22,7 @@
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
-              <v-icon class="ml-4 mr-3" icon="mdi-account" />
+              <v-icon class="mr-2" icon="mdi-account" />
               登入
             </v-btn>
           </router-link>
@@ -30,7 +30,7 @@
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/timetable">
             <v-btn class="w-100 nav-bar-btn" @click="drawer = !drawer">
-              <v-icon class="ml-4 mr-3" icon="mdi-calendar-clock" />
+              <v-icon class="mr-2" icon="mdi-calendar-clock" />
               時間查詢
             </v-btn>
           </router-link>
@@ -38,7 +38,7 @@
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/form">
             <v-btn class="w-100 nav-bar-btn" @click="drawer = !drawer">
-              <v-icon class="ml-4 mr-3" icon="mdi-clipboard-edit-outline" />
+              <v-icon class="mr-2" icon="mdi-clipboard-edit-outline" />
               立即預約
             </v-btn>
           </router-link>
@@ -46,7 +46,7 @@
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
-              <v-icon class="ml-4 mr-3" icon="mdi-alert" />
+              <v-icon class="mr-2" icon="mdi-alert" />
               錯誤回報
             </v-btn>
           </router-link>
@@ -54,7 +54,7 @@
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
-              <v-icon class="ml-4 mr-3" icon="mdi-comment-quote" />
+              <v-icon class="mr-2" icon="mdi-comment-quote" />
               意見回饋
             </v-btn>
           </router-link>
@@ -62,7 +62,7 @@
         <v-col class="v-col-12 nav-bar-btn-container">
           <router-link to="/">
             <v-btn class="w-100 nav-bar-btn" @click="dialog = true">
-              <v-icon class="ml-4 mr-3" icon="mdi-file-document" />
+              <v-icon class="mr-2" icon="mdi-file-document" />
               規則說明
             </v-btn>
           </router-link>
@@ -70,7 +70,7 @@
       </v-row>
     </v-container>
   </v-navigation-drawer>
-  <v-app-bar :elevation="6" flat color="#E4EBF5" v-if="width <= 960">
+  <v-app-bar :elevation="6" flat color="#f7fbfff5" v-if="width <= 960">
     <v-app-bar-title class="d-flex align-center ml-0 pl-0 justify-center">
       <v-row no-gutters align="center">
         <v-col class="d-flex align-center">
@@ -103,7 +103,7 @@
     :elevation="6"
     max-width="960px"
     rounded="4"
-    color="#E4EBF5"
+    color="#f7fbff"
     v-if="width > 960"
   >
     <v-app-bar-title>
@@ -179,22 +179,23 @@ const dialog = ref(false);
 .nav-bar-btn-container {
   padding: 0px;
   margin: 0px;
+  border-bottom: #afc4d6d0 1px solid;
 }
 
 .nav-bar-btn {
   box-shadow: none !important;
   padding: 16px 24px;
   margin: 0px;
+  background-color: #f7fbff;
   font-size: 16px;
   height: auto !important;
   justify-content: start;
   text-align: center;
-  border-radius: 0px;
-  background-color: transparent;
 }
 
 .nav-bar-btn:hover {
-  background-color: #e6f3ee;
-  font-weight: bold;
+  background-color: #e6fffe;
+  box-shadow: -10px 10px 15px rgba(0, 0, 0, 0.3) !important;
+  z-index: 1;
 }
 </style>

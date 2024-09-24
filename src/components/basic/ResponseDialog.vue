@@ -6,13 +6,14 @@
     @click:outside="click_confirm()"
   >
     <v-card>
-      <v-card-title class="text-h5 pa-4 font-weight-bold">
+      <v-card-title class="text-h4 pa-3">
         {{ props.dialog_title }}
       </v-card-title>
-      <v-divider />
+      <v-divider></v-divider>
       <v-card-text>
         {{ props.dialog_text }}
       </v-card-text>
+      <v-divider></v-divider>
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn
@@ -27,8 +28,8 @@
         ></v-btn>
         <v-btn
           text="確認"
-          variant="flat"
-          color="primary-4"
+          variant="tonal"
+          color="primary"
           @click="
             props.click_confirm();
             dialog_flag = false;

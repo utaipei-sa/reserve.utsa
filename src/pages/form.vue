@@ -1,6 +1,6 @@
 <template>
-  <v-sheet rounded="rounded" class="h-100 form-bg">
-    <v-container :class="width > 960 ? `px-10` : `px-5`">
+  <v-sheet rounded="rounded" color="grey-lighten-4">
+    <v-container>
       <v-row>
         <v-col>
           <BasicInfo v-model:basic_info="basic_info" :edit_flag="false" />
@@ -8,8 +8,8 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card elevation="0" class="form-cards">
-            <v-container class="px-0">
+          <v-card color="grey-lighten-2">
+            <v-container>
               <SpaceSelector
                 v-model:space_data="space_data"
                 :space_list="space_list"
@@ -26,8 +26,8 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card elevation="0" class="form-cards">
-            <v-container class="px-0">
+          <v-card color="grey-lighten-2">
+            <v-container>
               <ItemSelector
                 v-model:item_data="item_data"
                 :item_list="item_list"
@@ -44,27 +44,17 @@
       </v-row>
       <v-row>
         <v-col>
-          <v-card elevation="0" class="form-cards">
-            <v-container :class="width > 960 ? `px-2` : `px-0`">
+          <v-card color="grey-lighten-2">
+            <v-container>
               <v-row>
                 <v-col class="v-col-auto">
-                  <v-card color="transparent" elevation="0" rounded="0">
-                    <v-card-title
-                      class="pb-0"
-                      style="border-bottom: 5px solid #e6f3ee"
-                      >備註</v-card-title
-                    >
-                  </v-card>
+                  <v-card title="備註" color="grey-lighten-1"></v-card>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-card color="transparent" elevation="0">
-                    <v-textarea
-                      v-model="note"
-                      color="transparent"
-                      class="h-100"
-                    />
+                  <v-card>
+                    <v-textarea v-model="note" />
                   </v-card>
                 </v-col>
               </v-row>
@@ -73,22 +63,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col class="d-flex justify-center my-6" v-if="width < 960">
-          <SubmitDialog
-            :edit_flag="false"
-            :submit_data="{
-              space_data: space_data,
-              item_data: item_data,
-              note: note,
-              basic_info: basic_info
-            }"
-            :silist="{
-              item_list: item_list,
-              space_list: space_list
-            }"
-          />
-        </v-col>
-        <v-col v-else>
+        <v-col>
           <SubmitDialog
             :edit_flag="false"
             :submit_data="{
@@ -112,8 +87,6 @@
 <script setup>
 import { apiGetReserveItems, apiGetReserveSpaces } from '@/api';
 import { ref, onMounted } from 'vue';
-import { useWindowSize } from '@vueuse/core';
-const { width } = useWindowSize();
 const item_list = ref([{}, [], {}]);
 const space_list = ref([{}, [], {}]);
 const space_data = ref([]);
@@ -155,22 +128,3 @@ onMounted(async () => {
   }
 });
 </script>
-
-<style scoped>
-.form-bg {
-  background-image: linear-gradient(135deg, #eef1f5 0%, #b5c4df 100%);
-}
-
-.form-cards {
-  padding: 0px 24px;
-  margin-top: 24px;
-  border-radius: 16px;
-  background-image: linear-gradient(180deg, #ffffff98 0%, #ffffff55 100%);
-}
-
-@media screen and (max-width: 959) {
-  .form-cards {
-    padding: 0px 8px;
-  }
-}
-</style>
