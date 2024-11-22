@@ -1,4 +1,5 @@
 <template>
+   <CircularLoader :size="100" v-if="loading" />
   <v-sheet class="h-100 bg-grey-lighten-4">
     <v-container class="h-100">
       <v-row class="justify-center align-center h-100">
@@ -66,6 +67,7 @@ const route = useRoute();
 const item_list = ref({});
 const space_list = ref({});
 const id = route.query.id;
+const loading = ref(true);
 onMounted(async () => {
   try {
     const items = await apiGetReserveItems();
@@ -81,6 +83,8 @@ onMounted(async () => {
     check_verify_id(id);
   } catch (error) {
     console.error(error);
+  } finally {
+    loading.value = false;
   }
 });
 
