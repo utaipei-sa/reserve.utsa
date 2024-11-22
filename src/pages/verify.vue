@@ -1,5 +1,5 @@
 <template>
-   <CircularLoader :size="100" v-if="loading" />
+  <CircularLoader :size="100" v-if="loading" />
   <v-sheet class="h-100 bg-grey-lighten-4">
     <v-container class="h-100">
       <v-row class="justify-center align-center h-100">
