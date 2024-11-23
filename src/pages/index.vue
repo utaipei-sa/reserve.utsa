@@ -161,8 +161,20 @@
                 slim
                 class="mb-4 justify-center homepage-list"
               >
-                <v-list-item class="homepage-list" title="問題回報" href="https://forms.gle/krZ5JhJ2VhXLziZo6" target="_blank" link />
-                <v-list-item class="homepage-list" title="意見回饋" href="https://forms.gle/vwgJEUaVejbE47Wu5" target="_blank" link />
+                <v-list-item
+                  class="homepage-list"
+                  title="問題回報"
+                  href="https://forms.gle/krZ5JhJ2VhXLziZo6"
+                  target="_blank"
+                  link
+                />
+                <v-list-item
+                  class="homepage-list"
+                  title="意見回饋"
+                  href="https://forms.gle/vwgJEUaVejbE47Wu5"
+                  target="_blank"
+                  link
+                />
                 <v-divider class="homepage-menu-divider" />
                 <span class="d-flex justify-center align-center homepage-list">
                   <v-list-item
