@@ -7,6 +7,7 @@
     "preview": "vite preview",
     "lint": "eslint . --ignore-path .gitignore",
     "lint:fix": "eslint . --fix --ignore-path .gitignore",
+    "prettier": "prettier \"./**/*.{vue,ts,js,json}\"",
     "format": "prettier --write \"./**/*.{vue,ts,js,json}\""
   },
   "dependencies": {
