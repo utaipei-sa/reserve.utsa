@@ -62,7 +62,7 @@ export const handle_response = (error_code, type = null) => {
       };
     default:
       return {
-          dialog_text: '發生了未知錯誤，請洽系統管理員',
+        dialog_text: '發生了未知錯誤，請洽系統管理員',
         dialog_title: '預約失敗'
       };
   }
