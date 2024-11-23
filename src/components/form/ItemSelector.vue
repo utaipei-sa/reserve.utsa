@@ -106,9 +106,7 @@ const addobj = async () => {
       end_datetime: format_temp2,
       intervals: false
     });
-    console.log(response);
     check = response['data']['available_quantity'];
-    console.log(check);
   } catch (err) {
     console.error(err);
   }
@@ -138,7 +136,6 @@ const addobj = async () => {
       end_datetime: useDateFormat(format_temp2, 'YYYY-MM-DD').value,
       quantity: quantity_temp.value
     });
-    console.log(item_data);
   }
 };
 

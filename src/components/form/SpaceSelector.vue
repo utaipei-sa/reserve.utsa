@@ -91,7 +91,6 @@ const addobj = async () => {
       end_datetime: format_temp2,
       intervals: false
     });
-    console.log(response);
     check_flag = response['data']['availability'];
   } catch (err) {
     console.error(err);
