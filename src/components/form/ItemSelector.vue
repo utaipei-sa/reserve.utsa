@@ -63,7 +63,7 @@
 
 <script setup>
 import { useDateFormat } from '@vueuse/core';
-import { ref } from 'vue';
+import { ref, toRaw } from 'vue';
 import { apiGetReserveItemAvailableTime } from '@/api';
 import { useWindowSize } from '@vueuse/core';
 
@@ -123,6 +123,18 @@ const addobj = async () => {
   }
   const date1 = new Date(date_input1.value);
   const date2 = new Date(date_input2.value);
+  const reverse_data = {
+    item_name: item_temp.value,
+    start_datetime: useDateFormat(format_temp1, 'YYYY-MM-DD').value,
+    end_datetime: useDateFormat(format_temp2, 'YYYY-MM-DD').value,
+    quantity: quantity_temp.value
+  };
+  const isExist = toRaw(item_data.value).some(
+    (item) => 
+      item['item_name'] == item_temp.value &&
+      item['start_datetime'] == reverse_data['start_datetime'] &&
+      item['end_datetime'] == reverse_data['end_datetime']
+  );
   if (date1.getTime() > date2.getTime()) {
     set_alert(alert_timer, alert_title_list[2], alert_text_list[2]);
     return;
@@ -130,14 +142,10 @@ const addobj = async () => {
     item_temp.value != '' &&
     date_input1.value != '' &&
     date_input2.value != '' &&
-    quantity_temp.value != 0
+    quantity_temp.value != 0 &&
+    !isExist
   ) {
-    item_data.value.push({
-      item_name: item_temp.value,
-      start_datetime: useDateFormat(format_temp1, 'YYYY-MM-DD').value,
-      end_datetime: useDateFormat(format_temp2, 'YYYY-MM-DD').value,
-      quantity: quantity_temp.value
-    });
+    item_data.value.push(reverse_data);
     console.log(item_data);
   }
 };
