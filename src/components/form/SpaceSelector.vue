@@ -113,7 +113,7 @@ const addobj = async () => {
       item['space_name'] == reverse_data['space_name'] &&
       item['datetime'] == reverse_data['datetime'] &&
       item['period'] == reverse_data['period']
-  )
+  );
   if (
     space_input.value != '' &&
     date_input.value != '' &&
