@@ -9,7 +9,7 @@
     <template v-slot:activator="{ props }">
       <v-text-field
         v-bind="props"
-        label="日期"
+        :label="label"
         v-model="format_date"
         variant="underlined"
         color="primary-3"
@@ -30,6 +30,8 @@ import { useDateFormat } from '@vueuse/core';
 
 const is_menu_open = ref(false);
 const date_input = defineModel('date_input');
+const props = defineProps(['label']);
+const label = computed(() => props.label);
 
 const format_date = computed(() => {
   if (date_input.value == null) return '';

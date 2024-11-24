@@ -22,10 +22,10 @@
           ></v-select>
         </v-col>
         <v-col class="v-col-sm-3 v-col-12">
-          <DatePicker v-model:date_input="date_input1"></DatePicker>
+          <DatePicker v-model:date_input="date_input1" label="借用日期"></DatePicker>
         </v-col>
         <v-col class="v-col-sm-3 v-col-12">
-          <DatePicker v-model:date_input="date_input2"></DatePicker>
+          <DatePicker v-model:date_input="date_input2" label="歸還日期"></DatePicker>
         </v-col>
         <v-col class="v-col-sm-3 v-col-12">
           <v-text-field
