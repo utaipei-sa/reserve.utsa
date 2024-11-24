@@ -63,7 +63,7 @@
 
 <script setup>
 import { useDateFormat } from '@vueuse/core';
-import { ref } from 'vue';
+import { ref, toRaw } from 'vue';
 import { apiGetReserveSpaceAvailableTime } from '@/api';
 const props = defineProps(['space_list', 'time_list']);
 const space_data = defineModel('space_data');
@@ -103,17 +103,24 @@ const addobj = async () => {
     }, 5000);
     return;
   }
-  useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value;
+  const reverse_data = {
+    space_name: space_input.value,
+    datetime: useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value,
+    period: time_input.value
+  };
+  const isExist = toRaw(space_data.value).some(
+    (item) =>
+      item['space_name'] == reverse_data['space_name'] &&
+      item['datetime'] == reverse_data['datetime'] &&
+      item['period'] == reverse_data['period']
+  )
   if (
     space_input.value != '' &&
     date_input.value != '' &&
-    time_input.value != ''
+    time_input.value != '' &&
+    !isExist
   ) {
-    space_data.value.push({
-      space_name: space_input.value,
-      datetime: useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value,
-      period: time_input.value
-    });
+    space_data.value.push(reverse_data);
   }
 };
 </script>
