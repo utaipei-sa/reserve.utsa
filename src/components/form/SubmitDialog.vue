@@ -144,7 +144,7 @@ const add_reserve = () => {
     reason: submit_data.basic_info.reason,
     space_reservations: [],
     item_reservations: [],
-    note: submit_data.note
+    note: props.submit_data.note
   };
   for (var i = 0; i < submit_data.space_data.length; i++) {
     const date_format_temp1 = useDateFormat(
