@@ -90,6 +90,13 @@ const alert_text_list = [
 //  [小於0, 被借光了, 時間順序錯誤]
 
 const addobj = async () => {
+  let alert_timer;
+  const date1 = new Date(date_input1.value);
+  const date2 = new Date(date_input2.value);
+  if (date1.getTime() > date2.getTime()) {
+    set_alert(alert_timer, alert_title_list[2], alert_text_list[2]);
+    return;
+  }
   const format_temp1 = useDateFormat(
     date_input1.value,
     'YYYY-MM-DDTHH:mm'
@@ -110,7 +117,6 @@ const addobj = async () => {
   } catch (err) {
     console.error(err);
   }
-  let alert_timer;
   if (quantity_temp.value <= 0) {
     set_alert(alert_timer, alert_title_list[0], alert_text_list[0]);
     return;
@@ -119,12 +125,7 @@ const addobj = async () => {
     set_alert(alert_timer, alert_title_list[1], alert_text_list[1]);
     return;
   }
-  const date1 = new Date(date_input1.value);
-  const date2 = new Date(date_input2.value);
-  if (date1.getTime() > date2.getTime()) {
-    set_alert(alert_timer, alert_title_list[2], alert_text_list[2]);
-    return;
-  } else if (
+  if (
     item_temp.value != '' &&
     date_input1.value != '' &&
     date_input2.value != '' &&
