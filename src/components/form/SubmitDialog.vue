@@ -185,7 +185,6 @@ const post_api = async () => {
   loading.value = true;
   try {
     const response = await apiPostReserve(submit.value);
-    console.log(response);
     const dialog_content = handle_response(response['data']['code'], 'new');
     click_confirm_function.value = return_homepage;
     change_dialog_status(dialog_content);
@@ -207,7 +206,6 @@ const patch_api = async () => {
     const dialog_content = handle_response(response['data']['code'], 'edit');
     change_dialog_status(dialog_content);
     click_confirm_function.value = return_homepage;
-    console.log(response);
   } catch (error) {
     const dialog_content = handle_response(
       error['response']['data']['error_code']
