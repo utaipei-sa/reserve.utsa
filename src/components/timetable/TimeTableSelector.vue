@@ -93,14 +93,12 @@ const serach = async () => {
         start_datetime,
         'YYYY-MM-DDTHH:mm'
       ).value;
-      console.log(start_datetime, end_datetime);
       const response = await apiGetReserveSpaceAvailableTime({
         space_id: space_list.value[0][space.value],
         start_datetime: start_datetime.value,
         end_datetime: end_datetime.value,
         intervals: true
       });
-      console.log(response);
       for (let i = 0; i < response['data'].length; i += 3) {
         let row_date = new Date(response['data'][i]['start_datetime']);
         available.value[i / 3] = {
@@ -137,7 +135,6 @@ const serach = async () => {
           quantity: response['data'][i]['available_quantity']
         };
       }
-      console.log(response);
     }
     has_data.value = true;
   } catch (error) {

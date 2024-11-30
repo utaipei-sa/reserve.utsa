@@ -22,7 +22,7 @@
           ></v-select>
         </v-col>
         <v-col class="v-col-sm-4 v-col-12">
-          <DatePicker v-model:date_input="date_input"></DatePicker>
+          <DatePicker v-model:date_input="date_input" label="日期"></DatePicker>
         </v-col>
         <v-col class="v-col-sm-4 v-col-12">
           <v-select
@@ -91,7 +91,6 @@ const addobj = async () => {
       end_datetime: format_temp2,
       intervals: false
     });
-    console.log(response);
     check_flag = response['data']['availability'];
   } catch (err) {
     console.error(err);
