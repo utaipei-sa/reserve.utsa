@@ -102,16 +102,16 @@ const addobj = async () => {
     }, 5000);
     return;
   }
-  const reverse_data = {
+  const reserve_data = {
     space_name: space_input.value,
     datetime: useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value,
     period: time_input.value
   };
   const isExist = toRaw(space_data.value).some(
     (item) =>
-      item['space_name'] == reverse_data['space_name'] &&
-      item['datetime'] == reverse_data['datetime'] &&
-      item['period'] == reverse_data['period']
+      item['space_name'] == reserve_data['space_name'] &&
+      item['datetime'] == reserve_data['datetime'] &&
+      item['period'] == reserve_data['period']
   );
   if (
     space_input.value != '' &&
@@ -119,7 +119,7 @@ const addobj = async () => {
     time_input.value != '' &&
     !isExist
   ) {
-    space_data.value.push(reverse_data);
+    space_data.value.push(reserve_data);
   }
 };
 </script>
