@@ -125,7 +125,7 @@ const addobj = async () => {
     set_alert(alert_timer, alert_title_list[1], alert_text_list[1]);
     return;
   }
-  const reverse_data = {
+  const reserve_data = {
     item_name: item_temp.value,
     start_datetime: useDateFormat(format_temp1, 'YYYY-MM-DD').value,
     end_datetime: useDateFormat(format_temp2, 'YYYY-MM-DD').value,
@@ -134,8 +134,8 @@ const addobj = async () => {
   const isExist = toRaw(item_data.value).some(
     (item) => 
       item['item_name'] == item_temp.value &&
-      item['start_datetime'] == reverse_data['start_datetime'] &&
-      item['end_datetime'] == reverse_data['end_datetime']
+      item['start_datetime'] == reserve_data['start_datetime'] &&
+      item['end_datetime'] == reserve_data['end_datetime']
   );
   if (
     item_temp.value != '' &&
@@ -144,7 +144,7 @@ const addobj = async () => {
     quantity_temp.value != 0 &&
     !isExist
   ) {
-    item_data.value.push(reverse_data);
+    item_data.value.push(reserve_data);
   }
 };
 
