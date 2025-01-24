@@ -5,10 +5,10 @@
  */
 
 // Composables
-import { createRouter, createWebHashHistory } from 'vue-router/auto';
+import { createRouter, createWebHistory } from 'vue-router/auto';
 
 const router = createRouter({
-  history: createWebHashHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/:catchAll(.*)',
