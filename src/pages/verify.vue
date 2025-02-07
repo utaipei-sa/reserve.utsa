@@ -1,11 +1,9 @@
 <template>
-  <CircularLoader :size="100" v-if="loading" />
   <v-sheet class="h-100 bg-grey-lighten-4">
     <v-container class="h-100">
       <v-row class="justify-center align-center h-100">
         <v-col class="px-sm-16">
           <v-alert
-            v-if="!loading"
             :title="message.dialog_title"
             :type="alert_type"
             :text="message.dialog_text"
@@ -68,7 +66,6 @@ const route = useRoute();
 const item_list = ref({});
 const space_list = ref({});
 const id = route.query.id;
-const loading = ref(true);
 onMounted(async () => {
   try {
     const items = await apiGetReserveItems();
@@ -84,8 +81,6 @@ onMounted(async () => {
     check_verify_id(id);
   } catch (error) {
     console.error(error);
-  } finally {
-    loading.value = false;
   }
 });
 
@@ -105,11 +100,13 @@ const check_verify_id = async (id) => {
     const verifyResponse = await apiPatchReserveVerify(id);
     if (verifyResponse['data']['code'] == R_SUCCESS) {
       await GetReservationData(id);
+      console.log(verifyResponse);
       alert_type.value = 'success';
       hasContent.value = true;
       message.value = handle_response(verifyResponse['data']['code'], 'verify');
     }
   } catch (error) {
+    console.log(error);
     const error_code = error['response']['data']['error_code'];
     message.value = handle_response(error_code, 'verify');
     hasContent.value = message.value.dialog_ContentFlag;
@@ -140,6 +137,7 @@ const GetReservationData = async (id) => {
         'YYYY-MM-DDTHH:mm'
       ).value;
     });
+    console.log(item_data);
     space_data.value.forEach((space) => {
       space['space_name'] = space_list.value[space['space_id']];
       space['period'] =
@@ -151,6 +149,7 @@ const GetReservationData = async (id) => {
         'YYYY-MM-DD'
       ).value;
     });
+    console.log(space_data.value);
   } catch (error) {
     console.error(error);
   }
