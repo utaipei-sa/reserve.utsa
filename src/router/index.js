@@ -8,13 +8,13 @@
 import { createRouter, createWebHistory } from 'vue-router/auto';
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/:catchAll(.*)',
-      redirect: '/'
-    }
-  ]
+  history: createWebHistory(import.meta.env.BASE_URL)
+});
+
+router.beforeEach((to) => {
+  if (to.matched.length === 0) {
+    return { path: '/' };
+  }
 });
 
 export default router;
