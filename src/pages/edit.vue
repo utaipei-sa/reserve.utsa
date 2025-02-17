@@ -173,6 +173,7 @@ const delete_form = async () => {
   loading.value = true;
   try {
     const response = await apiDeleteReserve(id);
+    console.log(response);
     const dialog_content = handle_response(response['data']['code'], 'delete');
     change_dialog_status(dialog_content);
     click_confirm_function.value = return_homepage;
@@ -221,6 +222,7 @@ onMounted(async () => {
     basic_info.value.reason = reservation.data.reason;
     note.value = reservation.data.note;
     for (let i = 0; i < reservation.data.item_reservations.length; i++) {
+      console.log(reservation);
       item_data.value[i] = {};
       item_data.value[i]['item_name'] =
         item_list.value[2][reservation.data.item_reservations[i]['item_id']];
@@ -235,7 +237,9 @@ onMounted(async () => {
       item_data.value[i]['quantity'] =
         reservation.data.item_reservations[i]['quantity'];
     }
+    console.log(item_data.value);
     for (let i = 0; i < reservation.data.space_reservations.length; i++) {
+      console.log(reservation);
       space_data.value[i] = {};
       space_data.value[i]['space_name'] =
         space_list.value[2][reservation.data.space_reservations[i]['space_id']];
@@ -265,7 +269,9 @@ onMounted(async () => {
         space_data.value[i]['period'] = 'Data Corrupted';
       }
     }
+    console.log(space_data.value);
   } catch (error) {
+    console.log(error);
     const dialog_content = handle_response(
       error['response']['data']['error_code'],
       'edit'

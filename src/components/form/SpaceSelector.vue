@@ -22,7 +22,7 @@
           ></v-select>
         </v-col>
         <v-col class="v-col-sm-4 v-col-12">
-          <DatePicker v-model:date_input="date_input" label="日期"></DatePicker>
+          <DatePicker v-model:date_input="date_input"></DatePicker>
         </v-col>
         <v-col class="v-col-sm-4 v-col-12">
           <v-select
@@ -63,7 +63,7 @@
 
 <script setup>
 import { useDateFormat } from '@vueuse/core';
-import { ref, toRaw } from 'vue';
+import { ref } from 'vue';
 import { apiGetReserveSpaceAvailableTime } from '@/api';
 const props = defineProps(['space_list', 'time_list']);
 const space_data = defineModel('space_data');
@@ -91,6 +91,7 @@ const addobj = async () => {
       end_datetime: format_temp2,
       intervals: false
     });
+    console.log(response);
     check_flag = response['data']['availability'];
   } catch (err) {
     console.error(err);
@@ -102,24 +103,17 @@ const addobj = async () => {
     }, 5000);
     return;
   }
-  const reserve_data = {
-    space_name: space_input.value,
-    datetime: useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value,
-    period: time_input.value
-  };
-  const isExist = toRaw(space_data.value).some(
-    (item) =>
-      item['space_name'] == reserve_data['space_name'] &&
-      item['datetime'] == reserve_data['datetime'] &&
-      item['period'] == reserve_data['period']
-  );
+  useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value;
   if (
     space_input.value != '' &&
     date_input.value != '' &&
-    time_input.value != '' &&
-    !isExist
+    time_input.value != ''
   ) {
-    space_data.value.push(reserve_data);
+    space_data.value.push({
+      space_name: space_input.value,
+      datetime: useDateFormat(date_input.value.toString(), 'YYYY-MM-DD').value,
+      period: time_input.value
+    });
   }
 };
 </script>

@@ -22,10 +22,10 @@
           ></v-select>
         </v-col>
         <v-col class="v-col-sm-3 v-col-12">
-          <DatePicker v-model:date_input="date_input1" label="借用日期"></DatePicker>
+          <DatePicker v-model:date_input="date_input1"></DatePicker>
         </v-col>
         <v-col class="v-col-sm-3 v-col-12">
-          <DatePicker v-model:date_input="date_input2" label="歸還日期"></DatePicker>
+          <DatePicker v-model:date_input="date_input2"></DatePicker>
         </v-col>
         <v-col class="v-col-sm-3 v-col-12">
           <v-text-field
@@ -63,7 +63,7 @@
 
 <script setup>
 import { useDateFormat } from '@vueuse/core';
-import { ref, toRaw } from 'vue';
+import { ref } from 'vue';
 import { apiGetReserveItemAvailableTime } from '@/api';
 import { useWindowSize } from '@vueuse/core';
 
@@ -90,13 +90,6 @@ const alert_text_list = [
 //  [小於0, 被借光了, 時間順序錯誤]
 
 const addobj = async () => {
-  let alert_timer;
-  const date1 = new Date(date_input1.value);
-  const date2 = new Date(date_input2.value);
-  if (date1.getTime() > date2.getTime()) {
-    set_alert(alert_timer, alert_title_list[2], alert_text_list[2]);
-    return;
-  }
   const format_temp1 = useDateFormat(
     date_input1.value,
     'YYYY-MM-DDTHH:mm'
@@ -113,10 +106,13 @@ const addobj = async () => {
       end_datetime: format_temp2,
       intervals: false
     });
+    console.log(response);
     check = response['data']['available_quantity'];
+    console.log(check);
   } catch (err) {
     console.error(err);
   }
+  let alert_timer;
   if (quantity_temp.value <= 0) {
     set_alert(alert_timer, alert_title_list[0], alert_text_list[0]);
     return;
@@ -125,26 +121,24 @@ const addobj = async () => {
     set_alert(alert_timer, alert_title_list[1], alert_text_list[1]);
     return;
   }
-  const reserve_data = {
-    item_name: item_temp.value,
-    start_datetime: useDateFormat(format_temp1, 'YYYY-MM-DD').value,
-    end_datetime: useDateFormat(format_temp2, 'YYYY-MM-DD').value,
-    quantity: quantity_temp.value
-  };
-  const isExist = toRaw(item_data.value).some(
-    (item) => 
-      item['item_name'] == item_temp.value &&
-      item['start_datetime'] == reserve_data['start_datetime'] &&
-      item['end_datetime'] == reserve_data['end_datetime']
-  );
-  if (
+  const date1 = new Date(date_input1.value);
+  const date2 = new Date(date_input2.value);
+  if (date1.getTime() > date2.getTime()) {
+    set_alert(alert_timer, alert_title_list[2], alert_text_list[2]);
+    return;
+  } else if (
     item_temp.value != '' &&
     date_input1.value != '' &&
     date_input2.value != '' &&
-    quantity_temp.value != 0 &&
-    !isExist
+    quantity_temp.value != 0
   ) {
-    item_data.value.push(reserve_data);
+    item_data.value.push({
+      item_name: item_temp.value,
+      start_datetime: useDateFormat(format_temp1, 'YYYY-MM-DD').value,
+      end_datetime: useDateFormat(format_temp2, 'YYYY-MM-DD').value,
+      quantity: quantity_temp.value
+    });
+    console.log(item_data);
   }
 };
 
