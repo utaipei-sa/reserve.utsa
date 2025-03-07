@@ -133,20 +133,16 @@ onMounted(async () => {
     const items = await apiGetReserveItems();
     const spaces = await apiGetReserveSpaces();
     const spaces_fetch_list = spaces['data']['data'];
-    for (let i = 0; i < spaces_fetch_list.length; i++) {
-      space_list.value[0][spaces_fetch_list[i]['name']['zh-tw']] =
-        spaces_fetch_list[i]['_id'];
-      space_list.value[1].push(spaces_fetch_list[i]['name']['zh-tw']);
-      space_list.value[2][spaces_fetch_list[i]['_id']] =
-        spaces_fetch_list[i]['name']['zh-tw'];
+    for (const space of spaces_fetch_list) {
+      space_list.value[0][space['name']['zh-tw']] = space['_id'];
+      space_list.value[1].push(space['name']['zh-tw']);
+      space_list.value[2][space['_id']] = space['name']['zh-tw'];
     }
     const items_fetch_list = items['data']['data'];
-    for (let i = 0; i < items_fetch_list.length; i++) {
-      item_list.value[0][items_fetch_list[i]['name']['zh-tw']] =
-        items_fetch_list[i]['_id'];
-      item_list.value[1].push(items_fetch_list[i]['name']['zh-tw']);
-      item_list.value[2][items_fetch_list[i]['_id']] =
-        items_fetch_list[i]['name']['zh-tw'];
+    for (const item of items_fetch_list) {
+      item_list.value[0][item['name']['zh-tw']] = item['_id'];
+      item_list.value[1].push(item['name']['zh-tw']);
+      item_list.value[2][item['_id']] = item['name']['zh-tw'];
     }
   } catch (error) {
     console.error(error);
