@@ -55,8 +55,7 @@ import {
   apiGetReserveSpaces,
   apiPatchReserveVerify
 } from '@/api';
-import { onMounted } from 'vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import {
   R_SUCCESS,
@@ -73,13 +72,11 @@ onMounted(async () => {
   try {
     const items = await apiGetReserveItems();
     const spaces = await apiGetReserveSpaces();
-    for (let i = 0; i < spaces['data']['data'].length; i++) {
-      space_list.value[spaces['data']['data'][i]['_id']] =
-        spaces['data']['data'][i]['name']['zh-tw'];
+    for (const space of spaces['data']['data']) {
+      space_list.value[space['_id']] = space['name']['zh-tw'];
     }
-    for (let i = 0; i < items['data']['data'].length; i++) {
-      item_list.value[items['data']['data'][i]['_id']] =
-        items['data']['data'][i]['name']['zh-tw'];
+    for (const item of items['data']['data']) {
+      item_list.value[item['_id']] = item['name']['zh-tw'];      
     }
     check_verify_id(id);
   } catch (error) {
