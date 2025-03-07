@@ -145,7 +145,6 @@ const addobj = async () => {
       item['start_datetime'] == reserve_data['start_datetime'] &&
       item['end_datetime'] == reserve_data['end_datetime']
   );
-  }
   item_data.value.push(reserve_data);
 };
 
