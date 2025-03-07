@@ -105,8 +105,7 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import { useWindowSize } from '@vueuse/core';
-import { useDateFormat } from '@vueuse/core';
+import { useWindowSize, useDateFormat } from '@vueuse/core';
 import { apiPostReserve, apiPutReserve } from '@/api';
 import { handle_response } from '@/api/response';
 import { useRoute, useRouter } from 'vue-router';
@@ -146,37 +145,37 @@ const add_reserve = () => {
     item_reservations: [],
     note: props.submit_data.note
   };
-  for (var i = 0; i < submit_data.space_data.length; i++) {
+  for (const space of submit_data.space_data) {
     const date_format_temp1 = useDateFormat(
-      useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
-        .value + submit_data.space_data[i]['period'].toString().split('-')[0],
+      useDateFormat(space['datetime'], 'YYYY-MM-DDT')
+        .value + space['period'].toString().split('-')[0],
       'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     const date_format_temp2 = useDateFormat(
-      useDateFormat(submit_data.space_data[i]['datetime'], 'YYYY-MM-DDT')
-        .value + submit_data.space_data[i]['period'].toString().split('-')[1],
+      useDateFormat(space['datetime'], 'YYYY-MM-DDT')
+        .value + space['period'].toString().split('-')[1],
       'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     submit.value.space_reservations.push({
-      space_id: silist.space_list[0][submit_data.space_data[i]['space_name']],
+      space_id: silist.space_list[0][space['space_name']],
       start_datetime: date_format_temp1,
       end_datetime: date_format_temp2
     });
   }
-  for (var i = 0; i < submit_data.item_data.length; i++) {
+  for (const item of submit_data.item_data) {
     const date_format_temp1 = useDateFormat(
-      new Date(submit_data.item_data[i]['start_datetime']).setHours(12),
+      new Date(item['start_datetime']).setHours(12),
       'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     const date_format_temp2 = useDateFormat(
-      new Date(submit_data.item_data[i]['end_datetime']).setHours(12),
+      new Date(item['end_datetime']).setHours(12),
       'YYYY-MM-DDTHH:mm:ss.SSS+0800'
     ).value;
     submit.value.item_reservations.push({
-      item_id: silist.item_list[0][submit_data.item_data[i]['item_name']],
+      item_id: silist.item_list[0][item['item_name']],
       start_datetime: date_format_temp1,
       end_datetime: date_format_temp2,
-      quantity: Number(submit_data.item_data[i]['quantity'])
+      quantity: Number(item['quantity'])
     });
   }
   loading.value = false;
