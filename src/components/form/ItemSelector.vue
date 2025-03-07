@@ -62,14 +62,14 @@
 </template>
 
 <script setup>
-import { useDateFormat } from '@vueuse/core';
+import { useDateFormat, useWindowSize } from '@vueuse/core';
 import { ref, toRaw } from 'vue';
 import { apiGetReserveItemAvailableTime } from '@/api';
-import { useWindowSize } from '@vueuse/core';
 
 const width = useWindowSize();
 const props = defineProps(['item_list']);
 const item_data = defineModel('item_data');
+const alert_timer = ref();
 const alert_title = ref('時段無法借用');
 const alert_text = ref('可以查詢時間表，確認此時段的借用情況');
 const date_input1 = ref();
@@ -90,7 +90,15 @@ const alert_text_list = [
 //  [小於0, 被借光了, 時間順序錯誤]
 
 const addobj = async () => {
-  let alert_timer;
+  if (
+    item_temp.value == '' ||
+    date_input1.value == null ||
+    date_input2.value == null ||
+    quantity_temp.value == null ||
+    quantity_temp.value == ''
+  ) {
+    return;
+  }
   const date1 = new Date(date_input1.value);
   const date2 = new Date(date_input2.value);
   if (date1.getTime() > date2.getTime()) {
@@ -137,23 +145,15 @@ const addobj = async () => {
       item['start_datetime'] == reserve_data['start_datetime'] &&
       item['end_datetime'] == reserve_data['end_datetime']
   );
-  if (
-    item_temp.value != '' &&
-    date_input1.value != '' &&
-    date_input2.value != '' &&
-    quantity_temp.value != 0 &&
-    !isExist
-  ) {
-    item_data.value.push(reserve_data);
-  }
+  item_data.value.push(reserve_data);
 };
 
-const set_alert = (timer, title, text) => {
-  clearTimeout(timer);
+const set_alert = (title, text) => {
+  clearTimeout(alert_timer.value);
   alert.value = true;
   alert_title.value = title;
   alert_text.value = text;
-  timer = setTimeout(() => {
+  alert_timer.value = setTimeout(() => {
     alert.value = false;
   }, 5000);
 };
