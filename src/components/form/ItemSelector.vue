@@ -78,23 +78,25 @@ const quantity_temp = ref();
 const item_temp = ref('');
 const alert = ref(false);
 const alert_title_list = [
+  '起始時間晚於結束時間',
   '物品數量不可為負數或零',
   '時段無法借用',
-  '起始時間晚於結束時間'
+  '已有相同的預約項目在清單中'
 ];
 const alert_text_list = [
+  '請將起始時間與結束時間對調',
   '請確認需要的物品數量是否正確',
   '可以查詢時間表，確認次時段的借用情況',
-  '請將起始時間與結束時間對調'
+  '如要修正數量，請先刪除原有預約項目後重新新增'
 ];
-//  [小於0, 被借光了, 時間順序錯誤]
+//  [時間順序錯誤, 小於0, 被借光了, 重複項目]
 
 const addobj = async () => {
   let alert_timer;
   const date1 = new Date(date_input1.value);
   const date2 = new Date(date_input2.value);
   if (date1.getTime() > date2.getTime()) {
-    set_alert(alert_timer, alert_title_list[2], alert_text_list[2]);
+    set_alert(alert_title_list[0], alert_text_list[0]);
     return;
   }
   const format_temp1 = useDateFormat(
@@ -118,11 +120,11 @@ const addobj = async () => {
     console.error(err);
   }
   if (quantity_temp.value <= 0) {
-    set_alert(alert_timer, alert_title_list[0], alert_text_list[0]);
+    set_alert(alert_title_list[1], alert_text_list[1]);
     return;
   }
   if (check < quantity_temp.value) {
-    set_alert(alert_timer, alert_title_list[1], alert_text_list[1]);
+    set_alert(alert_title_list[2], alert_text_list[2]);
     return;
   }
   const reserve_data = {
@@ -137,6 +139,10 @@ const addobj = async () => {
       item['start_datetime'] == reserve_data['start_datetime'] &&
       item['end_datetime'] == reserve_data['end_datetime']
   );
+  if (isExist) {
+    set_alert(alert_title_list[3], alert_text_list[3]);
+    return;
+  }
   if (
     item_temp.value != '' &&
     date_input1.value != '' &&
