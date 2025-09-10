@@ -11,6 +11,7 @@ import { fileURLToPath, URL } from 'node:url';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/reserve',
   plugins: [
     VueRouter(),
     Vue({
@@ -44,5 +45,5 @@ export default defineConfig({
   },
   server: {
     port: 80
-  }
+  },
 });

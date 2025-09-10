@@ -1,9 +1,9 @@
-FROM node:alpine as build
+FROM node:alpine AS build
 
 ARG BUILD_ENV
 
 WORKDIR /app
-ENV PATH /app/node_modules/.bin:$PATH
+ENV PATH=/app/node_modules/.bin:$PATH
 COPY package*.json ./
 RUN npm install
 COPY . ./
